@@ -99,7 +99,8 @@ export class VektorService {
   calcDistancePoints(pointA: Point, pointB: Point): number {
     let distance = 0;
     for (let key in pointA) {
-      distance += Math.pow(pointA[key] - pointB[key], 2);
+      const raw = Math.pow(pointA[key] - pointB[key], 2);
+      distance += Math.trunc(raw * 10000) / 10000;
     }
     return distance;
   }

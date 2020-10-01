@@ -69,9 +69,7 @@ describe('VektorService', () => {
     const service: VektorService = TestBed.get(VektorService);
     const pointA: GoalsPoint = { shots: 0.3, loses: 0.7 };
     const pointB: GoalsPoint = { shots: 0.6, loses: 0.4 };
-    expect(Math.trunc(service.calcDistancePoints(pointA, pointB) * 10000)).toBe(
-      1799
-    );
+    expect(service.calcDistancePoints(pointA, pointB)).toBe(0.1799);
   });
 
   it('should calc distance between matches points', () => {
@@ -85,8 +83,6 @@ describe('VektorService', () => {
     const service: VektorService = TestBed.get(VektorService);
     const pointA: WinsPoint = { wins: 0.2, equals: 0.4, loses: 0.4 };
     const pointB: WinsPoint = { wins: 0.4, equals: 0.2, loses: 0.4 };
-    expect(Math.trunc(service.calcDistancePoints(pointA, pointB) * 100)).toBe(
-      8
-    );
+    expect(service.calcDistancePoints(pointA, pointB)).toBe(0.08);
   });
 });
