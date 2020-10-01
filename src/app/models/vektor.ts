@@ -25,6 +25,8 @@ export interface GoalsPoint {
   loses: number;
 }
 
+export type Point = GoalsPoint | WinsPoint;
+
 export class NormalVektor {
   homeTotalMatches: WinsPoint;
   homeInMatches: WinsPoint;
