@@ -36,6 +36,7 @@ export class NormalVektor {
   homeInGoals: GoalsPoint;
   visitorTotalGoals: GoalsPoint;
   visitorOutGoals: GoalsPoint;
+  result?: Result;
 
   constructor(
     homeTotalMatches: WinsPoint,
@@ -45,7 +46,8 @@ export class NormalVektor {
     homeTotalGoals: GoalsPoint,
     homeInGoals: GoalsPoint,
     visitorTotalGoals: GoalsPoint,
-    visitorOutGoals: GoalsPoint
+    visitorOutGoals: GoalsPoint,
+    result?: Result
   ) {
     this.homeTotalMatches = homeTotalMatches;
     this.homeInMatches = homeInMatches;
@@ -55,5 +57,6 @@ export class NormalVektor {
     this.homeInGoals = homeInGoals;
     this.visitorTotalGoals = visitorTotalGoals;
     this.visitorOutGoals = visitorOutGoals;
+    this.result = result;
   }
 }

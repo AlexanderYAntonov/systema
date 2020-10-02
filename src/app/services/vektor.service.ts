@@ -4,7 +4,8 @@ import {
   NormalVektor,
   WinsPoint,
   GoalsPoint,
-  Point
+  Point,
+  Result
 } from '../models/vektor';
 import { HttpClient } from '@angular/common/http';
 import { map, tap } from 'rxjs/operators';
@@ -57,7 +58,8 @@ export class VektorService {
       homeTotalGoalsPoint,
       homeInGoalsPoint,
       visitorTotalGoalsPoint,
-      visitorOutGoalsPoint
+      visitorOutGoalsPoint,
+      vektor.result
     );
   }
 
@@ -68,9 +70,9 @@ export class VektorService {
       .map((item) => parseInt(item, 10));
     const count: number = arr[0] + arr[1] + arr[2];
     const point: WinsPoint = {
-      wins: Math.trunc(arr[0] / count * 100) / 100,
-      equals: Math.trunc(arr[1] / count * 100) / 100,
-      loses: Math.trunc(arr[2] / count * 100) / 100
+      wins: this.truncDigits(arr[0] / count, 2),
+      equals: this.truncDigits(arr[1] / count, 2),
+      loses: this.truncDigits(arr[2] / count, 2)
     };
     return point;
   }
@@ -82,8 +84,8 @@ export class VektorService {
       .map((item) => parseInt(item, 10));
     const count: number = arr[5] + arr[6];
     const point: GoalsPoint = {
-      shots: Math.trunc(arr[5] / count * 100) / 100,
-      loses: Math.trunc(arr[6] / count * 100) / 100
+      shots: this.truncDigits(arr[5] / count, 2),
+      loses: this.truncDigits(arr[6] / count, 2)
     };
     return point;
   }
@@ -91,8 +93,12 @@ export class VektorService {
   calcDistance(vektorA: NormalVektor, vektorB: NormalVektor): number {
     let distance = 0;
     for (let key in vektorA) {
-      distance += this.calcDistancePoints(vektorA[key], vektorB[key]);
+      distance += this.truncDigits(
+        this.calcDistancePoints(vektorA[key], vektorB[key]),
+        4
+      );
     }
+    distance = this.truncDigits(distance, 4);
     return distance;
   }
 
@@ -100,8 +106,21 @@ export class VektorService {
     let distance = 0;
     for (let key in pointA) {
       const raw = Math.pow(pointA[key] - pointB[key], 2);
-      distance += Math.trunc(raw * 10000) / 10000;
+      distance += this.truncDigits(raw, 4);
     }
     return distance;
+  }
+
+  private truncDigits(num: number, digits: number): number {
+    const koef = Math.pow(10, digits);
+    return Math.trunc(num * koef) / koef;
+  }
+
+  findKCloseVektors(
+    vektor: NormalVektor,
+    searchBase: NormalVektor[],
+    k: number
+  ): Result[] {
+    return [];
   }
 }
