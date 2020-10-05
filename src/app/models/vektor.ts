@@ -60,3 +60,31 @@ export class NormalVektor {
     this.result = result;
   }
 }
+
+export interface DistantVektor extends NormalVektor {
+  distance: number;
+}
+
+export class Prediction {
+  result: Result;
+  part: number;
+  resultPair: Result[];
+  partPair: number;
+
+  constructor(
+    result: Result,
+    part: number,
+    resultPair: Result[] = [],
+    partPair: number = 0
+  ) {
+    this.result = result;
+    this.part = part;
+    this.resultPair = resultPair;
+    this.partPair = partPair;
+  }
+}
+
+export interface PredictResult {
+  prediction: Prediction;
+  result: Result;
+}

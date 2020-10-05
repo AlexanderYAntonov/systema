@@ -31,7 +31,7 @@ describe('VektorService', () => {
   it('should normalize goals loses', () => {
     const service: VektorService = TestBed.get(VektorService);
     const source = '4 0 4   10 : 20';
-    expect(service.calcGoalsPoint(source).loses).toBe(0.66);
+    expect(service.calcGoalsPoint(source).loses).toBe(0.67);
   });
 
   it('should normalize matches wins', () => {
@@ -69,7 +69,7 @@ describe('VektorService', () => {
     const service: VektorService = TestBed.get(VektorService);
     const pointA: GoalsPoint = { shots: 0.3, loses: 0.7 };
     const pointB: GoalsPoint = { shots: 0.6, loses: 0.4 };
-    expect(service.calcDistancePoints(pointA, pointB)).toBe(0.1799);
+    expect(service.calcDistancePoints(pointA, pointB)).toBe(0.18);
   });
 
   it('should calc distance between matches points', () => {
@@ -108,6 +108,6 @@ describe('VektorService', () => {
       visitorTotalGoals: { shots: 0.2, loses: 0.8 },
       visitorOutGoals: { shots: 0.3, loses: 0.7 }
     };
-    expect(service.calcDistance(vektorA, vektorB)).toBe(0.5988);
+    expect(service.calcDistance(vektorA, vektorB)).toBe(0.6);
   });
 });

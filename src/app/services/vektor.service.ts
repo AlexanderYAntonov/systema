@@ -5,31 +5,34 @@ import {
   WinsPoint,
   GoalsPoint,
   Point,
-  Result
+  Result,
+  DistantVektor,
+  Prediction,
+  PredictResult
 } from '../models/vektor';
 import { HttpClient } from '@angular/common/http';
 import { map, tap } from 'rxjs/operators';
-import { equal } from 'assert';
+import { Observable } from 'rxjs';
 
 const url = 'assets/json/stat.json';
+const predictKoeff = 19;
 
 @Injectable({
   providedIn: 'root'
 })
 export class VektorService {
-  baseVektorList: Vektor[];
+  baseVektorList: NormalVektor[];
+  predictionVektorList: NormalVektor[];
   constructor(private http: HttpClient) {}
 
-  loadData() {
-    this.http
+  loadData(): Observable<NormalVektor[]> {
+    return this.http
       .get<Vektor[]>(url)
-      .pipe(
-        map((list) => list.slice(0, 2)),
-        tap(console.table),
-        map((list) => this.convertVektorList(list)),
-        tap(console.table)
-      )
-      .subscribe((list) => console.log(this.calcDistance(list[1], list[0])));
+      .pipe(map((list) => this.convertVektorList(list)));
+    // .subscribe((list: NormalVektor[]) => {
+    //   this.baseVektorList = list.slice(50);
+    //   this.predictionVektorList = list.slice(0, 50);
+    // });
   }
 
   private convertVektorList(list: Vektor[]): NormalVektor[] {
@@ -70,9 +73,9 @@ export class VektorService {
       .map((item) => parseInt(item, 10));
     const count: number = arr[0] + arr[1] + arr[2];
     const point: WinsPoint = {
-      wins: this.truncDigits(arr[0] / count, 2),
-      equals: this.truncDigits(arr[1] / count, 2),
-      loses: this.truncDigits(arr[2] / count, 2)
+      wins: this.roundDigits(arr[0] / count, 2),
+      equals: this.roundDigits(arr[1] / count, 2),
+      loses: this.roundDigits(arr[2] / count, 2)
     };
     return point;
   }
@@ -84,8 +87,8 @@ export class VektorService {
       .map((item) => parseInt(item, 10));
     const count: number = arr[5] + arr[6];
     const point: GoalsPoint = {
-      shots: this.truncDigits(arr[5] / count, 2),
-      loses: this.truncDigits(arr[6] / count, 2)
+      shots: this.roundDigits(arr[5] / count, 2),
+      loses: this.roundDigits(arr[6] / count, 2)
     };
     return point;
   }
@@ -93,12 +96,12 @@ export class VektorService {
   calcDistance(vektorA: NormalVektor, vektorB: NormalVektor): number {
     let distance = 0;
     for (let key in vektorA) {
-      distance += this.truncDigits(
+      distance += this.roundDigits(
         this.calcDistancePoints(vektorA[key], vektorB[key]),
         4
       );
     }
-    distance = this.truncDigits(distance, 4);
+    distance = this.roundDigits(distance, 4);
     return distance;
   }
 
@@ -106,21 +109,79 @@ export class VektorService {
     let distance = 0;
     for (let key in pointA) {
       const raw = Math.pow(pointA[key] - pointB[key], 2);
-      distance += this.truncDigits(raw, 4);
+      distance += this.roundDigits(raw, 4);
     }
     return distance;
   }
 
-  private truncDigits(num: number, digits: number): number {
+  private roundDigits(num: number, digits: number): number {
     const koef = Math.pow(10, digits);
-    return Math.trunc(num * koef) / koef;
+    return Math.round(num * koef) / koef;
   }
 
-  findKCloseVektors(
+  calcTestPredictions(): Observable<PredictResult[]> {
+    return this.loadData().pipe(
+      map((list: NormalVektor[]) => {
+        const baseVektorList = list.slice(50);
+        const predictionVektorList = list.slice(0, 50);
+        const predictions = predictionVektorList.map((vektor) => ({
+          prediction: this.predictResult(vektor, baseVektorList),
+          result: vektor.result
+        }));
+        return predictions;
+      })
+    );
+  }
+
+  predictResult(vektor: NormalVektor, base: NormalVektor[]): Prediction {
+    const results: Result[] = this.findKCloseVektors(
+      vektor,
+      base,
+      predictKoeff
+    );
+    const winsCount = results.filter((item) => item === Result.Win).length;
+    const equalsCount = results.filter((item) => item === Result.Equal).length;
+    const losesCount = results.filter((item) => item === Result.Lose).length;
+    const winsPart = this.roundDigits(winsCount / predictKoeff, 2);
+    const equalsPart = this.roundDigits(equalsCount / predictKoeff, 2);
+    const losesPart = this.roundDigits(losesCount / predictKoeff, 2);
+
+    const parts: number[] = [ winsPart, equalsPart, losesPart ];
+    const maxPart = Math.max(...parts);
+    let result;
+
+    // TO DO DRY
+    if (winsPart === maxPart) {
+      result = Result.Win;
+    }
+
+    if (equalsPart === maxPart) {
+      result = Result.Equal;
+    }
+
+    if (losesPart === maxPart) {
+      result = Result.Lose;
+    }
+
+    const prediction: Prediction = new Prediction(result, maxPart);
+    return prediction;
+  }
+
+  private findKCloseVektors(
     vektor: NormalVektor,
     searchBase: NormalVektor[],
     k: number
   ): Result[] {
-    return [];
+    const distances: DistantVektor[] = searchBase.map((item) => ({
+      ...item,
+      distance: this.calcDistance(vektor, item)
+    }));
+    const sortedDistances: DistantVektor[] = distances.sort(
+      (a, b) => a.distance - b.distance
+    );
+    const results: Result[] = sortedDistances
+      .slice(0, k)
+      .map((item) => item.result);
+    return results;
   }
 }

@@ -1,3 +1,5 @@
-<p>
-  viewer works!
-</p>
+<h1>{{predictionSuccessPart}}</h1>
+<ng-container *ngFor="let pred of predictResults$ | async">
+  <pre>{{ pred | json}}</pre>
+</ng-container>
+
