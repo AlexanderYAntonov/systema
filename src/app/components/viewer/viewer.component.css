@@ -1,0 +1,30 @@
+.filters input {
+  font-size: 24px;
+  border-radius: 15px;
+  padding: 5px;
+  width: 60px;
+  border-color: lightblue;
+}
+
+.filters * {
+  margin-right: 10px;
+}
+
+.filters button {
+  font-size: 24px;
+  border-radius: 5px;
+  padding: 5px;
+  border-color: lightblue;
+}
+
+tr:nth-child(2n) {
+  background-color: lightgray;
+}
+
+td {
+  text-align: right;
+}
+
+.container {
+  padding: 0 15px 15px 20px;
+}

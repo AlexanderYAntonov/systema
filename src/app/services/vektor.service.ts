@@ -8,7 +8,8 @@ import {
   Result,
   DistantVektor,
   Prediction,
-  PredictResult
+  PredictResult,
+  PredictPart
 } from '../models/vektor';
 import { HttpClient } from '@angular/common/http';
 import { map, tap } from 'rxjs/operators';
@@ -119,13 +120,16 @@ export class VektorService {
     return Math.round(num * koef) / koef;
   }
 
-  calcTestPredictions(): Observable<PredictResult[]> {
+  calcTestPredictions(
+    testGroupSize = 50,
+    koef = predictKoeff
+  ): Observable<PredictResult[]> {
     return this.loadData().pipe(
       map((list: NormalVektor[]) => {
-        const baseVektorList = list.slice(50);
-        const predictionVektorList = list.slice(0, 50);
+        const baseVektorList = list.slice(testGroupSize);
+        const predictionVektorList = list.slice(0, testGroupSize);
         const predictions = predictionVektorList.map((vektor) => ({
-          prediction: this.predictResult(vektor, baseVektorList),
+          prediction: this.predictResult(vektor, baseVektorList, koef),
           result: vektor.result
         }));
         return predictions;
@@ -133,38 +137,51 @@ export class VektorService {
     );
   }
 
-  predictResult(vektor: NormalVektor, base: NormalVektor[]): Prediction {
-    const results: Result[] = this.findKCloseVektors(
-      vektor,
-      base,
-      predictKoeff
+  predictResult(
+    vektor: NormalVektor,
+    base: NormalVektor[],
+    koef = predictKoeff
+  ): Prediction {
+    const parts: PredictPart[] = this.getPredictionParts(vektor, base, koef);
+    const prediction = new Prediction(
+      parts[0].result,
+      parts[0].part,
+      [ parts[0].result, parts[1].result ],
+      parts[0].part + parts[1].part
     );
+    return prediction;
+  }
+
+  getPredictionParts(
+    vektor: NormalVektor,
+    base: NormalVektor[],
+    koef: number
+  ): PredictPart[] {
+    const results: Result[] = this.findKCloseVektors(vektor, base, koef);
     const winsCount = results.filter((item) => item === Result.Win).length;
     const equalsCount = results.filter((item) => item === Result.Equal).length;
     const losesCount = results.filter((item) => item === Result.Lose).length;
-    const winsPart = this.roundDigits(winsCount / predictKoeff, 2);
-    const equalsPart = this.roundDigits(equalsCount / predictKoeff, 2);
-    const losesPart = this.roundDigits(losesCount / predictKoeff, 2);
+    const winsPart = this.roundDigits(winsCount / koef, 2);
+    const equalsPart = this.roundDigits(equalsCount / koef, 2);
+    const losesPart = this.roundDigits(losesCount / koef, 2);
 
-    const parts: number[] = [ winsPart, equalsPart, losesPart ];
-    const maxPart = Math.max(...parts);
-    let result;
-
-    // TO DO DRY
-    if (winsPart === maxPart) {
-      result = Result.Win;
-    }
-
-    if (equalsPart === maxPart) {
-      result = Result.Equal;
-    }
-
-    if (losesPart === maxPart) {
-      result = Result.Lose;
-    }
-
-    const prediction: Prediction = new Prediction(result, maxPart);
-    return prediction;
+    let parts = [
+      {
+        part: winsPart,
+        result: Result.Win
+      },
+      {
+        part: equalsPart,
+        result: Result.Equal
+      },
+      {
+        part: losesPart,
+        result: Result.Lose
+      }
+    ];
+    parts = parts.sort((a, b) => b.part - a.part);
+    console.log(parts);
+    return parts;
   }
 
   private findKCloseVektors(

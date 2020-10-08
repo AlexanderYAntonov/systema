@@ -88,3 +88,8 @@ export interface PredictResult {
   prediction: Prediction;
   result: Result;
 }
+
+export interface PredictPart {
+  part: number;
+  result: Result;
+}
