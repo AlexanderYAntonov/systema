@@ -84,9 +84,18 @@ export class Prediction {
   }
 }
 
-export interface PredictResult {
+export class PredictResult {
   prediction: Prediction;
   result: Result;
+  matchGuess?: boolean;
+  pairGuess?: boolean;
+
+  constructor(prediction: Prediction, result: Result) {
+    this.prediction = prediction;
+    this.result = result;
+    this.matchGuess = prediction.result === result;
+    this.pairGuess = prediction.resultPair.includes(result);
+  }
 }
 
 export interface PredictPart {

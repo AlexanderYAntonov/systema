@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { PredictResult } from 'src/app/models/vektor';
+import { NormalVektor, PredictResult, Result } from 'src/app/models/vektor';
 import { VektorService } from '../../services/vektor.service';
 
 @Component({
@@ -16,8 +16,10 @@ export class ViewerComponent implements OnInit {
   minPart = 0;
   minPartPair = 0;
   maxPartPair = 1;
-  koef = 19;
+  koef = 7;
   testGroupSize = 50;
+  result: Result;
+  predResult: Result;
   constructor(private vektorService: VektorService) {}
 
   ngOnInit() {
@@ -45,7 +47,9 @@ export class ViewerComponent implements OnInit {
             (item) =>
               item.prediction.part >= this.minPart &&
               item.prediction.partPair >= this.minPartPair &&
-              item.prediction.partPair <= this.maxPartPair
+              item.prediction.partPair <= this.maxPartPair &&
+              (!this.result || item.result === this.result) &&
+              (!this.predResult || item.prediction.result === this.predResult)
           )
         ),
         tap((list) => this.calcSuccesPart(list))

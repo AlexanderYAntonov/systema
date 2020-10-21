@@ -1,13 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ViewerComponent } from './viewer.component';
+import { PredictorComponent } from './predictor.component';
 import { VektorService } from '../../services/vektor.service';
 import { Observable } from 'rxjs';
 import { PredictResult } from 'src/app/models/vektor';
 
-describe('ViewerComponent', () => {
-  let component: ViewerComponent;
-  let fixture: ComponentFixture<ViewerComponent>;
+describe('PredictorComponent', () => {
+  let component: PredictorComponent;
+  let fixture: ComponentFixture<PredictorComponent>;
 
   const vektorServiceStub: Partial<VektorService> = {
     calcTestPredictions(testGroupSize, koef): Observable<PredictResult[]> {
@@ -18,19 +18,19 @@ describe('ViewerComponent', () => {
   beforeEach(
     async(() => {
       TestBed.configureTestingModule({
-        declarations: [ ViewerComponent ],
+        declarations: [ PredictorComponent ],
         providers: [ { provide: VektorService, useService: vektorServiceStub } ]
       }).compileComponents();
     })
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ViewerComponent);
+    fixture = TestBed.createComponent(PredictorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  xit('should create', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 });

@@ -30,10 +30,6 @@ export class VektorService {
     return this.http
       .get<Vektor[]>(url)
       .pipe(map((list) => this.convertVektorList(list)));
-    // .subscribe((list: NormalVektor[]) => {
-    //   this.baseVektorList = list.slice(50);
-    //   this.predictionVektorList = list.slice(0, 50);
-    // });
   }
 
   private convertVektorList(list: Vektor[]): NormalVektor[] {
@@ -82,14 +78,15 @@ export class VektorService {
   }
 
   calcGoalsPoint(source: string): GoalsPoint {
+    source = source.replace(':', ' ');
     const arr = source
       .split(' ')
-      .filter((item) => item !== ':')
-      .map((item) => parseInt(item, 10));
-    const count: number = arr[5] + arr[6];
+      .map((item) => parseInt(item, 10))
+      .filter((item) => !isNaN(item));
+    const count: number = arr[3] + arr[4];
     const point: GoalsPoint = {
-      shots: this.roundDigits(arr[5] / count, 2),
-      loses: this.roundDigits(arr[6] / count, 2)
+      shots: this.roundDigits(arr[3] / count, 2),
+      loses: this.roundDigits(arr[4] / count, 2)
     };
     return point;
   }
@@ -97,11 +94,17 @@ export class VektorService {
   calcDistance(vektorA: NormalVektor, vektorB: NormalVektor): number {
     let distance = 0;
     for (let key in vektorA) {
-      distance += this.roundDigits(
-        this.calcDistancePoints(vektorA[key], vektorB[key]),
-        4
-      );
+      if (key !== 'result') {
+        distance += this.roundDigits(
+          this.calcDistancePoints(vektorA[key], vektorB[key]),
+          4
+        );
+      }
     }
+    // if (isNaN(distance)) {
+    //   console.table(vektorA);
+    //   console.table(vektorB);
+    // }
     distance = this.roundDigits(distance, 4);
     return distance;
   }
@@ -109,8 +112,8 @@ export class VektorService {
   calcDistancePoints(pointA: Point, pointB: Point): number {
     let distance = 0;
     for (let key in pointA) {
-      const raw = Math.pow(pointA[key] - pointB[key], 2);
-      distance += this.roundDigits(raw, 4);
+      const raw: number = Math.pow(pointA[key] - pointB[key], 2);
+      distance += Number.isNaN(raw) ? 0 : this.roundDigits(raw, 4);
     }
     return distance;
   }
@@ -128,10 +131,13 @@ export class VektorService {
       map((list: NormalVektor[]) => {
         const baseVektorList = list.slice(testGroupSize);
         const predictionVektorList = list.slice(0, testGroupSize);
-        const predictions = predictionVektorList.map((vektor) => ({
-          prediction: this.predictResult(vektor, baseVektorList, koef),
-          result: vektor.result
-        }));
+        const predictions = predictionVektorList.map(
+          (vektor) =>
+            new PredictResult(
+              this.predictResult(vektor, baseVektorList, koef),
+              vektor.result
+            )
+        );
         return predictions;
       })
     );
@@ -196,6 +202,12 @@ export class VektorService {
     const sortedDistances: DistantVektor[] = distances.sort(
       (a, b) => a.distance - b.distance
     );
+    // console.log(sortedDistances.length);
+    // console.log(`0: ${sortedDistances[0].distance}`);
+    // console.log(`10: ${sortedDistances[10].distance}`);
+    // console.log(`50: ${sortedDistances[50].distance}`);
+    // console.log(`100: ${sortedDistances[100].distance}`);
+    // console.log(`500: ${sortedDistances[500].distance}`);
     const results: Result[] = sortedDistances
       .slice(0, k)
       .map((item) => item.result);

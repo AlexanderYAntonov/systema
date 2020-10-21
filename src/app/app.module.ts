@@ -6,9 +6,10 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { ViewerComponent } from './components/viewer/viewer.component';
+import { PredictorComponent } from './components/predictor/predictor.component';
 
 @NgModule({
-  declarations: [ AppComponent, ViewerComponent ],
+  declarations: [ AppComponent, ViewerComponent, PredictorComponent ],
   imports: [ BrowserModule, AppRoutingModule, HttpClientModule, FormsModule ],
   providers: [],
   bootstrap: [ AppComponent ]

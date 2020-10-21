@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { VektorService } from './vektor.service';
 import { HttpClientModule } from '@angular/common/http';
-import { GoalsPoint, NormalVektor, WinsPoint } from '../models/vektor';
+import { GoalsPoint, NormalVektor, Result, WinsPoint } from '../models/vektor';
 
 describe('VektorService', () => {
   beforeEach(() =>
@@ -20,6 +20,18 @@ describe('VektorService', () => {
     const service: VektorService = TestBed.get(VektorService);
     const source = '4 0 4   10 : 30';
     expect(service.calcGoalsPoint(source).shots).toBe(0.25);
+  });
+
+  it('should normalize goals shots', () => {
+    const service: VektorService = TestBed.get(VektorService);
+    const source = '8 7 7   26 : 30 ';
+    expect(service.calcGoalsPoint(source).shots).toBe(0.46);
+  });
+
+  it('should normalize goals shots', () => {
+    const service: VektorService = TestBed.get(VektorService);
+    const source = '6 4 10 14:27';
+    expect(service.calcGoalsPoint(source).shots).toBe(0.34);
   });
 
   it('should normalize goals loses', () => {
@@ -96,7 +108,8 @@ describe('VektorService', () => {
       homeTotalGoals: { shots: 0.4, loses: 0.6 },
       homeInGoals: { shots: 0.3, loses: 0.7 },
       visitorTotalGoals: { shots: 0.1, loses: 0.9 },
-      visitorOutGoals: { shots: 0.2, loses: 0.8 }
+      visitorOutGoals: { shots: 0.2, loses: 0.8 },
+      result: Result.Win
     };
     const vektorB: NormalVektor = {
       homeTotalMatches: { wins: 0.5, equals: 0.2, loses: 0.3 },
@@ -106,7 +119,8 @@ describe('VektorService', () => {
       homeTotalGoals: { shots: 0.6, loses: 0.4 },
       homeInGoals: { shots: 0.4, loses: 0.6 },
       visitorTotalGoals: { shots: 0.2, loses: 0.8 },
-      visitorOutGoals: { shots: 0.3, loses: 0.7 }
+      visitorOutGoals: { shots: 0.3, loses: 0.7 },
+      result: Result.Equal
     };
     expect(service.calcDistance(vektorA, vektorB)).toBe(0.6);
   });

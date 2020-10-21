@@ -2,17 +2,21 @@
   <div class="filters">
     <h2>Filters:</h2>
     <form (ngSubmit)="apply()">
-    <label>test group size =</label>
-    <input [(ngModel)]="testGroupSize" name="k">
-    <label>k =</label>
-    <input [(ngModel)]="koef" name="koef">
-    <label>part >=</label>
-    <input [(ngModel)]="minPart" name="minPart">
-    <label>partPair >=</label>
-    <input [(ngModel)]="minPartPair" name="minPartPair">
-    <label>partPair <=</label>
-    <input [(ngModel)]="maxPartPair" name="maxPartPair">
-    <button type="submit">Apply filters</button>
+      <label>test group size =</label>
+      <input [(ngModel)]="testGroupSize" name="k">
+      <label>k =</label>
+      <input [(ngModel)]="koef" name="koef">
+      <label>part >=</label>
+      <input [(ngModel)]="minPart" name="minPart">
+      <label>partPair >=</label>
+      <input [(ngModel)]="minPartPair" name="minPartPair">
+      <label>partPair <=</label>
+      <input [(ngModel)]="maxPartPair" name="maxPartPair">
+      <label>prediction result</label>
+      <input [(ngModel)]="predResult" name="predResult">
+      <label>result</label>
+      <input [(ngModel)]="result" name="result">
+      <button type="submit">Apply filters</button>
     </form>
   </div>
   <h3>predictionSuccessPart: {{predictionSuccessPart}}</h3>
@@ -27,9 +31,9 @@
         <th>Actual result</th>
       </tr>
       <tr *ngFor="let prediction of predictResults">
-        <td>{{ prediction.prediction.result}}</td>
+        <td [ngClass]="{success:prediction.matchGuess, fail:!prediction.matchGuess}">{{ prediction.prediction.result}}</td>
         <td>{{ prediction.prediction.part}}</td>
-        <td>{{ prediction.prediction.resultPair}}</td>
+        <td [ngClass]="{success:prediction.pairGuess, fail:!prediction.pairGuess}">{{ prediction.prediction.resultPair}}</td>
         <td>{{ prediction.prediction.partPair}}</td>
         <td>{{ prediction.result}}</td>
       </tr>
