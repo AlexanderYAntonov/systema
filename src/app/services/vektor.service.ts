@@ -16,7 +16,7 @@ import { map, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 const url = 'assets/json/stat.json';
-const predictKoeff = 19;
+const predictKoeff = 7;
 
 @Injectable({
   providedIn: 'root'
@@ -143,6 +143,15 @@ export class VektorService {
     );
   }
 
+  calcPrediction(
+    vektor: NormalVektor,
+    koef = predictKoeff
+  ): Observable<Prediction> {
+    return this.loadData().pipe(
+      map((list: NormalVektor[]) => this.predictResult(vektor, list, koef))
+    );
+  }
+
   predictResult(
     vektor: NormalVektor,
     base: NormalVektor[],
@@ -212,5 +221,25 @@ export class VektorService {
       .slice(0, k)
       .map((item) => item.result);
     return results;
+  }
+
+  renormalizeVektor(vektor: NormalVektor): NormalVektor {
+    for (let key in vektor) {
+      if (key !== 'result') {
+        vektor[key] = this.renormalizePoint(vektor[key]);
+      }
+    }
+    return vektor;
+  }
+
+  renormalizePoint(point: Point): Point {
+    let total = 0;
+    for (let key in point) {
+      total += point[key];
+    }
+    for (let key in point) {
+      point[key] = this.roundDigits(point[key] / total, 2);
+    }
+    return point;
   }
 }

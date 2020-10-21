@@ -1,3 +1,5 @@
+import { equal } from 'assert';
+
 export enum Result {
   Win = '1',
   Lose = '2',
@@ -18,6 +20,12 @@ export interface WinsPoint {
   wins: number;
   equals: number;
   loses: number;
+
+  // constructor(wins: number, equals: number, loses: number) {
+  //   this.wins = wins;
+  //   this.equals = equals;
+  //   this.loses = loses;
+  // }
 }
 
 export interface GoalsPoint {

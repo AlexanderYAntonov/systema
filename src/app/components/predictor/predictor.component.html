@@ -1,3 +1,60 @@
-<p>
-  predictor works!
-</p>
+<form [formGroup]="form" (ngSubmit)="calcPrediction()" class="predict__form">
+  <div formGroupName="homeTotalMatches">
+    <label>Home total - Wins</label>
+    <input formControlName="wins">
+    <label>Home total - Equals</label>
+    <input formControlName="equals">
+    <label>Home total - Loses</label>
+    <input formControlName="loses">
+  </div>
+  <div formGroupName="homeInMatches">
+    <label>Home in - Wins</label>
+    <input formControlName="wins">
+    <label>Home in - Equals</label>
+    <input formControlName="equals">
+    <label>Home in - Loses</label>
+    <input formControlName="loses">
+  </div>
+  <div formGroupName="visitorTotalMatches">
+    <label>Visitor total - Wins</label>
+    <input formControlName="wins">
+    <label>Visitor total - Equals</label>
+    <input formControlName="equals">
+    <label>Visitor total - Loses</label>
+    <input formControlName="loses">
+  </div>
+  <div formGroupName="visitorOutMatches">
+    <label>Visitor out - Wins</label>
+    <input formControlName="wins">
+    <label>Visitor out - Equals</label>
+    <input formControlName="equals">
+    <label>Visitor out - Loses</label>
+    <input formControlName="loses">
+  </div>
+  <div formGroupName="homeTotalGoals">
+    <label>Home total - Shots</label>
+    <input formControlName="shots">
+    <label>Home total - Loses</label>
+    <input formControlName="loses">
+  </div>
+  <div formGroupName="homeInGoals">
+    <label>Home in - Shots</label>
+    <input formControlName="shots">
+    <label>Home in - Loses</label>
+    <input formControlName="loses">
+  </div>
+  <div formGroupName="visitorTotalGoals">
+    <label>Visitor total - Shots</label>
+    <input formControlName="shots">
+    <label>Visitor total - Loses</label>
+    <input formControlName="loses">
+  </div>
+  <div formGroupName="visitorOutGoals">
+    <label>Visitor out- Shots</label>
+    <input formControlName="shots">
+    <label>Visitor out - Loses</label>
+    <input formControlName="loses">
+  </div>
+  <button type="submit">Predict</button>
+  <span *ngIf="prediction$ | async as prediction">{{ prediction | json }}</span>
+</form>
