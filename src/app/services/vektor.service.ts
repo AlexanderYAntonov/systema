@@ -143,12 +143,12 @@ export class VektorService {
     );
   }
 
-  calcPrediction(
-    vektor: NormalVektor,
-    koef = predictKoeff
-  ): Observable<Prediction> {
+  calcPrediction(vektor: Vektor, koef = predictKoeff): Observable<Prediction> {
+    const normalVektor: NormalVektor = this.normalize(vektor);
     return this.loadData().pipe(
-      map((list: NormalVektor[]) => this.predictResult(vektor, list, koef))
+      map((list: NormalVektor[]) =>
+        this.predictResult(normalVektor, list, koef)
+      )
     );
   }
 

@@ -6,17 +6,17 @@
   font-size: 24px;
   border-radius: 15px;
   padding: 5px;
-  width: 60px;
+  width: 160px;
   border-color: lightblue;
 }
 
-.predict__form div * {
+.predict__form * {
   margin: 10px;
 }
 
-.predict__form div:nth-child(2n) {
+/* .predict__form div:nth-child(2n) {
   background-color: lightgray;
-}
+} */
 
 .predict__form button {
   font-size: 24px;

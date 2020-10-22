@@ -1,4 +1,17 @@
-<form [formGroup]="form" (ngSubmit)="calcPrediction()" class="predict__form">
+<form [formGroup]="formShort" (ngSubmit)="calcPrediction()" class="predict__form">
+  <label>Home total</label>
+  <input formControlName="homeTotal">
+  <label>Home in</label>
+  <input formControlName="homeIn">
+  <label>Visitor total</label>
+  <input formControlName="visitorTotal">
+  <label>Visitor out</label>
+  <input formControlName="visitorOut">
+  <button type="reset" (click)="resetForm()">Reset</button>
+  <button type="submit">Predict</button>
+  <span *ngIf="prediction$ | async as prediction">{{ prediction | json }}</span>
+</form>
+<!-- <form [formGroup]="formDetailed" (ngSubmit)="calcPrediction()" class="predict__form">
   <div formGroupName="homeTotalMatches">
     <label>Home total - Wins</label>
     <input formControlName="wins">
@@ -57,4 +70,4 @@
   </div>
   <button type="submit">Predict</button>
   <span *ngIf="prediction$ | async as prediction">{{ prediction | json }}</span>
-</form>
+</form> -->
