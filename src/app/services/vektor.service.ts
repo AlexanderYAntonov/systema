@@ -158,6 +158,9 @@ export class VektorService {
     koef = predictKoeff
   ): Prediction {
     const parts: PredictPart[] = this.getPredictionParts(vektor, base, koef);
+    if (parts[1].part === parts[2].part) {
+      parts[1].result = Result.Unknown;
+    }
     const prediction = new Prediction(
       parts[0].result,
       parts[0].part,

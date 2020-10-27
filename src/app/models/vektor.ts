@@ -3,7 +3,8 @@ import { equal } from 'assert';
 export enum Result {
   Win = '1',
   Lose = '2',
-  Equal = 'x'
+  Equal = 'x',
+  Unknown = '?'
 }
 
 export class Vektor {

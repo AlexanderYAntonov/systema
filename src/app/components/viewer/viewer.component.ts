@@ -32,10 +32,13 @@ export class ViewerComponent implements OnInit {
     const count = list.filter((item) => item.prediction.result === item.result)
       .length;
     this.predictionSuccessPart = count / list.length;
-    const countPair = list.filter((item) =>
+    const predictableList = list.filter(
+      (item) => !item.prediction.resultPair.includes(Result.Unknown)
+    );
+    const countPair = predictableList.filter((item) =>
       item.prediction.resultPair.includes(item.result)
     ).length;
-    this.predictionSuccessPartPair = countPair / list.length;
+    this.predictionSuccessPartPair = countPair / predictableList.length;
   }
 
   apply() {

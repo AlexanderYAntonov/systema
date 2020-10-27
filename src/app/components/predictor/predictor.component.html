@@ -1,3 +1,11 @@
+<form [formGroup]="formUltraShort" (ngSubmit)="calcUltraShortFormPrediction()" class="predict__form-ultra">
+  <label>Matches</label>
+  <input formControlName="matches">
+  <button type="reset" (click)="resetForm(formUltraShort)">Reset</button>
+  <button type="submit">Predict</button>
+  <span *ngIf="prediction$ | async as prediction">{{ prediction | json }}</span>
+</form>
+
 <form [formGroup]="formShort" (ngSubmit)="calcPrediction()" class="predict__form">
   <label>Home total</label>
   <input formControlName="homeTotal">
@@ -7,7 +15,7 @@
   <input formControlName="visitorTotal">
   <label>Visitor out</label>
   <input formControlName="visitorOut">
-  <button type="reset" (click)="resetForm()">Reset</button>
+  <button type="reset" (click)="resetForm(formShort)">Reset</button>
   <button type="submit">Predict</button>
   <span *ngIf="prediction$ | async as prediction">{{ prediction | json }}</span>
 </form>

@@ -1,8 +1,8 @@
-.predict__form {
+form {
   padding: 20px;
 }
 
-.predict__form input {
+input {
   font-size: 24px;
   border-radius: 15px;
   padding: 5px;
@@ -10,7 +10,11 @@
   border-color: lightblue;
 }
 
-.predict__form * {
+.predict__form-ultra input {
+  width: 600px;
+}
+
+form * {
   margin: 10px;
 }
 
@@ -18,7 +22,7 @@
   background-color: lightgray;
 } */
 
-.predict__form button {
+button {
   font-size: 24px;
   border-radius: 5px;
   padding: 5px;

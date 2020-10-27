@@ -11,6 +11,7 @@ import {
   NormalVektor,
   Prediction,
   PredictResult,
+  Result,
   Vektor,
   WinsPoint
 } from 'src/app/models/vektor';
@@ -24,11 +25,13 @@ import { VektorService } from '../../services/vektor.service';
 export class PredictorComponent implements OnInit {
   formDetailed: FormGroup;
   formShort: FormGroup;
+  formUltraShort: FormGroup;
   prediction$: Observable<Prediction>;
 
   constructor(private vektorService: VektorService) {
     // this.buildDetailedForm();
     this.buildShortForm();
+    this.buildUltraShortForm();
   }
 
   ngOnInit() {}
@@ -83,6 +86,15 @@ export class PredictorComponent implements OnInit {
     });
   }
 
+  private buildUltraShortForm() {
+    this.formUltraShort = new FormGroup({
+      matches: new FormControl(
+        '15 5 3 51:19  9 0 2 28:10  7 5 11 25:33  1 4 6 8:17',
+        Validators.required
+      )
+    });
+  }
+
   calcPrediction() {
     const vektor: Vektor = {
       ...this.formShort.value,
@@ -94,8 +106,25 @@ export class PredictorComponent implements OnInit {
     this.prediction$ = this.vektorService.calcPrediction(vektor);
   }
 
-  resetForm() {
-    this.formShort.reset();
+  calcUltraShortFormPrediction() {
+    const regExp = /(\d+\s\d+\s\d+\s\d+:\d+)/g;
+    const arr = this.formUltraShort.value.matches.match(regExp);
+    console.table(arr);
+    const vektor: Vektor = {
+      homeTotal: arr[0],
+      homeIn: arr[1],
+      visitorTotal: arr[2],
+      visitorOut: arr[3],
+      result: null,
+      home: '',
+      visitor: ''
+    };
+    console.table(vektor);
+    this.prediction$ = this.vektorService.calcPrediction(vektor);
+  }
+
+  resetForm(form: FormGroup) {
+    form.reset();
   }
 
   // calcPrediction() {
