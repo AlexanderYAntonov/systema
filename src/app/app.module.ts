@@ -7,9 +7,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ViewerComponent } from './components/viewer/viewer.component';
 import { PredictorComponent } from './components/predictor/predictor.component';
+import { HeaderComponent } from './components/header/header.component';
 
 @NgModule({
-  declarations: [ AppComponent, ViewerComponent, PredictorComponent ],
+  declarations: [ AppComponent, ViewerComponent, PredictorComponent, HeaderComponent ],
   imports: [
     BrowserModule,
     AppRoutingModule,
