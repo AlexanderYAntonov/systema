@@ -12,7 +12,22 @@
   <span *ngIf="prediction$ | async as prediction">{{ prediction | json }}</span>
 </form>
 
-<pre>{{ formBlock.value | json }}</pre>
+<div >
+  <table>
+    <tr *ngFor="let pred$ of predictions$; let i = index">
+      <ng-container *ngIf="pred$ | async as prediction">
+        <td>{{ blockVektorList[i].home}}-{{blockVektorList[i].visitor}}</td>
+        <td>{{blockVektorList[i].homeTotal}}</td>
+        <td>{{blockVektorList[i].homeIn}}</td>
+        <td>{{blockVektorList[i].visitorTotal}}</td>
+        <td>{{blockVektorList[i].visitorOut}}</td>
+        <td>{{prediction.result}}</td>
+        <td>{{prediction.resultPair}}</td>
+      </ng-container>
+    </tr>
+  </table>
+
+</div>
 
 <form [formGroup]="formUltraShort" (ngSubmit)="calcUltraShortFormPrediction()" class="predict__form-ultra">
   <label>Matches</label>

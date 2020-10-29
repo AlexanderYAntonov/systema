@@ -9,7 +9,7 @@ import {
   DistantVektor,
   Prediction,
   PredictResult,
-  PredictPart
+  PredictPart,
 } from '../models/vektor';
 import { HttpClient } from '@angular/common/http';
 import { map, tap } from 'rxjs/operators';
@@ -19,7 +19,7 @@ const url = 'assets/json/stat.json';
 const predictKoeff = 7;
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class VektorService {
   baseVektorList: NormalVektor[];
@@ -72,7 +72,7 @@ export class VektorService {
     const point: WinsPoint = {
       wins: this.roundDigits(arr[0] / count, 2),
       equals: this.roundDigits(arr[1] / count, 2),
-      loses: this.roundDigits(arr[2] / count, 2)
+      loses: this.roundDigits(arr[2] / count, 2),
     };
     return point;
   }
@@ -86,7 +86,7 @@ export class VektorService {
     const count: number = arr[3] + arr[4];
     const point: GoalsPoint = {
       shots: this.roundDigits(arr[3] / count, 2),
-      loses: this.roundDigits(arr[4] / count, 2)
+      loses: this.roundDigits(arr[4] / count, 2),
     };
     return point;
   }
@@ -144,6 +144,7 @@ export class VektorService {
   }
 
   calcPrediction(vektor: Vektor, koef = predictKoeff): Observable<Prediction> {
+    console.log(vektor);
     const normalVektor: NormalVektor = this.normalize(vektor);
     return this.loadData().pipe(
       map((list: NormalVektor[]) =>
@@ -186,16 +187,16 @@ export class VektorService {
     let parts = [
       {
         part: winsPart,
-        result: Result.Win
+        result: Result.Win,
       },
       {
         part: equalsPart,
-        result: Result.Equal
+        result: Result.Equal,
       },
       {
         part: losesPart,
-        result: Result.Lose
-      }
+        result: Result.Lose,
+      },
     ];
     parts = parts.sort((a, b) => b.part - a.part);
     console.log(parts);
@@ -209,7 +210,7 @@ export class VektorService {
   ): Result[] {
     const distances: DistantVektor[] = searchBase.map((item) => ({
       ...item,
-      distance: this.calcDistance(vektor, item)
+      distance: this.calcDistance(vektor, item),
     }));
     const sortedDistances: DistantVektor[] = distances.sort(
       (a, b) => a.distance - b.distance
