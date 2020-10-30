@@ -7,7 +7,7 @@ import { GoalsPoint, NormalVektor, Result, WinsPoint } from '../models/vektor';
 describe('VektorService', () => {
   beforeEach(() =>
     TestBed.configureTestingModule({
-      imports: [ HttpClientModule ]
+      imports: [ HttpClientModule ],
     })
   );
 
@@ -109,7 +109,7 @@ describe('VektorService', () => {
       homeInGoals: { shots: 0.3, loses: 0.7 },
       visitorTotalGoals: { shots: 0.1, loses: 0.9 },
       visitorOutGoals: { shots: 0.2, loses: 0.8 },
-      result: Result.Win
+      result: Result.Win,
     };
     const vektorB: NormalVektor = {
       homeTotalMatches: { wins: 0.5, equals: 0.2, loses: 0.3 },
@@ -120,7 +120,7 @@ describe('VektorService', () => {
       homeInGoals: { shots: 0.4, loses: 0.6 },
       visitorTotalGoals: { shots: 0.2, loses: 0.8 },
       visitorOutGoals: { shots: 0.3, loses: 0.7 },
-      result: Result.Equal
+      result: Result.Equal,
     };
     expect(service.calcDistance(vektorA, vektorB)).toBe(0.6);
   });
@@ -142,7 +142,7 @@ describe('VektorService', () => {
       homeInGoals: { shots: 3, loses: 7 },
       visitorTotalGoals: { shots: 0.1, loses: 0.9 },
       visitorOutGoals: { shots: 0.2, loses: 0.8 },
-      result: Result.Win
+      result: Result.Win,
     };
     expect(service.renormalizeVektor(vektorA).homeTotalMatches.wins).toBe(0.4);
   });
@@ -158,7 +158,7 @@ describe('VektorService', () => {
       homeInGoals: { shots: 3, loses: 7 },
       visitorTotalGoals: { shots: 0.1, loses: 0.9 },
       visitorOutGoals: { shots: 0.2, loses: 0.8 },
-      result: Result.Win
+      result: Result.Win,
     };
     expect(service.renormalizeVektor(vektorA).homeInGoals.loses).toBe(0.7);
   });

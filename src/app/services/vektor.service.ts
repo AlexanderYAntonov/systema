@@ -64,9 +64,13 @@ export class VektorService {
   }
 
   calcWinsPoint(source: string): WinsPoint {
-    const arr = source
-      .split(' ')
-      .filter((item) => item !== ':')
+    // const arr = source
+    //   .split(' ')
+    //   .filter((item) => item !== ':')
+    //   .map((item) => parseInt(item, 10));
+    const regExp = /(\d+)/g;
+    const arr: number[] = source
+      .match(regExp)
       .map((item) => parseInt(item, 10));
     const count: number = arr[0] + arr[1] + arr[2];
     const point: WinsPoint = {
@@ -78,15 +82,20 @@ export class VektorService {
   }
 
   calcGoalsPoint(source: string): GoalsPoint {
-    source = source.replace(':', ' ');
-    const arr = source
-      .split(' ')
-      .map((item) => parseInt(item, 10))
-      .filter((item) => !isNaN(item));
-    const count: number = arr[3] + arr[4];
+    // source = source.replace(':', ' ');
+    // const arr = source
+    //   .split(' ')
+    //   .map((item) => parseInt(item, 10))
+    //   .filter((item) => !isNaN(item));
+    const regExp = /(\d+\s*:\s*\d+)/g;
+    const arr: string[] = source.match(regExp);
+    const goalsArr: number[] = arr[0]
+      .match(/\d+/g)
+      .map((item) => parseInt(item, 10));
+    const count: number = goalsArr[0] + goalsArr[1];
     const point: GoalsPoint = {
-      shots: this.roundDigits(arr[3] / count, 2),
-      loses: this.roundDigits(arr[4] / count, 2),
+      shots: this.roundDigits(goalsArr[0] / count, 2),
+      loses: this.roundDigits(goalsArr[1] / count, 2),
     };
     return point;
   }
@@ -146,6 +155,7 @@ export class VektorService {
   calcPrediction(vektor: Vektor, koef = predictKoeff): Observable<Prediction> {
     console.log(vektor);
     const normalVektor: NormalVektor = this.normalize(vektor);
+    console.table(normalVektor);
     return this.loadData().pipe(
       map((list: NormalVektor[]) =>
         this.predictResult(normalVektor, list, koef)
