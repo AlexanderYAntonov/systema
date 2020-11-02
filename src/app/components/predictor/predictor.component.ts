@@ -6,6 +6,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { strictEqual } from 'assert';
 import { Observable } from 'rxjs';
 import {
   GoalsPoint,
@@ -195,7 +196,6 @@ Stromsgodset - Valerenga
   calcUltraShortFormPrediction() {
     const regExp = /(\d+\s\d+\s\d+\s\d+:\d+)/g;
     const arr = this.formUltraShort.value.matches.match(regExp);
-    console.table(arr);
     const vektor: Vektor = {
       homeTotal: arr[0],
       homeIn: arr[1],
@@ -205,7 +205,6 @@ Stromsgodset - Valerenga
       home: '',
       visitor: '',
     };
-    console.table(vektor);
     this.prediction$ = this.vektorService.calcPrediction(vektor);
   }
 
@@ -213,23 +212,25 @@ Stromsgodset - Valerenga
     const namesRegExp = /([a-zA-Z\s]+-[a-zA-Z\s]+)/g;
     const namesArr: string[] = this.extractBlockValues(
       namesRegExp,
-      this.formBlock.value.names
+      this.formBlock.value.names.replace(/\//g, 'A')
     );
+
+    console.table(namesArr);
 
     const allMatchesRegExp = /\d\.([a-zA-Z\s\\\d\.\-]+\d:\d+)/g;
     const allMatchesArr: string[] = this.extractBlockValues(
       allMatchesRegExp,
-      this.formBlock.value.allMatches
+      this.formBlock.value.allMatches.replace(/\//g, 'A')
     );
 
     const allHomeMatchesArr: string[] = this.extractBlockValues(
       allMatchesRegExp,
-      this.formBlock.value.allHomeMatches
+      this.formBlock.value.allHomeMatches.replace(/\//g, 'A')
     );
 
     const allAwayMatchesArr: string[] = this.extractBlockValues(
       allMatchesRegExp,
-      this.formBlock.value.allAwayMatches
+      this.formBlock.value.allAwayMatches.replace(/\//g, 'A')
     );
 
     let vektorList: Vektor[] = namesArr.map((source) => {

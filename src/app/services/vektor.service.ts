@@ -64,10 +64,6 @@ export class VektorService {
   }
 
   calcWinsPoint(source: string): WinsPoint {
-    // const arr = source
-    //   .split(' ')
-    //   .filter((item) => item !== ':')
-    //   .map((item) => parseInt(item, 10));
     const regExp = /(\d+)/g;
     const arr: number[] = source
       .match(regExp)
@@ -82,11 +78,6 @@ export class VektorService {
   }
 
   calcGoalsPoint(source: string): GoalsPoint {
-    // source = source.replace(':', ' ');
-    // const arr = source
-    //   .split(' ')
-    //   .map((item) => parseInt(item, 10))
-    //   .filter((item) => !isNaN(item));
     const regExp = /(\d+\s*:\s*\d+)/g;
     const arr: string[] = source.match(regExp);
     const goalsArr: number[] = arr[0]
@@ -110,10 +101,11 @@ export class VektorService {
         );
       }
     }
-    // if (isNaN(distance)) {
-    //   console.table(vektorA);
-    //   console.table(vektorB);
-    // }
+    if (isNaN(distance)) {
+      console.error('NaN');
+      console.table(vektorA);
+      console.table(vektorB);
+    }
     distance = this.roundDigits(distance, 4);
     return distance;
   }
@@ -171,7 +163,13 @@ export class VektorService {
     const parts: PredictPart[] = this.getPredictionParts(vektor, base, koef);
     if (parts[1].part === parts[2].part) {
       parts[1].result = Result.Unknown;
+      parts[2].result = Result.Unknown;
+
+      if (parts[2].part === parts[0].part) {
+        console.error('Bad parts');
+      }
     }
+
     const prediction = new Prediction(
       parts[0].result,
       parts[0].part,
