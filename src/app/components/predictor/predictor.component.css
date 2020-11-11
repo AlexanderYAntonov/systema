@@ -18,10 +18,6 @@ form * {
   margin: 10px;
 }
 
-/* .predict__form div:nth-child(2n) {
-  background-color: lightgray;
-} */
-
 button {
   font-size: 24px;
   border-radius: 5px;
@@ -31,6 +27,36 @@ button {
 }
 
 textarea {
-  width: 400px;
+  width: 100%;
   height: 300px;
+}
+
+.predict__form-block {
+  display: flex;
+  flex-direction: column;
+}
+
+.predict__form-block * {
+  margin: 10px;
+}
+
+.block {
+  display: flex;
+  flex-direction: column;
+}
+
+.block label {
+  font-weight: bold;
+}
+
+@media (min-width: 900px) {
+  .predict__form-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px;
+  }
+}
+
+.prediction {
+  padding: 0 20px;
 }

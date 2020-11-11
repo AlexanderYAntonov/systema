@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { PredictorComponent, ViewerComponent } from './components';
+import { PredictorComponent, ViewerComponent, BaseBuilderComponent } from './components';
 
 const routes: Routes = [
   {
@@ -15,6 +15,10 @@ const routes: Routes = [
   {
     path: 'tune',
     component: ViewerComponent,
+  },
+  {
+    path: 'convert',
+    component: BaseBuilderComponent,
   },
 ];
 

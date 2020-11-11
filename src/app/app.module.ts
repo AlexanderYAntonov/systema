@@ -8,9 +8,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ViewerComponent } from './components/viewer/viewer.component';
 import { PredictorComponent } from './components/predictor/predictor.component';
 import { HeaderComponent } from './components/header/header.component';
+import { BaseBuilderComponent } from './components/base-builder/base-builder.component';
 
 @NgModule({
-  declarations: [ AppComponent, ViewerComponent, PredictorComponent, HeaderComponent ],
+  declarations: [ AppComponent, ViewerComponent, PredictorComponent, HeaderComponent, BaseBuilderComponent ],
   imports: [
     BrowserModule,
     AppRoutingModule,

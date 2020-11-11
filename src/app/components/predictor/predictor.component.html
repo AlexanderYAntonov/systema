@@ -1,18 +1,28 @@
 <form [formGroup]="formBlock" (ngSubmit)="calcBlockFormPrediction()" class="predict__form-block">
-  <label>Names</label>
-  <textarea formControlName="names"></textarea>
-  <label>All matches</label>
-  <textarea formControlName="allMatches"></textarea>
-  <label>All home matches</label>
-  <textarea formControlName="allHomeMatches"></textarea>
-  <label>All away matches</label>
-  <textarea formControlName="allAwayMatches"></textarea>
-  <button type="reset" (click)="resetForm(formBlock)">Reset</button>
-  <button type="submit">Predict</button>
+  <div class="block">
+    <label>Names</label>
+    <textarea formControlName="names"></textarea>
+  </div>
+  <div class="block">
+    <label>All matches</label>
+    <textarea formControlName="allMatches"></textarea>
+  </div>
+  <div class="block">
+    <label>All home matches</label>
+    <textarea formControlName="allHomeMatches"></textarea>
+  </div>
+  <div class="block">
+    <label>All away matches</label>
+    <textarea formControlName="allAwayMatches"></textarea>
+  </div>
+  <div class="actions">
+    <button type="reset" (click)="resetForm(formBlock)">Reset</button>
+    <button type="submit">Predict</button>
+  </div>
   <span *ngIf="prediction$ | async as prediction">{{ prediction | json }}</span>
 </form>
 
-<div >
+<div class="prediction" *ngIf="formBlock.valid">
   <table>
     <tr *ngFor="let pred$ of predictions$; let i = index">
       <ng-container *ngIf="pred$ | async as prediction">
@@ -26,7 +36,6 @@
       </ng-container>
     </tr>
   </table>
-
 </div>
 
 <form [formGroup]="formUltraShort" (ngSubmit)="calcUltraShortFormPrediction()" class="predict__form-ultra">

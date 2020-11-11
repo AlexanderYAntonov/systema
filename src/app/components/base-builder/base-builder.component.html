@@ -1,0 +1,11 @@
+<form [formGroup]="form" (ngSubmit)="convert()" class="builder__form">
+  <div class="block">
+    <label>Raw data</label>
+    <textarea formControlName="raw"></textarea>
+  </div>
+  
+  <div class="actions">
+    <button type="reset" (click)="reset()">Reset</button>
+    <button type="submit">Convert</button>
+  </div>
+</form>
