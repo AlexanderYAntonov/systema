@@ -5,21 +5,34 @@ import { Result } from 'src/app/models/vektor';
 export class MatchResult {
   home: string;
   visitor: string;
-  shots: number;
-  loses: number;
+  ballsHome: number;
+  ballsVisitor: number;
   result?: Result;
+  homeTotal?: string;
+  homeIn?: string;
+  visitorTotal?: string;
+  visitorOut?: string;
 
   constructor (matchStr: string) {
     const matchRegexp = /(.*)\s-\s(.*)\s*(\d+):(\d+)/;
     const parsedData = matchStr.match(matchRegexp);
-    this.home = parsedData[1];
-    this.visitor = parsedData[2];
-    this.shots = parseInt(parsedData[3], 10);
-    this.loses = parseInt(parsedData[4], 10);
+    this.home = parsedData[1].trim();
+    this.visitor = parsedData[2].trim();
+    this.ballsHome = parseInt(parsedData[3], 10);
+    this.ballsVisitor = parseInt(parsedData[4], 10);
+    this.result = Result.Win;
+
+    if (this.ballsHome === this.ballsVisitor) {
+      this.result = Result.Equal;
+    }
+
+    if (this.ballsHome < this.ballsVisitor) {
+      this.result = Result.Lose;
+    }
   }
 
   display() {
-    console.log(`Home: ${this.home}, visitor: ${this.visitor}, balls: ${this.shots}:${this.loses}`);
+    console.log(`Home: ${this.home}, visitor: ${this.visitor}, balls: ${this.ballsHome}:${this.ballsVisitor}, result: ${this.result}`);
   }
 }
 
@@ -30,6 +43,7 @@ export class MatchResult {
 })
 export class BaseBuilderComponent implements OnInit {
   form: FormGroup;
+  jsonStr: string;
 
   constructor() {
     this.form = new FormGroup({
@@ -322,10 +336,127 @@ Stromsgodset - Stabaek	2:2	1.67	  3.84  	4.96	11.03.2018`, Validators.required),
     raw = raw.replace(excludeRoundRegexp, '');
     const extractRegexp = /(.*)\s-\s(.*)\s+(\d+:\d+)/gm;
     const extractedData = raw.match(extractRegexp);
-    let matchesObjs = extractedData.map(str => {
+    let matchesObjs: MatchResult[] = extractedData.map(str => {
       const obj = new MatchResult(str);
-      obj.display();
       return obj;
+    });
+    matchesObjs.reverse();
+    
+    matchesObjs = matchesObjs.map((match, index) => {
+      match.homeTotal = this.buildTotal(matchesObjs.slice(0, index), match.home);
+      match.homeIn = this.buildHomeIn(matchesObjs.slice(0, index), match.home);
+      match.visitorTotal = this.buildTotal(matchesObjs.slice(0, index), match.visitor);
+      match.visitorOut = this.buildVisitorOut(matchesObjs.slice(0, index), match.visitor);
+      return match;
+    });
+
+    matchesObjs = this.filterSmallTotalMatches(matchesObjs);
+    console.table(matchesObjs);
+    this.jsonStr = JSON.stringify(matchesObjs);
+  }
+
+  buildTotal(list: MatchResult[], team: string): string {
+    let wins = 0;
+    let equals = 0;
+    let loses = 0;
+    let ballsShots = 0;
+    let ballsLoses = 0;
+
+    list.forEach(match => {
+      if (match.home === team) {
+        switch (match.result) {
+          case Result.Win: wins += 1;
+            break;
+          case Result.Equal: equals += 1;
+            break;
+          case Result.Lose: loses += 1;
+            break;
+        }
+
+        ballsShots += match.ballsHome;
+        ballsLoses += match.ballsVisitor;
+      }
+
+      if (match.visitor === team) {
+        switch (match.result) {
+          case Result.Win: loses += 1;
+            break;
+          case Result.Equal: equals += 1;
+            break;
+          case Result.Lose: wins += 1;
+            break;
+        }
+
+        ballsShots += match.ballsVisitor;
+        ballsLoses += match.ballsHome;
+      }
+    });
+    return `${wins} ${equals} ${loses} ${ballsShots}:${ballsLoses}`;
+  }
+
+  buildHomeIn(list: MatchResult[], team: string): string {
+    let wins = 0;
+    let equals = 0;
+    let loses = 0;
+    let ballsShots = 0;
+    let ballsLoses = 0;
+
+    list.forEach(match => {
+      if (match.home === team) {
+        switch (match.result) {
+          case Result.Win: wins += 1;
+            break;
+          case Result.Equal: equals += 1;
+            break;
+          case Result.Lose: loses += 1;
+            break;
+        }
+
+        ballsShots += match.ballsHome;
+        ballsLoses += match.ballsVisitor;
+      }
+    });
+    return `${wins} ${equals} ${loses} ${ballsShots}:${ballsLoses}`;
+  }
+
+  buildVisitorOut(list: MatchResult[], team: string): string {
+    let wins = 0;
+    let equals = 0;
+    let loses = 0;
+    let ballsShots = 0;
+    let ballsLoses = 0;
+
+    list.forEach(match => {
+      if (match.visitor === team) {
+        switch (match.result) {
+          case Result.Win: loses += 1;
+            break;
+          case Result.Equal: equals += 1;
+            break;
+          case Result.Lose: wins += 1;
+            break;
+        }
+
+        ballsShots += match.ballsVisitor;
+        ballsLoses += match.ballsHome;
+      }
+    });
+    return `${wins} ${equals} ${loses} ${ballsShots}:${ballsLoses}`;
+  }
+
+  filterSmallTotalMatches(matches: MatchResult[]): MatchResult[] {
+    const regExp = new RegExp(/\d+/g);
+    
+    return matches.filter(match => {
+      const homeTotalMatchesCountArr = match.homeTotal.match(regExp);
+      const homeTotalMatchesCount = parseInt(homeTotalMatchesCountArr[0], 10) + 
+        parseInt(homeTotalMatchesCountArr[1], 10) + 
+        parseInt(homeTotalMatchesCountArr[2], 10);
+      const visitorTotalMatchesCountArr = match.visitorTotal.match(regExp);
+      const visitorTotalMatchesCount = parseInt(visitorTotalMatchesCountArr[0], 10) + 
+        parseInt(visitorTotalMatchesCountArr[1], 10) + 
+        parseInt(visitorTotalMatchesCountArr[2], 10);
+      return homeTotalMatchesCount > 5 && visitorTotalMatchesCount > 5;
     })
   }
 

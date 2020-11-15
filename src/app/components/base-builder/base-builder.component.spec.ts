@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BaseBuilderComponent } from './base-builder.component';
+import { BaseBuilderComponent, MatchResult } from './base-builder.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 describe('BaseBuilderComponent', () => {
   let component: BaseBuilderComponent;
@@ -8,7 +9,8 @@ describe('BaseBuilderComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BaseBuilderComponent ]
+      declarations: [ BaseBuilderComponent ],
+      imports: [ FormsModule, ReactiveFormsModule ],
     })
     .compileComponents();
   }));
@@ -21,5 +23,32 @@ describe('BaseBuilderComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should calc total match string', () => {
+    let match1: MatchResult = new MatchResult('TeamA - TeamB 2:0');
+    let match2: MatchResult = new MatchResult('TeamB - TeamC 2:0');
+    let match3: MatchResult = new MatchResult('TeamC - TeamA 1:1');
+    let matchesArr = [match1, match2, match3];
+    let teamATotal = component.buildTotal(matchesArr, 'TeamA');
+    expect(teamATotal).toBe('1 1 0 3:1');
+  });
+
+  it('should calc home match string', () => {
+    let match1: MatchResult = new MatchResult('TeamA - TeamB 2:0');
+    let match2: MatchResult = new MatchResult('TeamB - TeamC 2:0');
+    let match3: MatchResult = new MatchResult('TeamC - TeamA 1:1');
+    let matchesArr = [match1, match2, match3];
+    let teamCHome = component.buildHomeIn(matchesArr, 'TeamC');
+    expect(teamCHome).toBe('0 1 0 1:1');
+  });
+
+  it('should calc visitor match string', () => {
+    let match1: MatchResult = new MatchResult('TeamA - TeamB 2:0');
+    let match2: MatchResult = new MatchResult('TeamB - TeamC 2:0');
+    let match3: MatchResult = new MatchResult('TeamC - TeamA 1:1');
+    let matchesArr = [match1, match2, match3];
+    let teamCOut = component.buildVisitorOut(matchesArr, 'TeamC');
+    expect(teamCOut).toBe('0 0 1 0:2');
   });
 });
