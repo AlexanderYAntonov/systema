@@ -22,15 +22,18 @@
   <h3>predictionSuccessPart: {{predictionSuccessPart}}</h3>
   <h3>predictionSuccessPartPair: {{predictionSuccessPartPair}}</h3>
   <ng-container *ngIf="predictResults$ | async as predictResults">
+    <p>Rows count: {{ predictResults?.length }}</p>
     <table>
       <tr>
+        <th>#</th>
         <th>Prediction 1</th>
         <th>Part</th>
         <th>Prediction pair</th>
         <th>Part pair</th>
         <th>Actual result</th>
       </tr>
-      <tr *ngFor="let prediction of predictResults">
+      <tr *ngFor="let prediction of predictResults; let i = index">
+        <td>{{ i }}</td>
         <td [ngClass]="{success:prediction.matchGuess, fail:!prediction.matchGuess}">{{ prediction.prediction.result}}</td>
         <td>{{ prediction.prediction.part}}</td>
         <td [ngClass]="{success:prediction.pairGuess, fail:!prediction.pairGuess}">{{ prediction.prediction.resultPair}}</td>

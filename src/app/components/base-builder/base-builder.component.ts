@@ -328,6 +328,7 @@ Stromsgodset - Stabaek	2:2	1.67	  3.84  	4.96	11.03.2018`, Validators.required),
 
   reset() {
     this.form.reset();
+    this.jsonStr = '';
   }
 
   convert() {
@@ -336,23 +337,27 @@ Stromsgodset - Stabaek	2:2	1.67	  3.84  	4.96	11.03.2018`, Validators.required),
     raw = raw.replace(excludeRoundRegexp, '');
     const extractRegexp = /(.*)\s-\s(.*)\s+(\d+:\d+)/gm;
     const extractedData = raw.match(extractRegexp);
-    let matchesObjs: MatchResult[] = extractedData.map(str => {
-      const obj = new MatchResult(str);
-      return obj;
-    });
-    matchesObjs.reverse();
-    
-    matchesObjs = matchesObjs.map((match, index) => {
-      match.homeTotal = this.buildTotal(matchesObjs.slice(0, index), match.home);
-      match.homeIn = this.buildHomeIn(matchesObjs.slice(0, index), match.home);
-      match.visitorTotal = this.buildTotal(matchesObjs.slice(0, index), match.visitor);
-      match.visitorOut = this.buildVisitorOut(matchesObjs.slice(0, index), match.visitor);
-      return match;
-    });
+    if (!!extractedData) {
+      let matchesObjs: MatchResult[] = extractedData.map(str => {
+        const obj = new MatchResult(str);
+        return obj;
+      });
+      matchesObjs.reverse();
+      
+      matchesObjs = matchesObjs.map((match, index) => {
+        match.homeTotal = this.buildTotal(matchesObjs.slice(0, index), match.home);
+        match.homeIn = this.buildHomeIn(matchesObjs.slice(0, index), match.home);
+        match.visitorTotal = this.buildTotal(matchesObjs.slice(0, index), match.visitor);
+        match.visitorOut = this.buildVisitorOut(matchesObjs.slice(0, index), match.visitor);
+        return match;
+      });
 
-    matchesObjs = this.filterSmallTotalMatches(matchesObjs);
-    console.table(matchesObjs);
-    this.jsonStr = JSON.stringify(matchesObjs);
+      matchesObjs = this.filterSmallTotalMatches(matchesObjs);
+      console.table(matchesObjs);
+      this.jsonStr = JSON.stringify(matchesObjs);
+    } else {
+      this.jsonStr = 'Parse error';
+    }
   }
 
   buildTotal(list: MatchResult[], team: string): string {

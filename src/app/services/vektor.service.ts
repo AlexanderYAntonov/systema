@@ -15,7 +15,7 @@ import { HttpClient } from '@angular/common/http';
 import { map, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
-const url = 'assets/json/stat.json';
+const url = 'assets/json/eng.json';
 const predictKoeff = 7;
 
 @Injectable({
