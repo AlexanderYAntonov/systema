@@ -2,6 +2,22 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Result } from 'src/app/models/vektor';
 
+// Type declarations for Clipboard API
+// https://developer.mozilla.org/en-US/docs/Web/API/Clipboard_API
+interface Clipboard {
+  writeText(newClipText: string): Promise<void>;
+  // Add any other methods you need here.
+  readText();
+  addEventListener();
+  dispatchEvent();
+  removeEventListener();
+}
+interface NavigatorClipboard extends Navigator {
+  // Only available in a secure context.
+  readonly clipboard: Clipboard;
+}
+interface NavigatorExtended extends NavigatorClipboard { }
+
 export class MatchResult {
   home: string;
   visitor: string;
@@ -365,8 +381,8 @@ Stromsgodset - Stabaek	2:2	1.67	  3.84  	4.96	11.03.2018`, Validators.required),
   }
 
   private copyToClipboard(source: string) {
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(source)
+    if ((navigator as NavigatorExtended).clipboard) {
+      (navigator as NavigatorExtended).clipboard.writeText(source)
         .then(() => this.copyDone = 'Copy to clipboard done')
         .catch(err => console.log('Copy to clipboard failed', err));
     }

@@ -19,6 +19,10 @@ const BasesList:DropdownOption[] = [
     label: 'Neth base',
     value: 'assets/json/neth.json'
   },
+  {
+    label: 'Germany base',
+    value: 'assets/json/germany.json'
+  },
 ];
 
 @Component({
