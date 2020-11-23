@@ -4,6 +4,23 @@ import { map, tap } from 'rxjs/operators';
 import { NormalVektor, PredictResult, Result } from 'src/app/models/vektor';
 import { VektorService } from '../../services/vektor.service';
 
+interface DropdownOption { label: string; value: string; }
+
+const BasesList:DropdownOption[] = [
+  {
+    label: 'Init base',
+    value: 'assets/json/stat.json'
+  },
+  {
+    label: 'Eng base',
+    value: 'assets/json/eng.json'
+  },
+  {
+    label: 'Neth base',
+    value: 'assets/json/neth.json'
+  },
+];
+
 @Component({
   selector: 'app-viewer',
   templateUrl: './viewer.component.html',
@@ -20,6 +37,9 @@ export class ViewerComponent implements OnInit {
   testGroupSize = 50;
   result: Result;
   predResult: Result;
+  readonly basesList: DropdownOption[] = BasesList;
+  selectedBase = 'assets/json/stat.json';
+
   constructor(private vektorService: VektorService) {}
 
   ngOnInit() {
@@ -57,5 +77,11 @@ export class ViewerComponent implements OnInit {
         ),
         tap((list) => this.calcSuccesPart(list))
       );
+  }
+
+  selectBase(event) {
+    console.log(this.selectedBase);
+    this.vektorService.setUrl(this.selectedBase);
+    this.apply();
   }
 }

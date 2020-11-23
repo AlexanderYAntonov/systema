@@ -26,13 +26,15 @@
   <table>
     <tr *ngFor="let pred$ of predictions$; let i = index">
       <ng-container *ngIf="pred$ | async as prediction">
-        <td>{{ blockVektorList[i].home}}-{{blockVektorList[i].visitor}}</td>
+        <td [class.bold]="prediction.part === 1">{{ blockVektorList[i].home}}-{{blockVektorList[i].visitor}}</td>
         <td>{{blockVektorList[i].homeTotal}}</td>
         <td>{{blockVektorList[i].homeIn}}</td>
         <td>{{blockVektorList[i].visitorTotal}}</td>
         <td>{{blockVektorList[i].visitorOut}}</td>
         <td>{{prediction.result}}</td>
         <td>{{prediction.resultPair}}</td>
+        <td>{{prediction.part}}</td>
+        <td>{{prediction.partPair}}</td>
       </ng-container>
     </tr>
   </table>

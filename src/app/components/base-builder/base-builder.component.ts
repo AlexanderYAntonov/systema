@@ -44,6 +44,7 @@ export class MatchResult {
 export class BaseBuilderComponent implements OnInit {
   form: FormGroup;
   jsonStr: string;
+  copyDone: string;
 
   constructor() {
     this.form = new FormGroup({
@@ -329,9 +330,11 @@ Stromsgodset - Stabaek	2:2	1.67	  3.84  	4.96	11.03.2018`, Validators.required),
   reset() {
     this.form.reset();
     this.jsonStr = '';
+    this.copyDone = '';
   }
 
   convert() {
+    this.copyDone = '';
     let raw = this.form.get('raw').value;
     const excludeRoundRegexp = /\d+.*ROUND.*2/gm;
     raw = raw.replace(excludeRoundRegexp, '');
@@ -355,8 +358,17 @@ Stromsgodset - Stabaek	2:2	1.67	  3.84  	4.96	11.03.2018`, Validators.required),
       matchesObjs = this.filterSmallTotalMatches(matchesObjs);
       console.table(matchesObjs);
       this.jsonStr = JSON.stringify(matchesObjs);
+      this.copyToClipboard(this.jsonStr);
     } else {
       this.jsonStr = 'Parse error';
+    }
+  }
+
+  private copyToClipboard(source: string) {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(source)
+        .then(() => this.copyDone = 'Copy to clipboard done')
+        .catch(err => console.log('Copy to clipboard failed', err));
     }
   }
 

@@ -1,7 +1,11 @@
 <div class="container">
   <div class="filters">
-    <h2>Filters:</h2>
+    <h3>Filters:</h3>
     <form (ngSubmit)="apply()">
+      <select (change)="selectBase($event)" name="base" [(ngModel)]="selectedBase">
+        <option *ngFor="let base of basesList" [value]="base.value" [selected]="base.value === selectedBase">{{ base.label }}
+        </option>
+      </select>
       <label>test group size =</label>
       <input [(ngModel)]="testGroupSize" name="k">
       <label>k =</label>

@@ -60,3 +60,7 @@ textarea {
 .prediction {
   padding: 0 20px;
 }
+
+.bold {
+  font-weight: bold;
+}

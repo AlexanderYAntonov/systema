@@ -15,20 +15,20 @@ import { HttpClient } from '@angular/common/http';
 import { map, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
-const url = 'assets/json/eng.json';
 const predictKoeff = 7;
 
 @Injectable({
   providedIn: 'root',
 })
 export class VektorService {
+  url = 'assets/json/stat.json';
   baseVektorList: NormalVektor[];
   predictionVektorList: NormalVektor[];
   constructor(private http: HttpClient) {}
 
   loadData(): Observable<NormalVektor[]> {
     return this.http
-      .get<Vektor[]>(url)
+      .get<Vektor[]>(this.url)
       .pipe(map((list) => this.convertVektorList(list)));
   }
 
@@ -253,5 +253,11 @@ export class VektorService {
       point[key] = this.roundDigits(point[key] / total, 2);
     }
     return point;
+  }
+
+  setUrl(newUrl: string) {
+    if (newUrl) {
+      this.url = newUrl;
+    }
   }
 }
