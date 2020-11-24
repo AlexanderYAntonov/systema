@@ -1,36 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { NormalVektor, PredictResult, Result } from 'src/app/models/vektor';
+import { PredictResult, Result } from 'src/app/models/vektor';
+import { BaseService } from 'src/app/services/base.service';
 import { VektorService } from '../../services/vektor.service';
-
-interface DropdownOption { label: string; value: string; }
-
-const BasesList:DropdownOption[] = [
-  {
-    label: 'Init base',
-    value: 'assets/json/stat.json'
-  },
-  {
-    label: 'Eng base',
-    value: 'assets/json/eng.json'
-  },
-  {
-    label: 'Neth base',
-    value: 'assets/json/neth.json'
-  },
-  {
-    label: 'Germany base',
-    value: 'assets/json/germany.json'
-  },
-];
 
 @Component({
   selector: 'app-viewer',
   templateUrl: './viewer.component.html',
   styleUrls: [ './viewer.component.css' ]
 })
-export class ViewerComponent implements OnInit {
+export class ViewerComponent implements OnInit, OnDestroy {
   predictResults$: Observable<PredictResult[]>;
   predictionSuccessPart: number;
   predictionSuccessPartPair: number;
@@ -41,15 +21,21 @@ export class ViewerComponent implements OnInit {
   testGroupSize = 50;
   result: Result;
   predResult: Result;
-  readonly basesList: DropdownOption[] = BasesList;
-  selectedBase = 'assets/json/stat.json';
-
-  constructor(private vektorService: VektorService) {}
+  subscription: Subscription = new Subscription();
+  
+  constructor(
+    private vektorService: VektorService,
+    private baseService: BaseService,
+  ) {}
 
   ngOnInit() {
     this.predictResults$ = this.vektorService
       .calcTestPredictions(this.testGroupSize, this.koef)
       .pipe(tap((list) => this.calcSuccesPart(list)));
+
+    this.subscription.add(
+      this.baseService.getUrl().subscribe(url => this.apply())
+    );
   }
 
   calcSuccesPart(list: PredictResult[]) {
@@ -83,9 +69,7 @@ export class ViewerComponent implements OnInit {
       );
   }
 
-  selectBase(event) {
-    console.log(this.selectedBase);
-    this.vektorService.setUrl(this.selectedBase);
-    this.apply();
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

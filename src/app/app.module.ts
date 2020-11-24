@@ -9,9 +9,10 @@ import { ViewerComponent } from './components/viewer/viewer.component';
 import { PredictorComponent } from './components/predictor/predictor.component';
 import { HeaderComponent } from './components/header/header.component';
 import { BaseBuilderComponent } from './components/base-builder/base-builder.component';
+import { BaseSelectorComponent } from './components/base-selector/base-selector.component';
 
 @NgModule({
-  declarations: [ AppComponent, ViewerComponent, PredictorComponent, HeaderComponent, BaseBuilderComponent ],
+  declarations: [ AppComponent, ViewerComponent, PredictorComponent, HeaderComponent, BaseBuilderComponent, BaseSelectorComponent ],
   imports: [
     BrowserModule,
     AppRoutingModule,

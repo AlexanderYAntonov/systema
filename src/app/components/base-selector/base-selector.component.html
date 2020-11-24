@@ -1,0 +1,4 @@
+<select (change)="selectBase($event)" name="base" [(ngModel)]="selectedBase">
+  <option *ngFor="let base of basesList" [value]="base.value" [selected]="base.value === selectedBase">{{ base.label }}
+  </option>
+</select>

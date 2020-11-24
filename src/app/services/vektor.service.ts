@@ -12,8 +12,9 @@ import {
   PredictPart,
 } from '../models/vektor';
 import { HttpClient } from '@angular/common/http';
-import { map, tap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { concatMap, map, tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { BaseService } from './base.service';
 
 const predictKoeff = 7;
 
@@ -21,15 +22,20 @@ const predictKoeff = 7;
   providedIn: 'root',
 })
 export class VektorService {
-  url = 'assets/json/stat.json';
+  
   baseVektorList: NormalVektor[];
   predictionVektorList: NormalVektor[];
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private baseService: BaseService
+  ) {}
 
   loadData(): Observable<NormalVektor[]> {
-    return this.http
-      .get<Vektor[]>(this.url)
-      .pipe(map((list) => this.convertVektorList(list)));
+    return this.baseService.getUrl().pipe(
+      concatMap((url) => this.http.get<Vektor[]>(url)
+        .pipe(
+          tap((list) => console.log(url)),
+          map((list) => this.convertVektorList(list)))));
   }
 
   private convertVektorList(list: Vektor[]): NormalVektor[] {
@@ -131,6 +137,7 @@ export class VektorService {
     return this.loadData().pipe(
       map((list: NormalVektor[]) => {
         const baseVektorList = list.slice(testGroupSize);
+        console.log(baseVektorList.length);
         const predictionVektorList = list.slice(0, testGroupSize);
         const predictions = predictionVektorList.map(
           (vektor) =>
@@ -145,9 +152,9 @@ export class VektorService {
   }
 
   calcPrediction(vektor: Vektor, koef = predictKoeff): Observable<Prediction> {
-    console.log(vektor);
+    // console.log(vektor);
     const normalVektor: NormalVektor = this.normalize(vektor);
-    console.table(normalVektor);
+    // console.table(normalVektor);
     return this.loadData().pipe(
       map((list: NormalVektor[]) =>
         this.predictResult(normalVektor, list, koef)
@@ -207,7 +214,7 @@ export class VektorService {
       },
     ];
     parts = parts.sort((a, b) => b.part - a.part);
-    console.log(parts);
+    // console.log(parts);
     return parts;
   }
 
@@ -253,11 +260,5 @@ export class VektorService {
       point[key] = this.roundDigits(point[key] / total, 2);
     }
     return point;
-  }
-
-  setUrl(newUrl: string) {
-    if (newUrl) {
-      this.url = newUrl;
-    }
   }
 }
