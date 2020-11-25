@@ -20,6 +20,14 @@ const BasesList: DropdownOption[] = [
     label: 'Germany base',
     value: 'assets/json/germany.json'
   },
+  {
+    label: 'Norway base',
+    value: 'assets/json/norway.json'
+  },
+  {
+    label: 'Spain base',
+    value: 'assets/json/spain.json'
+  },
 ];
 
 @Component({
