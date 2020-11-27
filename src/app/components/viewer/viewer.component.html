@@ -19,10 +19,10 @@
       <button type="submit">Apply filters</button>
     </form>
   </div>
-  <h3>predictionSuccessPart: {{predictionSuccessPart}}</h3>
-  <h3>predictionSuccessPartPair: {{predictionSuccessPartPair}}</h3>
   <ng-container *ngIf="predictResults$ | async as predictResults">
-    <p>Rows count: {{ predictResults?.length }}</p>
+    <h3 class="inline">predictionSuccessPart: {{predictionSuccessPart}}</h3> <span>Rows count: {{ predictResults?.length }}</span>
+    <h3>predictionSuccessPartPair: {{predictionSuccessPartPair}}</h3>
+    <!-- <p>Rows count: {{ predictResults?.length }}</p> -->
     <table>
       <tr>
         <th>#</th>
