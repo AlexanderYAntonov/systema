@@ -41,14 +41,14 @@ export class ViewerComponent implements OnInit, OnDestroy {
   calcSuccesPart(list: PredictResult[]) {
     const count = list.filter((item) => item.prediction.result === item.result)
       .length;
-    this.predictionSuccessPart = count / list.length;
+    this.predictionSuccessPart = this.vektorService.roundDigits(count / list.length, 2);
     const predictableList = list.filter(
       (item) => !item.prediction.resultPair.includes(Result.Unknown)
     );
     const countPair = predictableList.filter((item) =>
       item.prediction.resultPair.includes(item.result)
     ).length;
-    this.predictionSuccessPartPair = countPair / predictableList.length;
+    this.predictionSuccessPartPair = this.vektorService.roundDigits(countPair / predictableList.length, 2);
   }
 
   apply() {

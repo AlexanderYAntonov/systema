@@ -125,7 +125,7 @@ export class VektorService {
     return distance;
   }
 
-  private roundDigits(num: number, digits: number): number {
+  roundDigits(num: number, digits: number): number {
     const koef = Math.pow(10, digits);
     return Math.round(num * koef) / koef;
   }
@@ -181,7 +181,7 @@ export class VektorService {
       parts[0].result,
       parts[0].part,
       [ parts[0].result, parts[1].result ],
-      parts[0].part + parts[1].part
+      this.roundDigits(parts[0].part + parts[1].part, 2)
     );
     return prediction;
   }
