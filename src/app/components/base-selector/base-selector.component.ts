@@ -21,8 +21,8 @@ const BasesList: DropdownOption[] = [
     value: 'assets/json/germany.json'
   },
   {
-    label: 'Norway base',
-    value: 'assets/json/norway.json'
+    label: 'Greece base',
+    value: 'assets/json/greece.json'
   },
   {
     label: 'Spain base',
@@ -51,6 +51,10 @@ const BasesList: DropdownOption[] = [
   {
     label: 'Turkey base',
     value: 'assets/json/turkey.json'
+  },
+  {
+    label: 'Eng League One base',
+    value: 'assets/json/eng-league-one.json'
   },
 ];
 
