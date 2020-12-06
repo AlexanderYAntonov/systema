@@ -56,6 +56,10 @@ const BasesList: DropdownOption[] = [
     label: 'Eng League One base',
     value: 'assets/json/eng-league-one.json'
   },
+  {
+    label: 'Eng Women Super League base',
+    value: 'assets/json/eng-women-super-league.json'
+  },
 ];
 
 @Component({
