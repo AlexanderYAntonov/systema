@@ -60,6 +60,10 @@ const BasesList: DropdownOption[] = [
     label: 'Eng Women Super League base',
     value: 'assets/json/eng-women-super-league.json'
   },
+  {
+    label: 'BFG 2000',
+    value: 'BFG'
+  }
 ];
 
 @Component({

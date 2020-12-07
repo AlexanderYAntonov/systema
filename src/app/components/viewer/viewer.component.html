@@ -19,7 +19,7 @@
       <button type="submit">Apply filters</button>
     </form>
   </div>
-  <ng-container *ngIf="predictResults$ | async as predictResults">
+  <ng-container *ngIf="predictResults$ | async as predictResults; else loading">
     <h3 class="inline">predictionSuccessPart: {{predictionSuccessPart}}</h3> <span>Rows count: {{ predictResults?.length }}</span>
     <h3>predictionSuccessPartPair: {{predictionSuccessPartPair}}</h3>
     <!-- <p>Rows count: {{ predictResults?.length }}</p> -->
@@ -42,5 +42,9 @@
       </tr>
     </table>
   </ng-container>
+
+  <ng-template #loading>
+    <img src="assets/gif/cat.gif" class="preloader">
+  </ng-template>
 </div>
 

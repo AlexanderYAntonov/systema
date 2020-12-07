@@ -13,7 +13,7 @@ import {
 } from '../models/vektor';
 import { HttpClient } from '@angular/common/http';
 import { concatMap, map, tap } from 'rxjs/operators';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
 import { BaseService } from './base.service';
 
 const predictKoeff = 7;
@@ -32,10 +32,21 @@ export class VektorService {
 
   loadData(): Observable<NormalVektor[]> {
     return this.baseService.getUrl().pipe(
-      concatMap((url) => this.http.get<Vektor[]>(url)
-        .pipe(
-          tap((list) => console.log(url)),
-          map((list) => this.convertVektorList(list)))));
+      concatMap((url) => {
+        let result$ = this.http.get<Vektor[]>(url);
+        if (url === 'BFG') {
+          const urls$ = this.baseService.getAllUrls().map(item => this.http.get<Vektor[]>(item));
+          result$ = forkJoin(...urls$).pipe(map((list) => this.joinList(list)));
+        }
+        return result$.pipe(
+          // tap((list) => console.log(url)),
+          map((list) => this.convertVektorList(list)));
+      })
+        );
+  }
+
+  private joinList(list: Vektor[][]): Vektor[] {
+    return list.reduce((acc, item) => [...acc, ...item]);
   }
 
   private convertVektorList(list: Vektor[]): NormalVektor[] {
@@ -107,11 +118,11 @@ export class VektorService {
         );
       }
     }
-    if (isNaN(distance)) {
-      console.error('NaN');
-      console.table(vektorA);
-      console.table(vektorB);
-    }
+    // if (isNaN(distance)) {
+    //   console.error('NaN');
+    //   console.table(vektorA);
+    //   console.table(vektorB);
+    // }
     distance = this.roundDigits(distance, 4);
     return distance;
   }

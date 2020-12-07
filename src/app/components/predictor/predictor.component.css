@@ -64,3 +64,8 @@ textarea {
 .bold {
   font-weight: bold;
 }
+
+textarea,
+input {
+  background-color: #f5efe7;
+}
