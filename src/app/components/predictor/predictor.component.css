@@ -58,7 +58,12 @@ textarea {
 }
 
 .prediction {
-  padding: 0 20px;
+  padding: 20px;
+  border: 1px solid gray;
+}
+
+.prediction tr:nth-child(2n + 1) {
+  background-color: lightgray;
 }
 
 .bold {
@@ -68,4 +73,13 @@ textarea {
 textarea,
 input {
   background-color: #f5efe7;
+}
+
+h4 {
+  cursor: pointer;
+  border-bottom: 1px dotted black;
+}
+
+h4:hover {
+  background-color: gray;
 }

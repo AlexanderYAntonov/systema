@@ -33,6 +33,11 @@ export class PredictorComponent implements OnInit {
   predictions$: Observable<Prediction>[];
   blockVektorList: Vektor[];
 
+  showForm = {
+  shortForm: false,
+  ultraShortForm: false,
+  };
+
   constructor(private vektorService: VektorService) {
     // this.buildDetailedForm();
     this.buildShortForm();
@@ -353,4 +358,8 @@ Stromsgodset - Valerenga
   // console.table(vektor);
   // this.prediction$ = this.vektorService.calcPrediction(vektor);
   // }
+
+  toggleForm(key: string) {
+    this.showForm[key] = !this.showForm[key];
+  }
 }

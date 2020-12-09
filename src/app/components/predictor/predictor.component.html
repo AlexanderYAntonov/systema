@@ -26,7 +26,7 @@
   <table>
     <tr *ngFor="let pred$ of predictions$; let i = index">
       <ng-container *ngIf="pred$ | async as prediction">
-        <td [class.bold]="prediction.part === 1">{{ blockVektorList[i].home}}-{{blockVektorList[i].visitor}}</td>
+        <td [class.bold]="prediction.part === 1 || prediction.partPair === 1">{{ blockVektorList[i].home}}-{{blockVektorList[i].visitor}}</td>
         <td>{{blockVektorList[i].homeTotal}}</td>
         <td>{{blockVektorList[i].homeIn}}</td>
         <td>{{blockVektorList[i].visitorTotal}}</td>
@@ -40,7 +40,8 @@
   </table>
 </div>
 
-<form [formGroup]="formUltraShort" (ngSubmit)="calcUltraShortFormPrediction()" class="predict__form-ultra">
+<h4 (click)="toggleForm('ultraShortForm')">One line form</h4>
+<form *ngIf="showForm.ultraShortForm" [formGroup]="formUltraShort" (ngSubmit)="calcUltraShortFormPrediction()" class="predict__form-ultra">
   <label>Matches</label>
   <input formControlName="matches">
   <button type="reset" (click)="resetForm(formUltraShort)">Reset</button>
@@ -48,7 +49,8 @@
   <span *ngIf="prediction$ | async as prediction">{{ prediction | json }}</span>
 </form>
 
-<form [formGroup]="formShort" (ngSubmit)="calcPrediction()" class="predict__form">
+<h4 (click)="toggleForm('shortForm')">Short form</h4>
+<form *ngIf="showForm.shortForm" [formGroup]="formShort" (ngSubmit)="calcPrediction()" class="predict__form">
   <label>Home total</label>
   <input formControlName="homeTotal">
   <label>Home in</label>
