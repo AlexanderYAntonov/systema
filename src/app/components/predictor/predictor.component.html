@@ -49,6 +49,21 @@
   <span *ngIf="prediction$ | async as prediction">{{ prediction | json }}</span>
 </form>
 
+<h4 (click)="toggleForm('multiLineForm')">Multi line form</h4>
+<form *ngIf="showForm.multiLineForm" [formGroup]="formMultiLine" (ngSubmit)="calcMultiLineFormPrediction()"
+  class="predict__form-ultra">
+  <label>Matches</label>
+  <textarea formControlName="matches"></textarea>
+  <button type="reset" (click)="resetForm(formMultiLine)">Reset</button>
+  <button type="submit">Predict</button>
+  <table>
+  <tr *ngFor="let pred$ of predictionsML$">
+    <span *ngIf="pred$ | async as pred" [class.bold]="pred.partPair >= 0.9">{{ pred | json }}</span>
+  </tr>
+  </table>
+  <!-- <span *ngIf="predictionsML$ | async as predictions">{{ predictions | json }}</span> -->
+</form>
+
 <h4 (click)="toggleForm('shortForm')">Short form</h4>
 <form *ngIf="showForm.shortForm" [formGroup]="formShort" (ngSubmit)="calcPrediction()" class="predict__form">
   <label>Home total</label>

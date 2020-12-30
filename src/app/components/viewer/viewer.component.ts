@@ -15,9 +15,9 @@ export class ViewerComponent implements OnInit, OnDestroy {
   predictionSuccessPart: number;
   predictionSuccessPartPair: number;
   minPart = 0;
+  maxPart = 1;
   minPartPair = 0;
   maxPartPair = 1;
-  // koef = 7;
   testGroupSize = 50;
   result: Result;
   predResult: Result;
@@ -59,6 +59,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
           list.filter(
             (item) =>
               item.prediction.part >= this.minPart &&
+              item.prediction.part <= this.maxPart &&
               item.prediction.partPair >= this.minPartPair &&
               item.prediction.partPair <= this.maxPartPair &&
               (!this.result || item.result === this.result) &&

@@ -245,12 +245,12 @@ export class VektorService {
     const sortedDistances: DistantVektor[] = distances.sort(
       (a, b) => a.distance - b.distance
     );
-    console.log(sortedDistances.length);
-    let index = 0;
-    while (index < 50) {
-      console.log(`${index}: ${sortedDistances[index].distance}  ${sortedDistances[index].result}`);
-      index += 1;
-    }
+    // console.log(sortedDistances.length);
+    // let index = 0;
+    // while (index < 50) {
+    //   console.log(`${index}: ${sortedDistances[index].distance}  ${sortedDistances[index].result}`);
+    //   index += 1;
+    // }
     // console.log(`0: ${sortedDistances[0].distance}  ${sortedDistances[0].result}`);
     // console.log(`1: ${sortedDistances[1].distance}  ${sortedDistances[1].result}`);
     // console.log(`2: ${sortedDistances[2].distance}  ${sortedDistances[2].result}`);
@@ -261,8 +261,8 @@ export class VektorService {
     // console.log(`7: ${sortedDistances[7].distance}  ${sortedDistances[7].result}`);
     // console.log(`10: ${sortedDistances[10].distance}  ${sortedDistances[10].result}`);
     // console.log(`50: ${sortedDistances[50].distance}  ${sortedDistances[50].result}`);
-    console.log(`100: ${sortedDistances[100].distance}  ${sortedDistances[100].result}`);
-    console.log(`500: ${sortedDistances[500].distance}  ${sortedDistances[500].result}`);
+    // console.log(`100: ${sortedDistances[100].distance}  ${sortedDistances[100].result}`);
+    // console.log(`500: ${sortedDistances[500].distance}  ${sortedDistances[500].result}`);
     const results: Result[] = sortedDistances
       .slice(0, k)
       .map((item) => item.result);

@@ -29,13 +29,16 @@ export class PredictorComponent implements OnInit {
   formShort: FormGroup;
   formUltraShort: FormGroup;
   formBlock: FormGroup;
+  formMultiLine: FormGroup;
   prediction$: Observable<Prediction>;
   predictions$: Observable<Prediction>[];
+  predictionsML$: Observable<Prediction>[];
   blockVektorList: Vektor[];
 
   showForm = {
   shortForm: false,
   ultraShortForm: false,
+  multiLineForm: false,
   };
 
   constructor(private vektorService: VektorService) {
@@ -43,6 +46,7 @@ export class PredictorComponent implements OnInit {
     this.buildShortForm();
     this.buildUltraShortForm();
     this.buildBlockForm();
+    this.buildMultiLineForm();
   }
 
   ngOnInit() {}
@@ -94,6 +98,16 @@ export class PredictorComponent implements OnInit {
       homeIn: new FormControl('9 0 2 28:10', Validators.required),
       visitorTotal: new FormControl('7 5 11 25:33', Validators.required),
       visitorOut: new FormControl('1 4 6 8:17', Validators.required),
+    });
+  }
+
+  private buildMultiLineForm() {
+    this.formMultiLine = new FormGroup({
+      matches: new FormControl(
+        `5 3 1 22:10	2 1 1 11:6	6 2 1 21:9	4 0 0 13:3
+4 1 4 9:10	2 0 2 4:6	4 2 3 9:10	2 0 2 3:5`,
+        Validators.required
+      ),
     });
   }
 
@@ -199,8 +213,12 @@ Stromsgodset - Valerenga
   }
 
   calcUltraShortFormPrediction() {
+    this.prediction$ = this.predictOneLine(this.formUltraShort.value.matches);
+  }
+
+  private predictOneLine(source: string):Observable<Prediction> {
     const regExp = /(\d+\s\d+\s\d+\s\d+:\d+)/g;
-    const arr = this.formUltraShort.value.matches.match(regExp);
+    const arr = source.match(regExp);
     const vektor: Vektor = {
       homeTotal: arr[0],
       homeIn: arr[1],
@@ -210,7 +228,14 @@ Stromsgodset - Valerenga
       home: '',
       visitor: '',
     };
-    this.prediction$ = this.vektorService.calcPrediction(vektor);
+    return this.vektorService.calcPrediction(vektor);
+  }
+
+  calcMultiLineFormPrediction() {
+    const regExp = /((\d+\s\d+\s\d+\s\d+:\d+\s*){4})/g;
+    const arr = this.formMultiLine.value.matches.match(regExp);
+    
+    this.predictionsML$ = arr.map(item => this.predictOneLine(item));
   }
 
   calcBlockFormPrediction() {

@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { KoefSelectorComponent } from './koef-selector.component';
 
-describe('KoefSelectorComponent', () => {
+xdescribe('KoefSelectorComponent', () => {
   let component: KoefSelectorComponent;
   let fixture: ComponentFixture<KoefSelectorComponent>;
 
