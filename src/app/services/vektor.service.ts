@@ -16,7 +16,7 @@ import { concatMap, map, tap } from 'rxjs/operators';
 import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
 import { BaseService } from './base.service';
 
-const predictKoeff = 7;
+const predictKoeffInit = 7;
 
 @Injectable({
   providedIn: 'root',
@@ -25,6 +25,7 @@ export class VektorService {
   
   baseVektorList: NormalVektor[];
   predictionVektorList: NormalVektor[];
+  predictKoeff = 7;
   constructor(
     private http: HttpClient,
     private baseService: BaseService
@@ -143,12 +144,13 @@ export class VektorService {
 
   calcTestPredictions(
     testGroupSize = 50,
-    koef = predictKoeff
+    koef = this.predictKoeff
   ): Observable<PredictResult[]> {
+    console.log(`koef = ${koef}`);
     return this.loadData().pipe(
       map((list: NormalVektor[]) => {
         const baseVektorList = list.slice(testGroupSize);
-        console.log(baseVektorList.length);
+        console.log(`baseVektorList.length=${baseVektorList.length}`);
         const predictionVektorList = list.slice(0, testGroupSize);
         const predictions = predictionVektorList.map(
           (vektor) =>
@@ -157,13 +159,15 @@ export class VektorService {
               vektor.result
             )
         );
+        console.table(predictions);
         return predictions;
       })
     );
   }
 
-  calcPrediction(vektor: Vektor, koef = predictKoeff): Observable<Prediction> {
+  calcPrediction(vektor: Vektor, koef = this.predictKoeff): Observable<Prediction> {
     // console.log(vektor);
+    console.log(`koef = ${koef}`);
     const normalVektor: NormalVektor = this.normalize(vektor);
     // console.table(normalVektor);
     return this.loadData().pipe(
@@ -176,7 +180,7 @@ export class VektorService {
   predictResult(
     vektor: NormalVektor,
     base: NormalVektor[],
-    koef = predictKoeff
+    koef = this.predictKoeff
   ): Prediction {
     const parts: PredictPart[] = this.getPredictionParts(vektor, base, koef);
     if (parts[1].part === parts[2].part) {
@@ -241,12 +245,24 @@ export class VektorService {
     const sortedDistances: DistantVektor[] = distances.sort(
       (a, b) => a.distance - b.distance
     );
-    // console.log(sortedDistances.length);
-    // console.log(`0: ${sortedDistances[0].distance}`);
-    // console.log(`10: ${sortedDistances[10].distance}`);
-    // console.log(`50: ${sortedDistances[50].distance}`);
-    // console.log(`100: ${sortedDistances[100].distance}`);
-    // console.log(`500: ${sortedDistances[500].distance}`);
+    console.log(sortedDistances.length);
+    let index = 0;
+    while (index < 50) {
+      console.log(`${index}: ${sortedDistances[index].distance}  ${sortedDistances[index].result}`);
+      index += 1;
+    }
+    // console.log(`0: ${sortedDistances[0].distance}  ${sortedDistances[0].result}`);
+    // console.log(`1: ${sortedDistances[1].distance}  ${sortedDistances[1].result}`);
+    // console.log(`2: ${sortedDistances[2].distance}  ${sortedDistances[2].result}`);
+    // console.log(`3: ${sortedDistances[3].distance}  ${sortedDistances[3].result}`);
+    // console.log(`4: ${sortedDistances[4].distance}  ${sortedDistances[4].result}`);
+    // console.log(`5: ${sortedDistances[5].distance}  ${sortedDistances[5].result}`);
+    // console.log(`6: ${sortedDistances[6].distance}  ${sortedDistances[6].result}`);
+    // console.log(`7: ${sortedDistances[7].distance}  ${sortedDistances[7].result}`);
+    // console.log(`10: ${sortedDistances[10].distance}  ${sortedDistances[10].result}`);
+    // console.log(`50: ${sortedDistances[50].distance}  ${sortedDistances[50].result}`);
+    console.log(`100: ${sortedDistances[100].distance}  ${sortedDistances[100].result}`);
+    console.log(`500: ${sortedDistances[500].distance}  ${sortedDistances[500].result}`);
     const results: Result[] = sortedDistances
       .slice(0, k)
       .map((item) => item.result);
@@ -271,5 +287,9 @@ export class VektorService {
       point[key] = this.roundDigits(point[key] / total, 2);
     }
     return point;
+  }
+
+  setPredictKoef(koef: number) {
+    this.predictKoeff = koef;
   }
 }

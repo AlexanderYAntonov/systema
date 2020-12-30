@@ -10,9 +10,10 @@ import { PredictorComponent } from './components/predictor/predictor.component';
 import { HeaderComponent } from './components/header/header.component';
 import { BaseBuilderComponent } from './components/base-builder/base-builder.component';
 import { BaseSelectorComponent } from './components/base-selector/base-selector.component';
+import { KoefSelectorComponent } from './components/koef-selector/koef-selector.component';
 
 @NgModule({
-  declarations: [ AppComponent, ViewerComponent, PredictorComponent, HeaderComponent, BaseBuilderComponent, BaseSelectorComponent ],
+  declarations: [ AppComponent, ViewerComponent, PredictorComponent, HeaderComponent, BaseBuilderComponent, BaseSelectorComponent, KoefSelectorComponent ],
   imports: [
     BrowserModule,
     AppRoutingModule,

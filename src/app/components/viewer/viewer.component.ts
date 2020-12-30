@@ -17,7 +17,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
   minPart = 0;
   minPartPair = 0;
   maxPartPair = 1;
-  koef = 7;
+  // koef = 7;
   testGroupSize = 50;
   result: Result;
   predResult: Result;
@@ -30,7 +30,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.predictResults$ = this.vektorService
-      .calcTestPredictions(this.testGroupSize, this.koef)
+      .calcTestPredictions(this.testGroupSize)
       .pipe(tap((list) => this.calcSuccesPart(list)));
 
     this.subscription.add(
@@ -53,7 +53,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
   apply() {
     this.predictResults$ = this.vektorService
-      .calcTestPredictions(this.testGroupSize, this.koef)
+      .calcTestPredictions(this.testGroupSize)
       .pipe(
         map((list) =>
           list.filter(
