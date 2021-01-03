@@ -1,1 +1,4 @@
-K = <input type="text" class="koef-input" (change)="koefChange($event)" [(ngModel)]="koef" placeholder="koefficient"/>
+<mat-form-field class="form-field">
+	<mat-label></mat-label>
+	<input matInput placeholder="koefficient" (change)="koefChange($event)" [(ngModel)]="koef">
+</mat-form-field>

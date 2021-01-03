@@ -11,6 +11,12 @@ import { HeaderComponent } from './components/header/header.component';
 import { BaseBuilderComponent } from './components/base-builder/base-builder.component';
 import { BaseSelectorComponent } from './components/base-selector/base-selector.component';
 import { KoefSelectorComponent } from './components/koef-selector/koef-selector.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   declarations: [ AppComponent, ViewerComponent, PredictorComponent, HeaderComponent, BaseBuilderComponent, BaseSelectorComponent, KoefSelectorComponent ],
@@ -19,7 +25,13 @@ import { KoefSelectorComponent } from './components/koef-selector/koef-selector.
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MatSelectModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatExpansionModule,
   ],
   providers: [],
   bootstrap: [ AppComponent ]

@@ -21,9 +21,12 @@ form * {
 button {
   font-size: 24px;
   border-radius: 5px;
-  padding: 5px;
-  border-color: lightblue;
+  padding: 0.5em 1em;
   margin-top: 10px;
+}
+
+button:hover {
+  border: 1px solid #3f3fe2;
 }
 
 textarea {

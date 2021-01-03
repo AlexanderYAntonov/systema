@@ -1,4 +1,6 @@
-<select (change)="selectBase($event)" name="base" [(ngModel)]="selectedBase">
-  <option *ngFor="let base of basesList" [value]="base.value" [selected]="base.value === selectedBase">{{ base.label }}
-  </option>
-</select>
+<mat-form-field appearance="legacy">
+  <!-- <mat-label>Base</mat-label> -->
+  <mat-select name="base" [(ngModel)]="selectedBase" (selectionChange)="selectBase($event)">
+    <mat-option *ngFor="let base of basesList" [value]="base.value">{{ base.label }}</mat-option>
+  </mat-select>
+</mat-form-field>
