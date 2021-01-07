@@ -55,7 +55,7 @@
         One line form
       </mat-panel-title>
     </mat-expansion-panel-header>
-    <form *ngIf="showForm.ultraShortForm" [formGroup]="formUltraShort" (ngSubmit)="calcUltraShortFormPrediction()"
+    <form [formGroup]="formUltraShort" (ngSubmit)="calcUltraShortFormPrediction()"
       class="predict__form-ultra">
       <label>Matches</label>
       <input formControlName="matches">
@@ -72,7 +72,7 @@
       </mat-panel-title>
     </mat-expansion-panel-header>
     
-    <form *ngIf="showForm.multiLineForm" [formGroup]="formMultiLine" (ngSubmit)="calcMultiLineFormPrediction()"
+    <form [formGroup]="formMultiLine" (ngSubmit)="calcMultiLineFormPrediction()"
       class="predict__form-ultra">
       <label>Matches</label>
       <textarea formControlName="matches"></textarea>
@@ -93,7 +93,7 @@
       </mat-panel-title>
     </mat-expansion-panel-header>
 
-    <form *ngIf="showForm.shortForm" [formGroup]="formShort" (ngSubmit)="calcPrediction()" class="predict__form">
+    <form [formGroup]="formShort" (ngSubmit)="calcPrediction()" class="predict__form">
       <mat-form-field class="form-field">
         <input matInput formControlName="homeTotal" placeholder="Home total">
       </mat-form-field>
