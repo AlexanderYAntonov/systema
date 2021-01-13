@@ -61,7 +61,7 @@
       <input formControlName="matches">
       <button mat-stroked-button color="primary" type="reset" (click)="resetForm(formUltraShort)">Reset</button>
       <button mat-raised-button color="primary" type="submit">Predict</button>
-      <span *ngIf="prediction$ | async as prediction">{{ prediction | json }}</span>
+      <span *ngIf="prediction$ | async as prediction"  class="prediction">{{ prediction | json }}</span>
     </form>  
   </mat-expansion-panel>
 
@@ -78,13 +78,8 @@
       <textarea formControlName="matches"></textarea>
       <button mat-stroked-button color="primary" type="reset" (click)="resetForm(formMultiLine)">Reset</button>
       <button mat-raised-button color="primary" type="submit">Predict</button>
-      <!-- <table>
-        <tr *ngFor="let pred$ of predictionsML$">
-          <span *ngIf="pred$ | async as pred" [class.bold]="pred.partPair >= 0.9">{{ pred | json }}</span>
-        </tr>
-      </table> -->
-
-      <table>
+      
+      <table class="prediction">
         <tr *ngFor="let pred$ of predictionsML$; let i = index">
           <ng-container *ngIf="pred$ | async as prediction">
             <td [class.bold]="prediction.part >= 0.7 || prediction.partPair >= 0.9">
