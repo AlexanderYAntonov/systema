@@ -33,7 +33,7 @@
       <table>
         <tr *ngFor="let pred$ of predictions$; let i = index">
           <ng-container *ngIf="pred$ | async as prediction">
-            <td [class.bold]="prediction.part === 1 || prediction.partPair === 1">
+            <td [class.bold]="prediction.part >= 0.6 || prediction.partPair === 1">
               {{ blockVektorList[i].home}}-{{blockVektorList[i].visitor}}</td>
             <td>{{blockVektorList[i].homeTotal}}</td>
             <td>{{blockVektorList[i].homeIn}}</td>
