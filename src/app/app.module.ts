@@ -17,9 +17,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatrixComponent } from './components/matrix/matrix.component';
 
 @NgModule({
-  declarations: [ AppComponent, ViewerComponent, PredictorComponent, HeaderComponent, BaseBuilderComponent, BaseSelectorComponent, KoefSelectorComponent ],
+  declarations: [ AppComponent, ViewerComponent, PredictorComponent, HeaderComponent, BaseBuilderComponent, BaseSelectorComponent, KoefSelectorComponent, MatrixComponent ],
   imports: [
     BrowserModule,
     AppRoutingModule,
