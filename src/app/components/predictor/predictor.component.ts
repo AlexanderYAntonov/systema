@@ -123,7 +123,7 @@ export class PredictorComponent implements OnInit {
   private buildBlockForm() {
     this.formBlock = new FormGroup({
       names: new FormControl(
-        `Odd - Sarpsborg 08	 	
+        `St. Odd - Sarps-borg 08	 	
 18	2.01	3.58	3.49	Tomorrow 18:00
 Haugesund - Aalesund	 	
 18	1.34	5.29	7.95	Tomorrow 20:30
@@ -146,12 +146,12 @@ Stromsgodset - Valerenga
 2.	Molde	22	14	1	7	54:27	43	
 3.	Rosenborg	22	12	6	4	42:22	42	
 4.	Valerenga	22	11	6	5	37:28	39	
-5.	Odd	21	12	2	7	40:32	38	
+5.	St. Odd	21	12	2	7	40:32	38	
 6.	Kristiansund	22	9	9	4	42:30	36	
 7.	Viking	21	8	5	8	38:39	29	
 8.	Stabaek	22	7	8	7	30:33	29	
 9.	Haugesund	22	8	4	10	27:36	28	
-10.	Sarpsborg 08	22	8	3	11	26:29	27	
+10.	Sarps-borg 08	22	8	3	11	26:29	27	
 11.	Sandefjord	22	8	2	12	22:34	26	
 12.	Stromsgodset	22	5	9	8	30:40	24	
 13.	Brann	22	6	6	10	26:36	24	
@@ -165,8 +165,8 @@ Stromsgodset - Valerenga
 2.	Molde	11	9	0	2	30:9	27	
 3.	Valerenga	11	7	4	0	25:12	25	
 4.	Rosenborg	11	7	3	1	27:12	24	
-5.	Odd	10	7	1	2	21:12	22	
-6.	Sarpsborg 08	12	6	1	5	18:11	19	
+5.	St. Odd	10	7	1	2	21:12	22	
+6.	Sarps-borg 08	12	6	1	5	18:11	19	
 7.	Stabaek	11	5	3	3	15:10	18	
 8.	Haugesund	11	5	2	4	18:18	17	
 9.	Kristiansund	10	4	4	2	24:16	16	
@@ -184,7 +184,7 @@ Stromsgodset - Valerenga
 2.	Kristiansund	12	5	5	2	18:14	20	
 3.	Rosenborg	11	5	3	3	15:10	18	
 4.	Molde	11	5	1	5	24:18	16	
-5.	Odd	11	5	1	5	19:20	16	
+5.	St. Odd	11	5	1	5	19:20	16	
 6.	Sandefjord	12	5	0	7	15:20	15	
 7.	Valerenga	11	4	2	5	12:16	14	
 8.	Viking	10	4	2	4	15:20	14	
@@ -192,7 +192,7 @@ Stromsgodset - Valerenga
 10.	Stabaek	11	2	5	4	15:23	11	
 11.	Haugesund	11	3	2	6	9:18	11	
 12.	Stromsgodset	11	2	4	5	14:21	10	
-13.	Sarpsborg 08	10	2	2	6	8:18	8	
+13.	Sarps-borg 08	10	2	2	6	8:18	8	
 14.	Mjondalen	12	2	2	8	9:24	8	
 15.	Start	10	0	3	7	8:25	3	
 16.	Aalesund	10	0	2	8	11:31	2`,
@@ -239,7 +239,7 @@ Stromsgodset - Valerenga
   }
 
   calcBlockFormPrediction() {
-    const namesRegExp = /([a-zA-Z\s]+-[a-zA-Z\s]+)/g;
+    const namesRegExp = /([a-zA-Z\s\.\-\/\\]+\s-\s[a-zA-Z\s\.\-\/\\]+)/g;
     const namesArr: string[] = this.extractBlockValues(
       namesRegExp,
       this.formBlock.value.names.replace(/\//g, 'A')
@@ -247,7 +247,7 @@ Stromsgodset - Valerenga
 
     console.table(namesArr);
 
-    const allMatchesRegExp = /\d\.([a-zA-Z\s\\\d\.\-]+\d:\d+)/g;
+    const allMatchesRegExp = /\d\.([a-zA-Z\s\\\d\.\-\/]+\d:\d+)/g;
     const allMatchesArr: string[] = this.extractBlockValues(
       allMatchesRegExp,
       this.formBlock.value.allMatches.replace(/\//g, 'A')
