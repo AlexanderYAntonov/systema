@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ViewerComponent } from './viewer.component';
 import { VektorService } from '../../services/vektor.service';
@@ -16,7 +16,7 @@ describe('ViewerComponent', () => {
   };
 
   beforeEach(
-    async(() => {
+    waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [ ViewerComponent ],
         providers: [ { provide: VektorService, useService: vektorServiceStub } ]
