@@ -37,10 +37,9 @@ export class VektorService {
         let result$ = this.http.get<Vektor[]>(url);
         if (url === 'BFG') {
           const urls$ = this.baseService.getAllUrls().map(item => this.http.get<Vektor[]>(item));
-          result$ = forkJoin(...urls$).pipe(map((list) => this.joinList(list)));
+          result$ = forkJoin(urls$).pipe(map((list) => this.joinList(list)));
         }
         return result$.pipe(
-          // tap((list) => console.log(url)),
           map((list) => this.convertVektorList(list)));
       })
         );
@@ -86,7 +85,7 @@ export class VektorService {
     const arr: number[] = source
       .match(regExp)
       .map((item) => parseInt(item, 10));
-    const count: number = arr[0] + arr[1] + arr[2];
+    const count: number = this.calcNormalSum(arr);
     const point: WinsPoint = {
       wins: this.roundDigits(arr[0] / count, 2),
       equals: this.roundDigits(arr[1] / count, 2),
@@ -95,13 +94,17 @@ export class VektorService {
     return point;
   }
 
+  private calcNormalSum(arr: number[]): number {
+    return Math.sqrt(Math.pow(arr[0], 2) + Math.pow(arr[1], 2) + Math.pow(arr[2], 2));
+  }
+
   calcGoalsPoint(source: string): GoalsPoint {
     const regExp = /(\d+\s*:\s*\d+)/g;
     const arr: string[] = source.match(regExp);
     const goalsArr: number[] = arr[0]
       .match(/\d+/g)
       .map((item) => parseInt(item, 10));
-    const count: number = goalsArr[0] + goalsArr[1];
+    const count: number = this.calcNormalSum([...goalsArr, 0]);
     const point: GoalsPoint = {
       shots: this.roundDigits(goalsArr[0] / count, 2),
       loses: this.roundDigits(goalsArr[1] / count, 2),
@@ -119,11 +122,6 @@ export class VektorService {
         );
       }
     }
-    // if (isNaN(distance)) {
-    //   console.error('NaN');
-    //   console.table(vektorA);
-    //   console.table(vektorB);
-    // }
     distance = this.roundDigits(distance, 4);
     return distance;
   }
@@ -150,7 +148,6 @@ export class VektorService {
     return this.loadData().pipe(
       map((list: NormalVektor[]) => {
         const baseVektorList = list.slice(testGroupSize);
-        console.log(`baseVektorList.length=${baseVektorList.length}`);
         const predictionVektorList = list.slice(0, testGroupSize);
         const predictions = predictionVektorList.map(
           (vektor) =>
@@ -169,7 +166,6 @@ export class VektorService {
     // console.log(vektor);
     console.log(`koef = ${koef}`);
     const normalVektor: NormalVektor = this.normalize(vektor);
-    // console.table(normalVektor);
     return this.loadData().pipe(
       map((list: NormalVektor[]) =>
         this.predictResult(normalVektor, list, koef)
@@ -229,7 +225,6 @@ export class VektorService {
       },
     ];
     parts = parts.sort((a, b) => b.part - a.part);
-    // console.log(parts);
     return parts;
   }
 
@@ -245,24 +240,6 @@ export class VektorService {
     const sortedDistances: DistantVektor[] = distances.sort(
       (a, b) => a.distance - b.distance
     );
-    // console.log(sortedDistances.length);
-    // let index = 0;
-    // while (index < 50) {
-    //   console.log(`${index}: ${sortedDistances[index].distance}  ${sortedDistances[index].result}`);
-    //   index += 1;
-    // }
-    // console.log(`0: ${sortedDistances[0].distance}  ${sortedDistances[0].result}`);
-    // console.log(`1: ${sortedDistances[1].distance}  ${sortedDistances[1].result}`);
-    // console.log(`2: ${sortedDistances[2].distance}  ${sortedDistances[2].result}`);
-    // console.log(`3: ${sortedDistances[3].distance}  ${sortedDistances[3].result}`);
-    // console.log(`4: ${sortedDistances[4].distance}  ${sortedDistances[4].result}`);
-    // console.log(`5: ${sortedDistances[5].distance}  ${sortedDistances[5].result}`);
-    // console.log(`6: ${sortedDistances[6].distance}  ${sortedDistances[6].result}`);
-    // console.log(`7: ${sortedDistances[7].distance}  ${sortedDistances[7].result}`);
-    // console.log(`10: ${sortedDistances[10].distance}  ${sortedDistances[10].result}`);
-    // console.log(`50: ${sortedDistances[50].distance}  ${sortedDistances[50].result}`);
-    // console.log(`100: ${sortedDistances[100].distance}  ${sortedDistances[100].result}`);
-    // console.log(`500: ${sortedDistances[500].distance}  ${sortedDistances[500].result}`);
     const results: Result[] = sortedDistances
       .slice(0, k)
       .map((item) => item.result);
