@@ -29,37 +29,37 @@ describe('VektorService', () => {
   it('should normalize goals shots', () => {
     const service: VektorService = TestBed.get(VektorService);
     const source = '4 0 4   10 : 30';
-    expect(service.calcGoalsPoint(source).shots).toBe(0.25);
+    expect(service.calcGoalsPoint(source).shots).toBe(0.32);
   });
 
   it('should normalize goals shots', () => {
     const service: VektorService = TestBed.get(VektorService);
     const source = '8 7 7   26 : 30 ';
-    expect(service.calcGoalsPoint(source).shots).toBe(0.46);
+    expect(service.calcGoalsPoint(source).shots).toBe(0.65);
   });
 
   it('should normalize goals shots', () => {
     const service: VektorService = TestBed.get(VektorService);
     const source = '6 4 10 14:27';
-    expect(service.calcGoalsPoint(source).shots).toBe(0.34);
+    expect(service.calcGoalsPoint(source).shots).toBe(0.46);
   });
 
   it('should normalize goals loses', () => {
     const service: VektorService = TestBed.get(VektorService);
     const source = '4 0 4   10 : 30';
-    expect(service.calcGoalsPoint(source).loses).toBe(0.75);
+    expect(service.calcGoalsPoint(source).loses).toBe(0.95);
   });
 
   it('should normalize goals loses', () => {
     const service: VektorService = TestBed.get(VektorService);
     const source = '4 0 4   10 : 20';
-    expect(service.calcGoalsPoint(source).loses).toBe(0.67);
+    expect(service.calcGoalsPoint(source).loses).toBe(0.89);
   });
 
   it('should normalize matches wins', () => {
     const service: VektorService = TestBed.get(VektorService);
     const source = '4 0 4   10 : 30';
-    expect(service.calcWinsPoint(source).wins).toBe(0.5);
+    expect(service.calcWinsPoint(source).wins).toBe(0.71);
   });
 
   it('should normalize matches equals', () => {
@@ -71,13 +71,13 @@ describe('VektorService', () => {
   it('should normalize matches equals', () => {
     const service: VektorService = TestBed.get(VektorService);
     const source = '4 4 4   10 : 30';
-    expect(service.calcWinsPoint(source).equals).toBe(0.33);
+    expect(service.calcWinsPoint(source).equals).toBe(0.58);
   });
 
   it('should normalize matches loses', () => {
     const service: VektorService = TestBed.get(VektorService);
     const source = '4 0 6   10 : 30';
-    expect(service.calcWinsPoint(source).loses).toBe(0.6);
+    expect(service.calcWinsPoint(source).loses).toBe(0.83);
   });
 
   it('should calc distance between goals points', () => {
