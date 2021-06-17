@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { VektorService } from './vektor.service';
 import { HttpClientModule } from '@angular/common/http';
-import { GoalsPoint, NormalVektor, Result, WinsPoint } from '../models/vektor';
+import { GoalsPoint, NormalVektor, Result, Vektor, WinsPoint } from '../models/vektor';
 import { Observable } from 'rxjs';
 import { BaseService } from './base.service';
 
@@ -119,6 +119,8 @@ describe('VektorService', () => {
       homeInGoals: { shots: 0.3, loses: 0.7 },
       visitorTotalGoals: { shots: 0.1, loses: 0.9 },
       visitorOutGoals: { shots: 0.2, loses: 0.8 },
+      shotsInterval: null,
+      losesInterval: null,
       result: Result.Win,
     };
     const vektorB: NormalVektor = {
@@ -130,6 +132,8 @@ describe('VektorService', () => {
       homeInGoals: { shots: 0.4, loses: 0.6 },
       visitorTotalGoals: { shots: 0.2, loses: 0.8 },
       visitorOutGoals: { shots: 0.3, loses: 0.7 },
+      shotsInterval: null,
+      losesInterval: null,
       result: Result.Equal,
     };
     expect(service.calcDistance(vektorA, vektorB)).toBe(0.6);
@@ -152,6 +156,8 @@ describe('VektorService', () => {
       homeInGoals: { shots: 3, loses: 7 },
       visitorTotalGoals: { shots: 0.1, loses: 0.9 },
       visitorOutGoals: { shots: 0.2, loses: 0.8 },
+      shotsInterval: null,
+      losesInterval: null,
       result: Result.Win,
     };
     expect(service.renormalizeVektor(vektorA).homeTotalMatches.wins).toBe(0.4);
@@ -168,8 +174,66 @@ describe('VektorService', () => {
       homeInGoals: { shots: 3, loses: 7 },
       visitorTotalGoals: { shots: 0.1, loses: 0.9 },
       visitorOutGoals: { shots: 0.2, loses: 0.8 },
+      shotsInterval: null,
+      losesInterval: null,
       result: Result.Win,
     };
     expect(service.renormalizeVektor(vektorA).homeInGoals.loses).toBe(0.7);
+  });
+
+  it('should calc shotsInterval', () => {
+    const service: VektorService = TestBed.get(VektorService);
+    const vektor: Vektor = {
+      home: '1',
+      homeTotal: '5 0 5 10:20',
+      homeIn: '5 0 5 5:15',
+      visitor: '2',
+      visitorTotal: '5 0 5 30:10',
+      visitorOut: '5 0 5 10:6',
+      result: Result.Win,
+    };
+    expect(service.calcAverageTotal(vektor).shotsInterval.from).toBe(0.5);
+  });
+
+  it('should calc shotsInterval', () => {
+    const service: VektorService = TestBed.get(VektorService);
+    const vektor: Vektor = {
+      home: '1',
+      homeTotal: '5 0 5 10:20',
+      homeIn: '5 0 5 5:15',
+      visitor: '2',
+      visitorTotal: '5 0 5 30:10',
+      visitorOut: '5 0 5 10:6',
+      result: Result.Win,
+    };
+    expect(service.calcAverageTotal(vektor).shotsInterval.to).toBe(1);
+  });
+
+  it('should calc losesInterval', () => {
+    const service: VektorService = TestBed.get(VektorService);
+    const vektor: Vektor = {
+      home: '1',
+      homeTotal: '5 0 5 10:20',
+      homeIn: '5 0 5 5:15',
+      visitor: '2',
+      visitorTotal: '5 0 5 30:10',
+      visitorOut: '5 0 5 10:6',
+      result: Result.Win,
+    };
+    expect(service.calcAverageTotal(vektor).losesInterval.from).toBe(1);
+  });
+
+  it('should calc losesInterval', () => {
+    const service: VektorService = TestBed.get(VektorService);
+    const vektor: Vektor = {
+      home: '1',
+      homeTotal: '5 0 5 10:20',
+      homeIn: '5 0 5 5:15',
+      visitor: '2',
+      visitorTotal: '5 0 5 30:10',
+      visitorOut: '5 0 5 10:6',
+      result: Result.Win,
+    };
+    expect(service.calcAverageTotal(vektor).losesInterval.to).toBe(3);
   });
 });

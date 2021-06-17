@@ -36,6 +36,9 @@
         <th>Part</th>
         <th>Prediction pair</th>
         <th>Part pair</th>
+        <th>Shots AT</th>
+        <th>Loses AT</th>
+        <th>Delta</th>
         <th>Actual result</th>
       </tr>
       <tr *ngFor="let prediction of predictResults; let i = index">
@@ -44,6 +47,10 @@
         <td>{{ prediction.prediction.part}}</td>
         <td [ngClass]="{success:prediction.pairGuess, fail:!prediction.pairGuess}">{{ prediction.prediction.resultPair}}</td>
         <td>{{ prediction.prediction.partPair}}</td>
+        <td>{{ prediction.prediction.shotsInterval?.from}} - {{ prediction.prediction.shotsInterval?.to}}</td>
+        <td>{{ prediction.prediction.losesInterval?.from}} - {{ prediction.prediction.losesInterval?.to}}</td>
+        <td>{{ prediction.prediction.losesInterval?.to - prediction.prediction.losesInterval?.from + prediction.prediction.shotsInterval?.to 
+          - prediction.prediction.shotsInterval?.from | number:'1.1-2' }}</td>
         <td>{{ prediction.result}}</td>
       </tr>
     </table>

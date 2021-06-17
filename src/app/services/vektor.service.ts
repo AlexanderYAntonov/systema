@@ -10,6 +10,7 @@ import {
   Prediction,
   PredictResult,
   PredictPart,
+  GoalsIntervalPoint,
 } from '../models/vektor';
 import { HttpClient } from '@angular/common/http';
 import { concatMap, map, tap } from 'rxjs/operators';
@@ -50,7 +51,7 @@ export class VektorService {
   }
 
   private convertVektorList(list: Vektor[]): NormalVektor[] {
-    return list.map((item) => this.normalize(item));
+    return list.map((item) =>  this.normalize(item));
   }
 
   private normalize(vektor: Vektor): NormalVektor {
@@ -67,6 +68,8 @@ export class VektorService {
     );
     const homeInGoalsPoint: GoalsPoint = this.calcGoalsPoint(homeIn);
     const visitorOutGoalsPoint: GoalsPoint = this.calcGoalsPoint(visitorOut);
+
+    const { shotsInterval, losesInterval } = this.calcAverageTotal(vektor);
     return new NormalVektor(
       homeTotalMatchesPoint,
       homeInMatchesPoint,
@@ -76,8 +79,48 @@ export class VektorService {
       homeInGoalsPoint,
       visitorTotalGoalsPoint,
       visitorOutGoalsPoint,
+      shotsInterval,
+      losesInterval,
       vektor.result
     );
+  }
+
+  calcAverageTotal(vektor: Vektor): { shotsInterval: GoalsIntervalPoint, losesInterval: GoalsIntervalPoint} {
+    const { homeTotal, visitorTotal, homeIn, visitorOut } = vektor;
+    
+    const homeTotalShotsAT = this.getGoalsValue(homeTotal, true);
+    const homeTotalLosesAT = this.getGoalsValue(homeTotal, false);
+    const visitorTotalShotsAT = this.getGoalsValue(visitorTotal, true);
+    const visitorTotalLosesAT = this.getGoalsValue(visitorTotal, false);
+    const homeInShotsAT = this.getGoalsValue(homeIn, true);
+    const homeInLosesAT = this.getGoalsValue(homeIn, false);
+    const visitorOutShotsAT = this.getGoalsValue(visitorOut, true);
+    const visitorOutLosesAT = this.getGoalsValue(visitorOut, false);
+    
+    const shotsInterval = {
+      from: Math.min(homeTotalShotsAT, homeInShotsAT, visitorTotalLosesAT, visitorOutLosesAT),
+      to: Math.max(homeTotalShotsAT, homeInShotsAT, visitorTotalLosesAT, visitorOutLosesAT),
+    };
+    const losesInterval = {
+      from: Math.min(homeTotalLosesAT, homeInLosesAT, visitorOutShotsAT, visitorTotalShotsAT),
+      to: Math.max(homeTotalLosesAT, homeInLosesAT, visitorOutShotsAT, visitorTotalShotsAT),
+    };
+    return {shotsInterval, losesInterval};
+  }
+
+  private getGoalsValue(source: string, shots: boolean): number {
+    const regExpGames = /(\d+)/g;
+    const arrGames: number[] = source
+      .match(regExpGames)
+      .map((item) => parseInt(item, 10));
+    const totalGames = arrGames[0] + arrGames[1] + arrGames[2];
+
+    const regExp = /(\d+\s*:\s*\d+)/g;
+    const arr: string[] = source.match(regExp);
+    const goalsArr: number[] = arr[0]
+      .match(/\d+/g)
+      .map((item) => parseInt(item, 10));
+    return this.roundDigits(goalsArr[shots ? 0 : 1]/totalGames, 2);
   }
 
   calcWinsPoint(source: string): WinsPoint {
@@ -189,11 +232,14 @@ export class VektorService {
     }
 
     const prediction = new Prediction(
+      vektor.shotsInterval,
+      vektor.losesInterval,
       parts[0].result,
       parts[0].part,
       [ parts[0].result, parts[1].result ],
       this.roundDigits(parts[0].part + parts[1].part, 2)
     );
+    console.log(vektor);
     return prediction;
   }
 

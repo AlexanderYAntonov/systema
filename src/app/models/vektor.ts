@@ -36,6 +36,11 @@ export interface GoalsPoint {
 
 export type Point = GoalsPoint | WinsPoint;
 
+export interface GoalsIntervalPoint {
+  from: number;
+  to: number;
+}
+
 export class NormalVektor {
   homeTotalMatches: WinsPoint;
   homeInMatches: WinsPoint;
@@ -45,6 +50,8 @@ export class NormalVektor {
   homeInGoals: GoalsPoint;
   visitorTotalGoals: GoalsPoint;
   visitorOutGoals: GoalsPoint;
+  shotsInterval: GoalsIntervalPoint;
+  losesInterval: GoalsIntervalPoint;
   result?: Result;
 
   constructor(
@@ -56,6 +63,8 @@ export class NormalVektor {
     homeInGoals: GoalsPoint,
     visitorTotalGoals: GoalsPoint,
     visitorOutGoals: GoalsPoint,
+    shotsInterval: GoalsIntervalPoint,
+    losesInterval: GoalsIntervalPoint,
     result?: Result
   ) {
     this.homeTotalMatches = homeTotalMatches;
@@ -66,6 +75,8 @@ export class NormalVektor {
     this.homeInGoals = homeInGoals;
     this.visitorTotalGoals = visitorTotalGoals;
     this.visitorOutGoals = visitorOutGoals;
+    this.shotsInterval = shotsInterval;
+    this.losesInterval = losesInterval;
     this.result = result;
   }
 }
@@ -79,17 +90,23 @@ export class Prediction {
   part: number;
   resultPair: Result[];
   partPair: number;
+  shotsInterval: GoalsIntervalPoint;
+  losesInterval: GoalsIntervalPoint;
 
   constructor(
+    shotsInterval: GoalsIntervalPoint,
+    losesInterval: GoalsIntervalPoint,
     result: Result,
     part: number,
     resultPair: Result[] = [],
-    partPair: number = 0
+    partPair: number = 0,
   ) {
     this.result = result;
     this.part = part;
     this.resultPair = resultPair;
     this.partPair = partPair;
+    this.shotsInterval = shotsInterval;
+    this.losesInterval = losesInterval;
   }
 }
 
