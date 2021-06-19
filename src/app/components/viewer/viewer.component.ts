@@ -19,6 +19,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
   minPartPair = 0;
   maxPartPair = 1;
   testGroupSize = 50;
+  showAverageTotal = false;
   result: Result;
   predResult: Result;
   subscription: Subscription = new Subscription();

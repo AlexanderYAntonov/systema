@@ -26,11 +26,24 @@
         <button mat-stroked-button color="primary" type="reset" (click)="resetForm(formBlock)">Reset</button>
         <button mat-raised-button color="primary" type="submit">Predict</button>
       </div>
-      <span *ngIf="prediction$ | async as prediction">{{ prediction | json }}</span>
     </form>
 
     <div class="prediction" *ngIf="formBlock.valid">
       <table>
+        <tr>
+          <th>Teams</th>
+          <th>Home total</th>
+          <th>Home in</th>
+          <th>Visitor total</th>
+          <th>Home out</th>
+          <th>Prediction</th>
+          <th>Pred pair</th>
+          <th>Part</th>
+          <th>Part pair</th>
+          <th>Shots prediction</th>
+          <th>Loses prediction</th>
+          <th>Balls delta</th>
+        </tr>
         <tr *ngFor="let pred$ of predictions$; let i = index">
           <ng-container *ngIf="pred$ | async as prediction">
             <td [class.bold]="prediction.part >= 0.6 || prediction.partPair === 1">
@@ -66,7 +79,7 @@
       <input formControlName="matches">
       <button mat-stroked-button color="primary" type="reset" (click)="resetForm(formUltraShort)">Reset</button>
       <button mat-raised-button color="primary" type="submit">Predict</button>
-      <span *ngIf="prediction$ | async as prediction"  class="prediction">{{ prediction | json }}</span>
+      <p *ngIf="prediction$ | async as prediction"  class="prediction">{{ prediction | json }}</p>
     </form>  
   </mat-expansion-panel>
 
@@ -85,6 +98,12 @@
       <button mat-raised-button color="primary" type="submit">Predict</button>
       
       <table class="prediction">
+        <tr>
+          <th>Prediction</th>
+          <th>Prediction pair</th>
+          <th>Part</th>
+          <th>Part pair</th>
+        </tr>
         <tr *ngFor="let pred$ of predictionsML$; let i = index">
           <ng-container *ngIf="pred$ | async as prediction">
             <td [class.bold]="prediction.part >= 0.7 || prediction.partPair >= 0.9">
@@ -124,7 +143,7 @@
     
       <button mat-stroked-button color="primary" type="reset" (click)="resetForm(formShort)">Reset</button>
       <button mat-raised-button color="primary" type="submit">Predict</button>
-      <span *ngIf="prediction$ | async as prediction">{{ prediction | json }}</span>
+      <p *ngIf="prediction$ | async as prediction">{{ prediction | json }}</p>
     </form>
   </mat-expansion-panel>
   

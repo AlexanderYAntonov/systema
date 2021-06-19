@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { strictEqual } from 'assert';
 import { Observable } from 'rxjs';
+import { share, tap } from 'rxjs/operators';
 import {
   GoalsPoint,
   NormalVektor,
@@ -209,11 +210,15 @@ Stromsgodset - Valerenga
       visitor: '',
     };
     console.table(vektor);
-    this.prediction$ = this.vektorService.calcPrediction(vektor);
+    this.prediction$ = this.vektorService.calcPrediction(vektor).pipe(
+      share()
+    );
   }
 
   calcUltraShortFormPrediction() {
-    this.prediction$ = this.predictOneLine(this.formUltraShort.value.matches);
+    this.prediction$ = this.predictOneLine(this.formUltraShort.value.matches).pipe(
+      share()
+    );
   }
 
   private predictOneLine(source: string):Observable<Prediction> {
