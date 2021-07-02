@@ -104,9 +104,7 @@ export class PredictorComponent implements OnInit {
 
   private buildMultiLineForm() {
     this.formMultiLine = new FormGroup({
-      matches: new FormControl(
-        `5 3 1 22:10	2 1 1 11:6	6 2 1 21:9	4 0 0 13:3
-4 1 4 9:10	2 0 2 4:6	4 2 3 9:10	2 0 2 3:5`,
+      matches: new FormControl('',
         Validators.required
       ),
     });
@@ -123,82 +121,10 @@ export class PredictorComponent implements OnInit {
 
   private buildBlockForm() {
     this.formBlock = new FormGroup({
-      names: new FormControl(
-        `St. Odd - Sarps-borg 08	 	
-18	2.01	3.58	3.49	Tomorrow 18:00
-Haugesund - Aalesund	 	
-18	1.34	5.29	7.95	Tomorrow 20:30
-Mjondalen - Molde	 	
-19	4.93	4.26	1.61	01.11. 15:00
-Kristiansund - Bodo/Glimt	 	
-19	3.19	3.57	2.13	01.11. 18:00
-Rosenborg - Start	 	
-19	1.37	4.86	7.96	01.11. 18:00
-Sandefjord - Brann	 	
-19	2.71	3.42	2.48	01.11. 18:00
-Stabaek - Viking	 	
-19	2.32	3.58	2.84	01.11. 18:00
-Stromsgodset - Valerenga	 	
-19	3.09	3.53	2.20	01.11. 20:30`,
-        Validators.required
-      ),
-      allMatches: new FormControl(
-        `1.	Bodo/Glimt	22	19	2	1	73:25	59	
-2.	Molde	22	14	1	7	54:27	43	
-3.	Rosenborg	22	12	6	4	42:22	42	
-4.	Valerenga	22	11	6	5	37:28	39	
-5.	St. Odd	21	12	2	7	40:32	38	
-6.	Kristiansund	22	9	9	4	42:30	36	
-7.	Viking	21	8	5	8	38:39	29	
-8.	Stabaek	22	7	8	7	30:33	29	
-9.	Haugesund	22	8	4	10	27:36	28	
-10.	Sarps-borg 08	22	8	3	11	26:29	27	
-11.	Sandefjord	22	8	2	12	22:34	26	
-12.	Stromsgodset	22	5	9	8	30:40	24	
-13.	Brann	22	6	6	10	26:36	24	
-14.	Start	22	4	7	11	25:41	19	
-15.	Mjondalen	22	5	2	15	17:38	17	
-16.	Aalesund	22	1	4	17	25:64	7`,
-        Validators.required
-      ),
-      allHomeMatches: new FormControl(
-        `1.	Bodo/Glimt	11	11	0	0	39:8	33	
-2.	Molde	11	9	0	2	30:9	27	
-3.	Valerenga	11	7	4	0	25:12	25	
-4.	Rosenborg	11	7	3	1	27:12	24	
-5.	St. Odd	10	7	1	2	21:12	22	
-6.	Sarps-borg 08	12	6	1	5	18:11	19	
-7.	Stabaek	11	5	3	3	15:10	18	
-8.	Haugesund	11	5	2	4	18:18	17	
-9.	Kristiansund	10	4	4	2	24:16	16	
-10.	Start	12	4	4	4	17:16	16	
-11.	Viking	11	4	3	4	23:19	15	
-12.	Stromsgodset	11	3	5	3	16:19	14	
-13.	Sandefjord	10	3	2	5	7:14	11	
-14.	Brann	11	2	4	5	14:15	10	
-15.	Mjondalen	10	3	0	7	8:14	9	
-16.	Aalesund	12	1	2	9	14:33	5`,
-        Validators.required
-      ),
-      allAwayMatches: new FormControl(
-        `1.	Bodo/Glimt	11	8	2	1	34:17	26	
-2.	Kristiansund	12	5	5	2	18:14	20	
-3.	Rosenborg	11	5	3	3	15:10	18	
-4.	Molde	11	5	1	5	24:18	16	
-5.	St. Odd	11	5	1	5	19:20	16	
-6.	Sandefjord	12	5	0	7	15:20	15	
-7.	Valerenga	11	4	2	5	12:16	14	
-8.	Viking	10	4	2	4	15:20	14	
-9.	Brann	11	4	2	5	12:21	14	
-10.	Stabaek	11	2	5	4	15:23	11	
-11.	Haugesund	11	3	2	6	9:18	11	
-12.	Stromsgodset	11	2	4	5	14:21	10	
-13.	Sarps-borg 08	10	2	2	6	8:18	8	
-14.	Mjondalen	12	2	2	8	9:24	8	
-15.	Start	10	0	3	7	8:25	3	
-16.	Aalesund	10	0	2	8	11:31	2`,
-        Validators.required
-      ),
+      names: new FormControl('', Validators.required),
+      allMatches: new FormControl('', Validators.required),
+      allHomeMatches: new FormControl('', Validators.required),
+      allAwayMatches: new FormControl('', Validators.required),
     });
   }
 
