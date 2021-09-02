@@ -13,7 +13,7 @@ import {
   GoalsIntervalPoint,
 } from '../models/vektor';
 import { HttpClient } from '@angular/common/http';
-import { concatMap, map, tap } from 'rxjs/operators';
+import { concatMap, map, shareReplay, tap } from 'rxjs/operators';
 import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
 import { BaseService } from './base.service';
 
@@ -187,7 +187,6 @@ export class VektorService {
     testGroupSize = 50,
     koef = this.predictKoeff
   ): Observable<PredictResult[]> {
-    console.log(`koef = ${koef}`);
     return this.loadData().pipe(
       map((list: NormalVektor[]) => {
         const baseVektorList = list.slice(testGroupSize);
@@ -206,8 +205,6 @@ export class VektorService {
   }
 
   calcPrediction(vektor: Vektor, koef = this.predictKoeff): Observable<Prediction> {
-    // console.log(vektor);
-    console.log(`koef = ${koef}`);
     const normalVektor: NormalVektor = this.normalize(vektor);
     return this.loadData().pipe(
       map((list: NormalVektor[]) =>

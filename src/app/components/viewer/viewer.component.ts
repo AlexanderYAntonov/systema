@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { distinctUntilChanged, map, shareReplay, tap } from 'rxjs/operators';
 import { PredictResult, Result } from 'src/app/models/vektor';
 import { BaseService } from 'src/app/services/base.service';
 import { VektorService } from '../../services/vektor.service';
@@ -14,15 +15,18 @@ export class ViewerComponent implements OnInit, OnDestroy {
   predictResults$: Observable<PredictResult[]>;
   predictionSuccessPart: number;
   predictionSuccessPartPair: number;
-  minPart = 0;
-  maxPart = 1;
-  minPartPair = 0;
-  maxPartPair = 1;
-  testGroupSize = 50;
-  showAverageTotal = false;
-  result: Result;
-  predResult: Result;
   subscription: Subscription = new Subscription();
+  form: FormGroup = new FormGroup({
+    testGroupSize: new FormControl(50, Validators.required),
+    minPart: new FormControl(0, Validators.required),
+    maxPart: new FormControl(1, Validators.required),
+    minPartPair: new FormControl(0, Validators.required),
+    maxPartPair: new FormControl(1, Validators.required),
+    showAverageTotal: new FormControl(false),
+    predResult: new FormControl(null),
+    result: new FormControl(null),
+  });
+  fullList$: Observable<PredictResult[]>;
   
   constructor(
     private vektorService: VektorService,
@@ -31,12 +35,21 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.predictResults$ = this.vektorService
-      .calcTestPredictions(this.testGroupSize)
+      .calcTestPredictions(this.form.value.testGroupSize)
       .pipe(tap((list) => this.calcSuccesPart(list)));
 
     this.subscription.add(
       this.baseService.getUrl().subscribe(url => this.apply())
     );
+
+    this.subscription.add(
+      this.form.valueChanges.pipe(
+        distinctUntilChanged((a,b) => a.minPart === b.minPart && a.maxPart === b.maxPart && 
+        a.minPartPair === b.minPartPair && a.maxPartPair === b.maxPartPair
+        && a.result === b.result && a.predResult === b.predResult))
+      .subscribe(
+        val => this.updateView(val)
+      ));
   }
 
   calcSuccesPart(list: PredictResult[]) {
@@ -53,22 +66,26 @@ export class ViewerComponent implements OnInit, OnDestroy {
   }
 
   apply() {
-    this.predictResults$ = this.vektorService
-      .calcTestPredictions(this.testGroupSize)
-      .pipe(
-        map((list) =>
-          list.filter(
-            (item) =>
-              item.prediction.part >= this.minPart &&
-              item.prediction.part <= this.maxPart &&
-              item.prediction.partPair >= this.minPartPair &&
-              item.prediction.partPair <= this.maxPartPair &&
-              (!this.result || item.result === this.result) &&
-              (!this.predResult || item.prediction.result === this.predResult)
-          )
-        ),
-        tap((list) => this.calcSuccesPart(list))
-      );
+    const { minPart, maxPart, minPartPair, maxPartPair, result, predResult, testGroupSize } = this.form.value;
+    this.fullList$ = this.vektorService.calcTestPredictions(testGroupSize).pipe(shareReplay(1));
+    this.updateView(this.form.value);
+  }
+
+  private updateView({minPart, maxPart, minPartPair, maxPartPair, result, predResult}) {
+    this.predictResults$ = this.fullList$.pipe(
+      map((list) =>
+        list.filter(
+          (item) =>
+            item.prediction.part >= minPart &&
+            item.prediction.part <= maxPart &&
+            item.prediction.partPair >= minPartPair &&
+            item.prediction.partPair <= maxPartPair &&
+            (!result || item.result === result) &&
+            (!predResult || item.prediction.result === predResult)
+        )
+      ),
+      tap((list) => this.calcSuccesPart(list))
+    );
   }
 
   ngOnDestroy() {

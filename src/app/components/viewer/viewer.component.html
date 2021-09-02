@@ -1,29 +1,29 @@
 <div class="container">
   <div class="filters">
     <h3>Filters:</h3>
-    <form (ngSubmit)="apply()">
+    <form [formGroup]="form" (ngSubmit)="apply()">
       <mat-form-field class="form-field">
-        <input matInput placeholder="test group size" [(ngModel)]="testGroupSize" name="k">
+        <input matInput placeholder="test group size" formControlName="testGroupSize" name="k">
       </mat-form-field>
       <mat-form-field class="form-field">
-        <input matInput placeholder="part >=" [(ngModel)]="minPart" name="minPart">
+        <input matInput placeholder="part >=" formControlName="minPart" name="minPart">
       </mat-form-field>
       <mat-form-field class="form-field">
-        <input matInput placeholder="part <=" [(ngModel)]="maxPart" name="maxPart">
+        <input matInput placeholder="part <=" formControlName="maxPart" name="maxPart">
       </mat-form-field>
       <mat-form-field class="form-field">
-        <input matInput placeholder="partPair >=" [(ngModel)]="minPartPair" name="minPartPair">
+        <input matInput placeholder="partPair >=" formControlName="minPartPair" name="minPartPair">
       </mat-form-field>
       <mat-form-field class="form-field">
-        <input matInput placeholder="partPair <=" [(ngModel)]="maxPartPair" name="maxPartPair">
+        <input matInput placeholder="partPair <=" formControlName="maxPartPair" name="maxPartPair">
       </mat-form-field>
       <mat-form-field class="form-field">
-        <input matInput placeholder="predResult" [(ngModel)]="predResult" name="predResult">
+        <input matInput placeholder="predResult" formControlName="predResult" name="predResult">
       </mat-form-field>
       <mat-form-field class="form-field">
-        <input matInput placeholder="result" [(ngModel)]="result" name="result">
+        <input matInput placeholder="result" formControlName="result" name="result">
       </mat-form-field>
-      <mat-checkbox [(ngModel)]="showAverageTotal" name="showAverageTotal">
+      <mat-checkbox formControlName="showAverageTotal" name="showAverageTotal">
         Show average total
       </mat-checkbox>
       <button mat-raised-button color="primary" type="submit">Apply filters</button>
@@ -52,7 +52,7 @@
         <td>{{ prediction.prediction.part}}</td>
         <td [ngClass]="{success:prediction.pairGuess, fail:!prediction.pairGuess}">{{ prediction.prediction.resultPair}}</td>
         <td>{{ prediction.prediction.partPair}}</td>
-        <ng-container *ngIf="showAverageTotal">
+        <ng-container *ngIf="form.value?.showAverageTotal">
           <td>{{ prediction.prediction.shotsInterval?.from}} - {{ prediction.prediction.shotsInterval?.to}}</td>
           <td>{{ prediction.prediction.losesInterval?.from}} - {{ prediction.prediction.losesInterval?.to}}</td>
           <td>{{ prediction.prediction.losesInterval?.to - prediction.prediction.losesInterval?.from + prediction.prediction.shotsInterval?.to 
