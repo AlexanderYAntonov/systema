@@ -23,8 +23,17 @@
       <mat-form-field class="form-field">
         <input matInput placeholder="result" formControlName="result" name="result">
       </mat-form-field>
+      <mat-form-field class="form-field">
+        <input matInput placeholder="epsilon >=" formControlName="minEpsilon" name="minEpsilon">
+      </mat-form-field>
+      <mat-form-field class="form-field">
+        <input matInput placeholder="epsilon <=" formControlName="maxEpsilon" name="maxEpsilon">
+      </mat-form-field>
       <mat-checkbox formControlName="showAverageTotal" name="showAverageTotal">
         Show average total
+      </mat-checkbox>
+      <mat-checkbox formControlName="showEpsilon" name="showAverageTotal">
+        Show epsilon
       </mat-checkbox>
       <button mat-raised-button color="primary" type="submit">Apply filters</button>
     </form>
@@ -39,10 +48,13 @@
         <th>Part</th>
         <th>Prediction pair</th>
         <th>Part pair</th>
-        <ng-container *ngIf="showAverageTotal">
+        <ng-container *ngIf="form.value?.showAverageTotal">
           <th>Shots AT</th>
           <th>Loses AT</th>
           <th>Delta</th>
+        </ng-container>
+        <ng-container *ngIf="form.value?.showEpsilon">
+          <th>Epsilon</th>
         </ng-container>
         <th>Actual result</th>
       </tr>
@@ -57,6 +69,9 @@
           <td>{{ prediction.prediction.losesInterval?.from}} - {{ prediction.prediction.losesInterval?.to}}</td>
           <td>{{ prediction.prediction.losesInterval?.to - prediction.prediction.losesInterval?.from + prediction.prediction.shotsInterval?.to 
             - prediction.prediction.shotsInterval?.from | number:'1.1-2' }}</td>
+        </ng-container>
+        <ng-container *ngIf="form.value?.showEpsilon">
+          <td>{{ prediction.prediction.epsilon | number:'1.1-2'}}</td>
         </ng-container>
           <td>{{ prediction.result}}</td>
       </tr>

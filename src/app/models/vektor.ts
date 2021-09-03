@@ -92,6 +92,7 @@ export class Prediction {
   partPair: number;
   shotsInterval: GoalsIntervalPoint;
   losesInterval: GoalsIntervalPoint;
+  epsilon: number;
 
   constructor(
     shotsInterval: GoalsIntervalPoint,
@@ -100,6 +101,7 @@ export class Prediction {
     part: number,
     resultPair: Result[] = [],
     partPair: number = 0,
+    epsilon: number = 0,
   ) {
     this.result = result;
     this.part = part;
@@ -107,6 +109,7 @@ export class Prediction {
     this.partPair = partPair;
     this.shotsInterval = shotsInterval;
     this.losesInterval = losesInterval;
+    this.epsilon = epsilon;
   }
 }
 

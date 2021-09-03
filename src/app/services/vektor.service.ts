@@ -218,7 +218,7 @@ export class VektorService {
     base: NormalVektor[],
     koef = this.predictKoeff
   ): Prediction {
-    const parts: PredictPart[] = this.getPredictionParts(vektor, base, koef);
+    const { parts, epsilon } = this.getPredictionParts(vektor, base, koef);
     if (parts[1].part === parts[2].part) {
       parts[1].result = Result.Unknown;
       parts[2].result = Result.Unknown;
@@ -234,7 +234,8 @@ export class VektorService {
       parts[0].result,
       parts[0].part,
       [ parts[0].result, parts[1].result ],
-      this.roundDigits(parts[0].part + parts[1].part, 2)
+      this.roundDigits(parts[0].part + parts[1].part, 2),
+      epsilon,
     );
     console.log(vektor);
     return prediction;
@@ -244,8 +245,8 @@ export class VektorService {
     vektor: NormalVektor,
     base: NormalVektor[],
     koef: number
-  ): PredictPart[] {
-    const results: Result[] = this.findKCloseVektors(vektor, base, koef);
+  ): { parts: PredictPart[], epsilon: number } {
+    const { results, epsilon } = this.findKCloseVektors(vektor, base, koef);
     const winsCount = results.filter((item) => item === Result.Win).length;
     const equalsCount = results.filter((item) => item === Result.Equal).length;
     const losesCount = results.filter((item) => item === Result.Lose).length;
@@ -268,14 +269,14 @@ export class VektorService {
       },
     ];
     parts = parts.sort((a, b) => b.part - a.part);
-    return parts;
+    return { parts, epsilon };
   }
 
   private findKCloseVektors(
     vektor: NormalVektor,
     searchBase: NormalVektor[],
     k: number
-  ): Result[] {
+  ): { results: Result[], epsilon: number } {
     const distances: DistantVektor[] = searchBase.map((item) => ({
       ...item,
       distance: this.calcDistance(vektor, item),
@@ -286,7 +287,7 @@ export class VektorService {
     const results: Result[] = sortedDistances
       .slice(0, k)
       .map((item) => item.result);
-    return results;
+    return { results, epsilon: sortedDistances[k-1].distance };
   }
 
   renormalizeVektor(vektor: NormalVektor): NormalVektor {

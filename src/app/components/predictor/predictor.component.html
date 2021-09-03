@@ -40,13 +40,14 @@
           <th>Pred pair</th>
           <th>Part</th>
           <th>Part pair</th>
+          <th>Epsilon</th>
           <th>Shots prediction</th>
           <th>Loses prediction</th>
           <th>Balls delta</th>
         </tr>
         <tr *ngFor="let pred$ of predictions$; let i = index">
           <ng-container *ngIf="pred$ | async as prediction">
-            <td [class.bold]="prediction.part >= 0.6 || prediction.partPair === 1">
+            <td [class.bold]="(prediction.part >= 0.6 || prediction.partPair === 1) && prediction.epsilon >= 0.6">
               {{ blockVektorList[i].home}}-{{blockVektorList[i].visitor}}</td>
             <td>{{blockVektorList[i].homeTotal}}</td>
             <td>{{blockVektorList[i].homeIn}}</td>
@@ -56,6 +57,7 @@
             <td>{{prediction.resultPair}}</td>
             <td>{{prediction.part}}</td>
             <td>{{prediction.partPair}}</td>
+            <td>{{prediction.epsilon}}</td>
             <td>{{ prediction.shotsInterval?.from}} - {{ prediction.shotsInterval?.to}}</td>
             <td>{{ prediction.losesInterval?.from}} - {{ prediction.losesInterval?.to}}</td>
             <td>{{ prediction.losesInterval?.to - prediction.losesInterval?.from +
@@ -103,14 +105,16 @@
           <th>Prediction pair</th>
           <th>Part</th>
           <th>Part pair</th>
+          <th>Epsilon</th>
         </tr>
         <tr *ngFor="let pred$ of predictionsML$; let i = index">
           <ng-container *ngIf="pred$ | async as prediction">
-            <td [class.bold]="prediction.part >= 0.7 || prediction.partPair >= 0.9">
+            <td [class.bold]="(prediction.part >= 0.7 || prediction.partPair >= 0.9) && prediction.epsilon >= 0.6">
               {{prediction.result}}</td>
             <td>{{prediction.resultPair}}</td>
             <td>{{prediction.part}}</td>
             <td>{{prediction.partPair}}</td>
+            <td>{{prediction.epsilon}}</td>
           </ng-container>
         </tr>
       </table>

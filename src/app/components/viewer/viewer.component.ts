@@ -20,11 +20,14 @@ export class ViewerComponent implements OnInit, OnDestroy {
     testGroupSize: new FormControl(50, Validators.required),
     minPart: new FormControl(0, Validators.required),
     maxPart: new FormControl(1, Validators.required),
+    minEpsilon: new FormControl(0, Validators.required),
+    maxEpsilon: new FormControl(10, Validators.required),
     minPartPair: new FormControl(0, Validators.required),
     maxPartPair: new FormControl(1, Validators.required),
     showAverageTotal: new FormControl(false),
     predResult: new FormControl(null),
     result: new FormControl(null),
+    showEpsilon: new FormControl(false),
   });
   fullList$: Observable<PredictResult[]>;
   
@@ -46,7 +49,8 @@ export class ViewerComponent implements OnInit, OnDestroy {
       this.form.valueChanges.pipe(
         distinctUntilChanged((a,b) => a.minPart === b.minPart && a.maxPart === b.maxPart && 
         a.minPartPair === b.minPartPair && a.maxPartPair === b.maxPartPair
-        && a.result === b.result && a.predResult === b.predResult))
+        && a.result === b.result && a.predResult === b.predResult && a.maxEpsilon === b.maxEpsilon
+        && a.minEpsilon === b.minEpsilon))
       .subscribe(
         val => this.updateView(val)
       ));
@@ -71,13 +75,15 @@ export class ViewerComponent implements OnInit, OnDestroy {
     this.updateView(this.form.value);
   }
 
-  private updateView({minPart, maxPart, minPartPair, maxPartPair, result, predResult}) {
+  private updateView({minPart, maxPart, minPartPair, maxPartPair, result, predResult, maxEpsilon, minEpsilon}) {
     this.predictResults$ = this.fullList$.pipe(
       map((list) =>
         list.filter(
           (item) =>
             item.prediction.part >= minPart &&
             item.prediction.part <= maxPart &&
+            item.prediction.epsilon <= maxEpsilon &&
+            item.prediction.epsilon >= minEpsilon &&
             item.prediction.partPair >= minPartPair &&
             item.prediction.partPair <= maxPartPair &&
             (!result || item.result === result) &&
