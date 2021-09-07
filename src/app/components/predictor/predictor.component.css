@@ -60,18 +60,7 @@ textarea {
   }
 }
 
-.prediction {
-  padding: 20px;
-  border: 1px solid gray;
-}
 
-.prediction tr:nth-child(2n + 1) {
-  background-color: lightgray;
-}
-
-.bold {
-  font-weight: bold;
-}
 
 textarea,
 input {

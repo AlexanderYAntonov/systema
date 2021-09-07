@@ -20,9 +20,10 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { MatrixComponent } from './components/matrix/matrix.component';
+import { PredictTableComponent } from './components/predict-table/predict-table.component';
 
 @NgModule({
-  declarations: [ AppComponent, ViewerComponent, PredictorComponent, HeaderComponent, BaseBuilderComponent, BaseSelectorComponent, KoefSelectorComponent, MatrixComponent ],
+  declarations: [ AppComponent, ViewerComponent, PredictorComponent, HeaderComponent, BaseBuilderComponent, BaseSelectorComponent, KoefSelectorComponent, MatrixComponent, PredictTableComponent ],
   imports: [
     BrowserModule,
     AppRoutingModule,
