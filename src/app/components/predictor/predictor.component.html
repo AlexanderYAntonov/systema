@@ -23,12 +23,12 @@
         <textarea formControlName="allAwayMatches"></textarea>
       </div>
       <div class="actions">
-        <button mat-stroked-button color="primary" type="reset" (click)="resetForm(formBlock)">Reset</button>
+        <button mat-stroked-button color="primary" type="reset" (click)="resetForm(formBlock, 'blockForm')">Reset</button>
         <button mat-raised-button color="primary" type="submit">Predict</button>
       </div>
     </form>
 
-    <app-predict-table *ngIf="formBlock.valid" [predictions$]="predictions$" [blockVektorList]="blockVektorList"></app-predict-table>
+    <app-predict-table *ngIf="formBlock.valid && showData['blockForm']" [predictions$]="predictions$" [blockVektorList]="blockVektorList"></app-predict-table>
 
   </mat-expansion-panel>
 
@@ -42,9 +42,9 @@
       class="predict__form-ultra">
       <label>Matches</label>
       <input formControlName="matches">
-      <button mat-stroked-button color="primary" type="reset" (click)="resetForm(formUltraShort)">Reset</button>
+      <button mat-stroked-button color="primary" type="reset" (click)="resetForm(formUltraShort, 'ultraShortForm')">Reset</button>
       <button mat-raised-button color="primary" type="submit">Predict</button>
-      <app-predict-table *ngIf="formUltraShort?.valid" [predictions$]="[prediction$]"></app-predict-table>
+      <app-predict-table *ngIf="formUltraShort?.valid && showData['ultraShortForm']" [predictions$]="[prediction$]"></app-predict-table>
     </form>  
   </mat-expansion-panel>
 
@@ -59,10 +59,10 @@
       class="predict__form-ultra">
       <label>Matches</label>
       <textarea formControlName="matches"></textarea>
-      <button mat-stroked-button color="primary" type="reset" (click)="resetForm(formMultiLine)">Reset</button>
+      <button mat-stroked-button color="primary" type="reset" (click)="resetForm(formMultiLine, 'multiLineForm')">Reset</button>
       <button mat-raised-button color="primary" type="submit">Predict</button>
       
-      <app-predict-table *ngIf="formMultiLine?.valid" [predictions$]="predictionsML$"></app-predict-table>
+      <app-predict-table *ngIf="formMultiLine?.valid && showData['multiLineForm']" [predictions$]="predictionsML$"></app-predict-table>
     </form>
   </mat-expansion-panel>
 
@@ -90,9 +90,9 @@
         <input matInput formControlName="visitorOut" placeholder="Visitor out">
       </mat-form-field>
     
-      <button mat-stroked-button color="primary" type="reset" (click)="resetForm(formShort)">Reset</button>
+      <button mat-stroked-button color="primary" type="reset" (click)="resetForm(formShort, 'shortForm')">Reset</button>
       <button mat-raised-button color="primary" type="submit">Predict</button>
-      <app-predict-table *ngIf="formShort.valid" [predictions$]="[prediction$]"></app-predict-table>
+      <app-predict-table *ngIf="formShort.valid && showData['shortForm']" [predictions$]="[prediction$]"></app-predict-table>
     </form>
   </mat-expansion-panel>
   

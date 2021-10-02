@@ -1,22 +1,14 @@
-import { isNgTemplate } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import {
-  FormBuilder,
   FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { strictEqual } from 'assert';
 import { Observable } from 'rxjs';
-import { share, tap } from 'rxjs/operators';
+import { share } from 'rxjs/operators';
 import {
-  GoalsPoint,
-  NormalVektor,
   Prediction,
-  PredictResult,
-  Result,
   Vektor,
-  WinsPoint,
 } from 'src/app/models/vektor';
 import { VektorService } from '../../services/vektor.service';
 
@@ -26,7 +18,6 @@ import { VektorService } from '../../services/vektor.service';
   styleUrls: [ './predictor.component.css' ],
 })
 export class PredictorComponent implements OnInit {
-  formDetailed: FormGroup;
   formShort: FormGroup;
   formUltraShort: FormGroup;
   formBlock: FormGroup;
@@ -37,13 +28,19 @@ export class PredictorComponent implements OnInit {
   blockVektorList: Vektor[];
 
   showForm = {
-  shortForm: false,
-  ultraShortForm: false,
-  multiLineForm: false,
+    shortForm: false,
+    ultraShortForm: false,
+    multiLineForm: false,
   };
 
+  showData = {
+    blockForm: false,
+    shortForm: false,
+    ultraShortForm: false,
+    multiLineForm: false,
+  }
+
   constructor(private vektorService: VektorService) {
-    // this.buildDetailedForm();
     this.buildShortForm();
     this.buildUltraShortForm();
     this.buildBlockForm();
@@ -51,47 +48,6 @@ export class PredictorComponent implements OnInit {
   }
 
   ngOnInit() {}
-
-  private buildDetailedForm() {
-    this.formDetailed = new FormGroup({
-      homeTotalMatches: new FormGroup({
-        wins: new FormControl(null, Validators.required),
-        equals: new FormControl(null, Validators.required),
-        loses: new FormControl(null, Validators.required),
-      }),
-      homeInMatches: new FormGroup({
-        wins: new FormControl(null, Validators.required),
-        equals: new FormControl(null, Validators.required),
-        loses: new FormControl(null, Validators.required),
-      }),
-      visitorTotalMatches: new FormGroup({
-        wins: new FormControl(null, Validators.required),
-        equals: new FormControl(null, Validators.required),
-        loses: new FormControl(null, Validators.required),
-      }),
-      visitorOutMatches: new FormGroup({
-        wins: new FormControl(null, Validators.required),
-        equals: new FormControl(null, Validators.required),
-        loses: new FormControl(null, Validators.required),
-      }),
-      homeTotalGoals: new FormGroup({
-        shots: new FormControl(null, Validators.required),
-        loses: new FormControl(null, Validators.required),
-      }),
-      homeInGoals: new FormGroup({
-        shots: new FormControl(null, Validators.required),
-        loses: new FormControl(null, Validators.required),
-      }),
-      visitorTotalGoals: new FormGroup({
-        shots: new FormControl(null, Validators.required),
-        loses: new FormControl(null, Validators.required),
-      }),
-      visitorOutGoals: new FormGroup({
-        shots: new FormControl(null, Validators.required),
-        loses: new FormControl(null, Validators.required),
-      }),
-    });
-  }
 
   private buildShortForm() {
     this.formShort = new FormGroup({
@@ -145,6 +101,7 @@ export class PredictorComponent implements OnInit {
     this.prediction$ = this.predictOneLine(this.formUltraShort.value.matches).pipe(
       share()
     );
+    this.showData.ultraShortForm = true;
   }
 
   private predictOneLine(source: string):Observable<Prediction> {
@@ -167,6 +124,7 @@ export class PredictorComponent implements OnInit {
     const arr = this.formMultiLine.value.matches.match(regExp);
     
     this.predictionsML$ = arr.map(item => this.predictOneLine(item));
+    this.showData.multiLineForm = true;
   }
 
   calcBlockFormPrediction() {
@@ -224,6 +182,7 @@ export class PredictorComponent implements OnInit {
     this.predictions$ = vektorList.map((vektor) =>
       this.vektorService.calcPrediction(vektor)
     );
+    this.showData.blockForm = true;
   }
 
   private getAllMatchesFromBlockForm(
@@ -245,6 +204,7 @@ export class PredictorComponent implements OnInit {
     const found = matches.find((item) => item.includes(team));
     if (!found) {
       console.error('team not found', team);
+      alert(`'team not found ${team}`);
       throw new Error('team not found' + team);
     }
     const result = matches.find((item) => item.includes(team)).match(regExp)[0];
@@ -283,37 +243,10 @@ export class PredictorComponent implements OnInit {
     return matchesArr;
   }
 
-  resetForm(form: FormGroup) {
+  resetForm(form: FormGroup, key: string) {
     form.reset();
+    this.showData[key] = false;
   }
-
-  // calcPrediction() {
-  // detail form calculation has bugs
-  // console.table(this.form.value);
-  // console.log(this.form.valid);
-  // const { value } = this.form;
-  // const homeTotalMatches: WinsPoint = value['homeTotalMatches'];
-  // const homeInMatches: WinsPoint = value['homeInMatches'];
-  // const visitorTotalMatches: WinsPoint = value['viisitorTotalMatches'];
-  // const visitorOutMatches: WinsPoint = value['viisitorOutMatches'];
-  // const homeTotalGoals: GoalsPoint = value['homeTotalGoals'];
-  // const homeInGoals: GoalsPoint = value['homeInGoals'];
-  // const visitorTotalGoals: GoalsPoint = value['visitorTotalGoals'];
-  // const visitorOutGoals: GoalsPoint = value['visitorOutGoals'];
-  // let vektor = new NormalVektor(
-  //   homeTotalMatches,
-  //   homeInMatches,
-  //   visitorTotalMatches,
-  //   visitorOutMatches,
-  //   homeTotalGoals,
-  //   homeInGoals,
-  //   visitorTotalGoals,
-  //   visitorOutGoals
-  // );
-  // vektor = this.vektorService.renormalizeVektor(vektor);
-  // console.table(vektor);
-  // this.prediction$ = this.vektorService.calcPrediction(vektor);
-  // }
 
   toggleForm(key: string) {
     this.showForm[key] = !this.showForm[key];
