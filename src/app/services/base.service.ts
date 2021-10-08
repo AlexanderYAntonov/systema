@@ -22,6 +22,11 @@ export class BaseService {
     // 'assets/json/eng-league-one.json',   
   ];
 
+  private allHandballUrls:string[] = [
+    'assets/json/handball/germany.json',
+    'assets/json/handball/sweden.json',
+  ];
+
   constructor() { }
 
   setUrl(newUrl: string) {
@@ -36,5 +41,9 @@ export class BaseService {
 
   getAllUrls(): string[] {
     return this.allUrls;
+  }
+
+  getAllHandballUrls(): string[] {
+    return this.allHandballUrls;
   }
 }

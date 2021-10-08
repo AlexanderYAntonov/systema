@@ -8,6 +8,8 @@ interface Clipboard {
   writeText(newClipText: string): Promise<void>;
   // Add any other methods you need here.
   readText();
+  read();
+  write();
   addEventListener();
   dispatchEvent();
   removeEventListener();
@@ -30,7 +32,7 @@ export class MatchResult {
   visitorOut?: string;
 
   constructor (matchStr: string) {
-    const matchRegexp = /(.*)\s-\s(.*)\s*(\d+):(\d+)/;
+    const matchRegexp = /(.*)\s-\s(.*)\s(\d+):(\d+)/;
     const parsedData = matchStr.match(matchRegexp);
     this.home = parsedData[1].trim();
     this.visitor = parsedData[2].trim();
@@ -45,6 +47,7 @@ export class MatchResult {
     if (this.ballsHome < this.ballsVisitor) {
       this.result = Result.Lose;
     }
+    this.display();
   }
 
   display() {
@@ -354,9 +357,12 @@ Stromsgodset - Stabaek	2:2	1.67	  3.84  	4.96	11.03.2018`, Validators.required),
     let raw = this.form.get('raw').value;
     const excludeRoundRegexp = /\d+.*ROUND.*2/gm;
     raw = raw.replace(excludeRoundRegexp, '');
+    const excludeAwaRegexp = /\d+.*AWA\..*2/gm;
+    raw = raw.replace(excludeAwaRegexp, '');
     const extractRegexp = /(.*)\s-\s(.*)\s+(\d+:\d+)/gm;
     const extractedData = raw.match(extractRegexp);
     if (!!extractedData) {
+      console.log(extractedData);
       let matchesObjs: MatchResult[] = extractedData.map(str => {
         const obj = new MatchResult(str);
         return obj;

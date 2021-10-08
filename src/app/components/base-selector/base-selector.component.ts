@@ -9,6 +9,10 @@ const BasesList: DropdownOption[] = [
     value: 'assets/json/stat.json'
   },
   {
+    label: 'HBFG',
+    value: 'HBFG'
+  },
+  {
     label: 'Eng base',
     value: 'assets/json/eng.json'
   },

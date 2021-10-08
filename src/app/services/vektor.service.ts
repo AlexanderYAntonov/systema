@@ -40,6 +40,10 @@ export class VektorService {
           const urls$ = this.baseService.getAllUrls().map(item => this.http.get<Vektor[]>(item));
           result$ = forkJoin(urls$).pipe(map((list) => this.joinList(list)));
         }
+        if (url === 'HBFG') {
+          const urls$ = this.baseService.getAllHandballUrls().map(item => this.http.get<Vektor[]>(item));
+          result$ = forkJoin(urls$).pipe(map((list) => this.joinList(list)));
+        }
         return result$.pipe(
           map((list) => this.convertVektorList(list)));
       })
