@@ -25,6 +25,12 @@ export class BaseService {
   private allHandballUrls:string[] = [
     'assets/json/handball/germany.json',
     'assets/json/handball/sweden.json',
+    'assets/json/handball/denmark.json',
+    'assets/json/handball/spain.json',
+    'assets/json/handball/france.json',
+    'assets/json/handball/romania.json',
+    'assets/json/handball/austria.json',
+    // 'assets/json/handball/russia.json',
   ];
 
   constructor() { }
