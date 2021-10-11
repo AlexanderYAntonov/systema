@@ -31,6 +31,7 @@ export class BaseService {
     'assets/json/handball/romania.json',
     'assets/json/handball/austria.json',
     'assets/json/handball/croatia.json',
+    'assets/json/handball/portugal.json',
     // 'assets/json/handball/russia.json',
   ];
 

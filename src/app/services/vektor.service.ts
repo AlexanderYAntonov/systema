@@ -13,8 +13,8 @@ import {
   GoalsIntervalPoint,
 } from '../models/vektor';
 import { HttpClient } from '@angular/common/http';
-import { concatMap, map, shareReplay, tap } from 'rxjs/operators';
-import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
+import { concatMap, map } from 'rxjs/operators';
+import { forkJoin, Observable } from 'rxjs';
 import { BaseService } from './base.service';
 
 const predictKoeffInit = 7;
@@ -55,6 +55,7 @@ export class VektorService {
   }
 
   private convertVektorList(list: Vektor[]): NormalVektor[] {
+    console.log('list length: ', list.length);
     return list.map((item) =>  this.normalize(item));
   }
 
