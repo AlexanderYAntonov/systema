@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { PredictorComponent, ViewerComponent, BaseBuilderComponent } from './components';
+import { ScannerComponent } from './components/scanner/scanner.component';
 
 const routes: Routes = [
   {
@@ -19,6 +20,10 @@ const routes: Routes = [
   {
     path: 'convert',
     component: BaseBuilderComponent,
+  },
+  {
+    path: 'scan',
+    component: ScannerComponent,
   },
 ];
 

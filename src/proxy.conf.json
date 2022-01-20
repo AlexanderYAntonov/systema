@@ -1,0 +1,8 @@
+{
+  "/soccer/*": {
+    "target": "https://www.betexplorer.com/",
+    "secure": true,
+    "logLevel": "debug",
+    "changeOrigin": true
+  }
+}

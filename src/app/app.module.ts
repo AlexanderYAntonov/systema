@@ -21,9 +21,10 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { MatrixComponent } from './components/matrix/matrix.component';
 import { PredictTableComponent } from './components/predict-table/predict-table.component';
+import { ScannerComponent } from './components/scanner/scanner.component';
 
 @NgModule({
-  declarations: [ AppComponent, ViewerComponent, PredictorComponent, HeaderComponent, BaseBuilderComponent, BaseSelectorComponent, KoefSelectorComponent, MatrixComponent, PredictTableComponent ],
+  declarations: [ AppComponent, ViewerComponent, PredictorComponent, HeaderComponent, BaseBuilderComponent, BaseSelectorComponent, KoefSelectorComponent, MatrixComponent, PredictTableComponent, ScannerComponent ],
   imports: [
     BrowserModule,
     AppRoutingModule,
