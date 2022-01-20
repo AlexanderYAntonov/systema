@@ -11,7 +11,7 @@ export class ScannerComponent implements OnInit {
   constructor(private readonly scannerService: ScannerService) { }
 
   ngOnInit(): void {
-    this.scannerService.loadSchedules();
+    this.scannerService.loadSchedules().subscribe(result => console.log(result));
   }
 
 }
