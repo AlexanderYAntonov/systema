@@ -1,1 +1,13 @@
-<p>scanner works!</p>
+
+<ng-container *ngFor="let schedule of schedules">
+  <h3>{{ schedule.league?.country }} - {{ schedule.league?.caption }}</h3>
+  <table class="schedule">
+    <tr *ngFor="let row of schedule.rows">
+      <td class="teams">{{ row.teams[0] }} - {{ row.teams[1] }}</td>
+      <td *ngFor="let odd of row.odds">{{ odd }}</td>
+      <td class="datetime">{{ row.dateTime }}</td>
+    </tr>
+  </table>
+  <app-predict-table *ngIf="schedule.blockVektorList" [predictions$]="schedule.predictions$" [blockVektorList]="schedule.blockVektorList"></app-predict-table>
+</ng-container>
+

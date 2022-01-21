@@ -23,7 +23,7 @@ const predictKoeffInit = 7;
   providedIn: 'root',
 })
 export class VektorService {
-  
+
   baseVektorList: NormalVektor[];
   predictionVektorList: NormalVektor[];
   predictKoeff = 7;
@@ -92,7 +92,7 @@ export class VektorService {
 
   calcAverageTotal(vektor: Vektor): { shotsInterval: GoalsIntervalPoint, losesInterval: GoalsIntervalPoint} {
     const { homeTotal, visitorTotal, homeIn, visitorOut } = vektor;
-    
+
     const homeTotalShotsAT = this.getGoalsValue(homeTotal, true);
     const homeTotalLosesAT = this.getGoalsValue(homeTotal, false);
     const visitorTotalShotsAT = this.getGoalsValue(visitorTotal, true);
@@ -101,7 +101,7 @@ export class VektorService {
     const homeInLosesAT = this.getGoalsValue(homeIn, false);
     const visitorOutShotsAT = this.getGoalsValue(visitorOut, true);
     const visitorOutLosesAT = this.getGoalsValue(visitorOut, false);
-    
+
     const shotsInterval = {
       from: Math.min(homeTotalShotsAT, homeInShotsAT, visitorTotalLosesAT, visitorOutLosesAT),
       to: Math.max(homeTotalShotsAT, homeInShotsAT, visitorTotalLosesAT, visitorOutLosesAT),
@@ -317,5 +317,115 @@ export class VektorService {
 
   setPredictKoef(koef: number) {
     this.predictKoeff = koef;
+  }
+
+  createVektorListFromBlockForm(names: string, allMatches: string, allHomeMatches: string, allAwayMatches: string): Vektor[] {
+    const namesRegExp = /([a-zA-Z\s\.\-\/\\]+\s-\s[a-zA-Z\s\.\-\/\\]+)/g;
+    const namesArr: string[] = this.extractBlockValues(
+      namesRegExp,
+      names.replace(/\//g, 'A')
+    );
+
+    console.table(namesArr);
+
+    const allMatchesRegExp = /\d\.([a-zA-Z\s\\\d\.\-\/]+\d:\d+)/g;
+    const allMatchesArr: string[] = this.extractBlockValues(
+      allMatchesRegExp,
+      allMatches.replace(/\//g, 'A')
+    );
+
+    const allHomeMatchesArr: string[] = this.extractBlockValues(
+      allMatchesRegExp,
+      allHomeMatches.replace(/\//g, 'A')
+    );
+
+    const allAwayMatchesArr: string[] = this.extractBlockValues(
+      allMatchesRegExp,
+      allAwayMatches.replace(/\//g, 'A')
+    );
+
+    let vektorList: Vektor[] = namesArr.map((source) => {
+      const regExp = /(.*)\s\-\s(.*)/;
+      const names = source.match(regExp);
+      return {
+        home: names[1],
+        visitor: names[2],
+        visitorOut: null,
+        visitorTotal: null,
+        homeIn: null,
+        homeTotal: null,
+        result: null,
+      };
+    });
+
+    vektorList = this.getAllMatchesFromBlockForm(vektorList, allMatchesArr);
+    vektorList = this.getHomeMatchesFromBlockForm(
+      vektorList,
+      allHomeMatchesArr
+    );
+    vektorList = this.getAwayMatchesFromBlockForm(
+      vektorList,
+      allAwayMatchesArr
+    );
+
+    return vektorList;
+  }
+
+  private getAllMatchesFromBlockForm(
+    vektorList: Vektor[],
+    matches: string[]
+  ): Vektor[] {
+    vektorList = vektorList.map((vektor) => {
+      const { home, visitor } = vektor;
+      const homeTotal = this.extractMatches(matches, home);
+      const visitorTotal = this.extractMatches(matches, visitor);
+      Object.assign(vektor, { visitorTotal, homeTotal });
+      return vektor;
+    });
+    return vektorList;
+  }
+
+  extractMatches(matches: string[], team: string) {
+    const regExp = /(\d+\s+\d+\s+\d+\s+\d+\s*:\s*\d+)/g;
+    const found = matches.find((item) => item.includes(team));
+    if (!found) {
+      console.error('team not found', team);
+      alert(`'team not found ${team}`);
+      throw new Error('team not found' + team);
+    }
+    const result = matches.find((item) => item.includes(team)).match(regExp)[0];
+    return result;
+  }
+
+  getHomeMatchesFromBlockForm(
+    vektorList: Vektor[],
+    matches: string[]
+  ): Vektor[] {
+    vektorList = vektorList.map((vektor) => {
+      const { home } = vektor;
+      const homeIn = this.extractMatches(matches, home);
+      Object.assign(vektor, { homeIn });
+      return vektor;
+    });
+    return vektorList;
+  }
+
+  getAwayMatchesFromBlockForm(
+    vektorList: Vektor[],
+    matches: string[]
+  ): Vektor[] {
+    vektorList = vektorList.map((vektor) => {
+      const { visitor } = vektor;
+      const visitorOut = this.extractMatches(matches, visitor);
+      Object.assign(vektor, { visitorOut });
+      return vektor;
+    });
+    return vektorList;
+  }
+
+  extractBlockValues(regExp: RegExp, source: string): string[] {
+    let matchesArr: string[] = source.match(regExp);
+    matchesArr = matchesArr ? matchesArr.map((item) => item.trim()) : [];
+    return matchesArr;
   }
 }

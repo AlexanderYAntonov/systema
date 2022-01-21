@@ -1,0 +1,12 @@
+.schedule td {
+  padding: 5px;
+  font-size: .7em;
+}
+
+.schedule .teams {
+  font-weight: bold;
+}
+
+.schedule .datetime {
+  padding-left: 20px;
+}
