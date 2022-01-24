@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, map, shareReplay, tap } from 'rxjs/operators';
 import { PredictResult, Result } from 'src/app/models/vektor';
-import { BaseService } from 'src/app/services/base.service';
+import { SettingsService } from 'src/app/services/settings.service';
 import { VektorService } from '../../services/vektor.service';
 
 @Component({
@@ -30,10 +30,10 @@ export class ViewerComponent implements OnInit, OnDestroy {
     showEpsilon: new FormControl(false),
   });
   fullList$: Observable<PredictResult[]>;
-  
+
   constructor(
     private vektorService: VektorService,
-    private baseService: BaseService,
+    private baseService: SettingsService,
   ) {}
 
   ngOnInit() {
@@ -47,7 +47,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
     this.subscription.add(
       this.form.valueChanges.pipe(
-        distinctUntilChanged((a,b) => a.minPart === b.minPart && a.maxPart === b.maxPart && 
+        distinctUntilChanged((a,b) => a.minPart === b.minPart && a.maxPart === b.maxPart &&
         a.minPartPair === b.minPartPair && a.maxPartPair === b.maxPartPair
         && a.result === b.result && a.predResult === b.predResult && a.maxEpsilon === b.maxEpsilon
         && a.minEpsilon === b.minEpsilon))

@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { merge, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+import { League } from '../models/leagues';
 import { Prediction, Vektor } from '../models/vektor';
 import { VektorService } from './vektor.service';
 
@@ -22,12 +23,6 @@ export interface ScheduleRowData{
   joinedRow: string;
 }
 
-export interface League {
-  url: string;
-  caption: string;
-  country: string;
-}
-
 export interface ScheduleResponse {
   rows: ScheduleRowData[];
   ts: string;
@@ -36,91 +31,15 @@ export interface ScheduleResponse {
   providedIn: 'root'
 })
 export class ScannerService {
-  leagues: League[] = [
-    {
-      url: '/soccer/england/premier-league/',
-      caption: 'Premier League',
-      country: 'England'
-    },
-    {
-      url: '/soccer/spain/laliga/',
-      caption: 'La Liga',
-      country: 'Spain'
-    },
-    {
-      url: '/soccer/germany/bundesliga/',
-      caption: 'Bundesliga',
-      country: 'Germany'
-    },
-    {
-      url: '/soccer/italy/serie-a/',
-      caption: 'Seria A',
-      country: 'Italy'
-    },
-    {
-      url: '/soccer/france/ligue-1/',
-      caption: 'Ligue 1',
-      country: 'France'
-    },
-    {
-      url: '/soccer/netherlands/eredivisie/',
-      caption: 'Eredivisie',
-      country: 'Netherlands'
-    },
-    {
-      url: '/soccer/portugal/liga-portugal/',
-      caption: 'liga-portugal',
-      country: 'Portugal'
-    },
-    {
-      url: '/soccer/belgium/jupiler-pro-league/',
-      caption: 'jupiler-pro',
-      country: 'Belgium'
-    },
-    {
-      url: '/soccer/russia/premier-league/',
-      caption: 'Premier league',
-      country: 'Russia'
-    },
-    {
-      url: '/soccer/scotland/premiership/',
-      caption: 'Premiership',
-      country: 'Scotland'
-    },
-    {
-      url: '/soccer/sweden/allsvenskan/',
-      caption: 'Allsvenskan',
-      country: 'Sweden'
-    },
-    {
-      url: '/soccer/serbia/super-liga/',
-      caption: 'Super liga',
-      country: 'Serbia'
-    },
-    {
-      url: '/soccer/australia/a-league/',
-      caption: 'A League',
-      country: 'Australia'
-    },
-    {
-      url: '/soccer/england/championship/',
-      caption: 'Championship',
-      country: 'England'
-    },
-    {
-      url: '/soccer/greece/super-league/',
-      caption: 'Supr league',
-      country: 'Greece'
-    },
-  ];
+
 
   constructor(
     private http: HttpClient,
     private vektorService: VektorService,
   ) { }
 
-  loadSchedules(): Observable<LeagueSchedule> {
-    return merge(...this.leagues.map(league => this.loadSchedule(league.url).pipe(
+  loadSchedules(leagues: League[]): Observable<LeagueSchedule> {
+    return merge(...leagues.map(league => this.loadSchedule(league.url).pipe(
       map((schedule: ScheduleResponse) => ({league, rows: schedule.rows, ts: schedule.ts})))));
   }
 

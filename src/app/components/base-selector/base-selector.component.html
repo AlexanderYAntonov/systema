@@ -1,5 +1,9 @@
-<mat-form-field appearance="legacy">
-  <!-- <mat-label>Base</mat-label> -->
+<mat-form-field class="field" appearance="legacy">
+  <mat-select name="sport" [(ngModel)]="selectedSport" (selectionChange)="selectSport($event)">
+    <mat-option *ngFor="let sport of sportsList" [value]="sport.value">{{ sport.label }}</mat-option>
+  </mat-select>
+</mat-form-field>
+<mat-form-field class="field" appearance="legacy">
   <mat-select name="base" [(ngModel)]="selectedBase" (selectionChange)="selectBase($event)">
     <mat-option *ngFor="let base of basesList" [value]="base.value">{{ base.label }}</mat-option>
   </mat-select>

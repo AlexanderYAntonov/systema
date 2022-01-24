@@ -1,4 +1,5 @@
 
+<p><button mat-raised-button color="primary" (click)="scan()">Scan & Predict</button></p>
 <ng-container *ngFor="let schedule of schedules">
   <h3>{{ schedule.league?.country }} - {{ schedule.league?.caption }}</h3>
   <table class="schedule">

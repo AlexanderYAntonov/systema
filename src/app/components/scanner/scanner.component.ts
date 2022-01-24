@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { concatMap, map } from 'rxjs/operators';
+import { concatMap, map, switchMap, take } from 'rxjs/operators';
+import { allLeagues } from 'src/app/models/leagues';
 import { LeagueSchedule, ScannerService } from 'src/app/services/scanner.service';
+import { SettingsService } from 'src/app/services/settings.service';
 
 @Component({
   selector: 'app-scanner',
@@ -12,14 +14,23 @@ export class ScannerComponent implements OnInit {
 
   constructor(
     private readonly scannerService: ScannerService,
+    private readonly settingsService: SettingsService,
   ) { }
 
   ngOnInit(): void {
-    this.scannerService.loadSchedules().pipe(
-      concatMap((schedule: LeagueSchedule) => this.scannerService.loadOverallTable(schedule)),
-      concatMap((schedule: LeagueSchedule) => this.scannerService.loadHomeTable(schedule)),
-      concatMap((schedule: LeagueSchedule) => this.scannerService.loadAwayTable(schedule)),
-      map((schedule: LeagueSchedule) => this.scannerService.createPrediction(schedule))
+
+  }
+
+  scan(): void {
+    this.schedules = [];
+    this.settingsService.sport$.pipe(
+      take(1),
+      switchMap((sport: string) => this.scannerService.loadSchedules(allLeagues[sport]).pipe(
+        concatMap((schedule: LeagueSchedule) => this.scannerService.loadOverallTable(schedule)),
+        concatMap((schedule: LeagueSchedule) => this.scannerService.loadHomeTable(schedule)),
+        concatMap((schedule: LeagueSchedule) => this.scannerService.loadAwayTable(schedule)),
+        map((schedule: LeagueSchedule) => this.scannerService.createPrediction(schedule))
+      ))
     ).subscribe(schedule => this.schedules.push(schedule));
   }
 

@@ -4,11 +4,11 @@ import { VektorService } from './vektor.service';
 import { HttpClientModule } from '@angular/common/http';
 import { GoalsPoint, NormalVektor, Result, Vektor, WinsPoint } from '../models/vektor';
 import { Observable } from 'rxjs';
-import { BaseService } from './base.service';
+import { SettingsService } from './settings.service';
 
 describe('VektorService', () => {
 
-  const baseServiceStub: Partial<BaseService> = {
+  const baseServiceStub: Partial<SettingsService> = {
     getUrl(): Observable<string> {
       return new Observable();
     }
@@ -17,7 +17,7 @@ describe('VektorService', () => {
   beforeEach(() =>
     TestBed.configureTestingModule({
       imports: [ HttpClientModule ],
-      providers: [{ provide: BaseService, useService: baseServiceStub }]
+      providers: [{ provide: SettingsService, useService: baseServiceStub }]
     })
   );
 

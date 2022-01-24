@@ -15,7 +15,7 @@ import {
 import { HttpClient } from '@angular/common/http';
 import { concatMap, map } from 'rxjs/operators';
 import { forkJoin, Observable } from 'rxjs';
-import { BaseService } from './base.service';
+import { SettingsService } from './settings.service';
 
 const predictKoeffInit = 7;
 
@@ -29,19 +29,19 @@ export class VektorService {
   predictKoeff = 7;
   constructor(
     private http: HttpClient,
-    private baseService: BaseService
+    private settingsService: SettingsService
   ) {}
 
   loadData(): Observable<NormalVektor[]> {
-    return this.baseService.getUrl().pipe(
+    return this.settingsService.getUrl().pipe(
       concatMap((url) => {
         let result$ = this.http.get<Vektor[]>(url);
         if (url === 'BFG') {
-          const urls$ = this.baseService.getAllUrls().map(item => this.http.get<Vektor[]>(item));
+          const urls$ = this.settingsService.getAllUrls().map(item => this.http.get<Vektor[]>(item));
           result$ = forkJoin(urls$).pipe(map((list) => this.joinList(list)));
         }
         if (url === 'HBFG') {
-          const urls$ = this.baseService.getAllHandballUrls().map(item => this.http.get<Vektor[]>(item));
+          const urls$ = this.settingsService.getAllHandballUrls().map(item => this.http.get<Vektor[]>(item));
           result$ = forkJoin(urls$).pipe(map((list) => this.joinList(list)));
         }
         return result$.pipe(

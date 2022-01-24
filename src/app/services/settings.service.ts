@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { Sport } from '../models/sport';
 
 @Injectable({
   providedIn: 'root'
 })
-export class BaseService {
+export class SettingsService {
   url$: BehaviorSubject<string> = new BehaviorSubject('assets/json/stat.json');
+  sport$: BehaviorSubject<Sport> = new BehaviorSubject(Sport.soccer);
+
   private allUrls:string[] = [
     // 'assets/json/stat.json',
     'assets/json/eng.json',
@@ -19,7 +22,7 @@ export class BaseService {
     'assets/json/portugal.json',
     'assets/json/slovenia.json',
     'assets/json/turkey.json',
-    // 'assets/json/eng-league-one.json',   
+    // 'assets/json/eng-league-one.json',
   ];
 
   private allHandballUrls:string[] = [
@@ -40,6 +43,12 @@ export class BaseService {
   setUrl(newUrl: string) {
     if (newUrl) {
       this.url$.next(newUrl);
+    }
+  }
+
+  setSport(newSport: Sport) {
+    if (newSport) {
+      this.sport$.next(newSport);
     }
   }
 
