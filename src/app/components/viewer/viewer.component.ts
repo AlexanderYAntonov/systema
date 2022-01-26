@@ -30,6 +30,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
     showEpsilon: new FormControl(false),
   });
   fullList$: Observable<PredictResult[]>;
+  isLoading = false;
 
   constructor(
     private vektorService: VektorService,
@@ -37,10 +38,6 @@ export class ViewerComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.predictResults$ = this.vektorService
-      .calcTestPredictions(this.form.value.testGroupSize)
-      .pipe(tap((list) => this.calcSuccesPart(list)));
-
     this.subscription.add(
       this.baseService.getUrl().subscribe(url => this.apply())
     );
@@ -67,6 +64,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
       item.prediction.resultPair.includes(item.result)
     ).length;
     this.predictionSuccessPartPair = this.vektorService.roundDigits(countPair / predictableList.length, 2);
+    this.isLoading = false;
   }
 
   apply() {
@@ -76,6 +74,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
   }
 
   private updateView({minPart, maxPart, minPartPair, maxPartPair, result, predResult, maxEpsilon, minEpsilon}) {
+    this.isLoading = true;
     this.predictResults$ = this.fullList$.pipe(
       map((list) =>
         list.filter(

@@ -38,8 +38,8 @@
       <button mat-raised-button color="primary" type="submit">Apply filters</button>
     </form>
   </div>
-  <ng-container *ngIf="predictResults$ | async as predictResults; else loading">
-    <h3 class="part">predictionSuccessPart/PartPair: {{predictionSuccessPart}}/{{predictionSuccessPartPair}}</h3> 
+  <ng-container *ngIf="predictResults$ | async as predictResults">
+    <h3 class="part">predictionSuccessPart/PartPair: {{predictionSuccessPart}}/{{predictionSuccessPartPair}}</h3>
     <span>Rows count: {{ predictResults?.length }}</span>
     <table>
       <tr>
@@ -67,7 +67,7 @@
         <ng-container *ngIf="form.value?.showAverageTotal">
           <td>{{ prediction.prediction.shotsInterval?.from}} - {{ prediction.prediction.shotsInterval?.to}}</td>
           <td>{{ prediction.prediction.losesInterval?.from}} - {{ prediction.prediction.losesInterval?.to}}</td>
-          <td>{{ prediction.prediction.losesInterval?.to - prediction.prediction.losesInterval?.from + prediction.prediction.shotsInterval?.to 
+          <td>{{ prediction.prediction.losesInterval?.to - prediction.prediction.losesInterval?.from + prediction.prediction.shotsInterval?.to
             - prediction.prediction.shotsInterval?.from | number:'1.1-2' }}</td>
         </ng-container>
         <ng-container *ngIf="form.value?.showEpsilon">

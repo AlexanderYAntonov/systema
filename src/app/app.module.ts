@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ViewerComponent } from './components/viewer/viewer.component';
 import { PredictorComponent } from './components/predictor/predictor.component';
@@ -22,6 +22,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatrixComponent } from './components/matrix/matrix.component';
 import { PredictTableComponent } from './components/predict-table/predict-table.component';
 import { ScannerComponent } from './components/scanner/scanner.component';
+import { CacheInterceptor } from './interceptors/cache.interceptor';
 
 @NgModule({
   declarations: [ AppComponent, ViewerComponent, PredictorComponent, HeaderComponent, BaseBuilderComponent, BaseSelectorComponent, KoefSelectorComponent, MatrixComponent, PredictTableComponent, ScannerComponent ],
@@ -39,7 +40,13 @@ import { ScannerComponent } from './components/scanner/scanner.component';
     MatExpansionModule,
     MatCheckboxModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CacheInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule {}
