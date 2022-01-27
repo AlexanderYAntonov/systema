@@ -68,14 +68,19 @@ export const BasesList: DropdownOption[] = [
 ];
 
 export enum Sport {
-  'soccer' = 'soccer',
+  'soccerMajor' = 'soccerMajor',
+  'soccerMinor' = 'soccerMinor',
   'handball' = 'handball'
 }
 
 export const SportsList: DropdownOption[] = [
   {
-    label: 'Soccer',
-    value: Sport.soccer
+    label: 'Soccer Major',
+    value: Sport.soccerMajor
+  },
+  {
+    label: 'Soccer Minor',
+    value: Sport.soccerMinor
   },
   {
     label: 'Handball',

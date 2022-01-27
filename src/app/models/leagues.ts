@@ -5,7 +5,7 @@ export interface League {
 }
 
 export const allLeagues: {[key: string]: League[]} = {
-  'soccer' : [
+  soccerMajor : [
     {
       url: '/soccer/england/premier-league/',
       caption: 'Premier League',
@@ -15,6 +15,21 @@ export const allLeagues: {[key: string]: League[]} = {
       url: '/soccer/spain/laliga/',
       caption: 'La Liga',
       country: 'Spain'
+    },
+    {
+      url: '/soccer/wales/cymru-premier/',
+      caption: 'Cymru premier',
+      country: 'Wales'
+    },
+    {
+      url: '/soccer/switzerland/super-league/',
+      caption: 'Super league',
+      country: 'Switzerland'
+    },
+    {
+      url: '/soccer/northern-ireland/nifl-premiership/',
+      caption: 'nifl premiership',
+      country: 'Northern Ireland'
     },
     // {
     //   url: '/soccer/germany/bundesliga/',
@@ -82,7 +97,85 @@ export const allLeagues: {[key: string]: League[]} = {
     //   country: 'Greece'
     // },
   ],
-  'handball': [
+  soccerMinor: [
+    {
+      url: '/soccer/england/league-one/',
+      caption: 'League 1',
+      country: 'England'
+    },
+    {
+      url: '/soccer/england/league-two/',
+      caption: 'League 2',
+      country: 'England'
+    },
+    {
+      url: '/soccer/spain/laliga2/',
+      caption: 'La Liga 2',
+      country: 'Spain'
+    },
+    {
+      url: '/soccer/germany/2-bundesliga/',
+      caption: 'Bundesliga 2',
+      country: 'Germany'
+    },
+    {
+      url: '/soccer/italy/serie-b/',
+      caption: 'Seria B',
+      country: 'Italy'
+    },
+    {
+      url: '/soccer/france/ligue-2/',
+      caption: 'Ligue 2',
+      country: 'France'
+    },
+    {
+      url: '/soccer/greece/super-league-2/',
+      caption: 'Super Ligue 2',
+      country: 'Greece'
+    },
+    {
+      url: '/soccer/wales/cymru-south/',
+      caption: 'Cymru South',
+      country: 'Wales'
+    },
+    {
+      url: '/soccer/wales/cymru-north/',
+      caption: 'Cymru North',
+      country: 'Wales'
+    },
+    {
+      url: '/soccer/netherlands/eerste-divisie/',
+      caption: 'Eerste divisie',
+      country: 'Netherlands'
+    },
+    {
+      url: '/soccer/portugal/liga-portugal-2/',
+      caption: 'Liga Portugal 2',
+      country: 'Portugal'
+    },
+    {
+      url: '/soccer/switzerland/challenge-league/',
+      caption: 'Challenge League',
+      country: 'Switzerland'
+    },
+    // {
+    //   url: '/soccer/scotland/league-one/',
+    //   caption: 'League 1',
+    //   country: 'Scotland'
+    // },
+    {
+      url: '/soccer/scotland/league-two/',
+      caption: 'League 2',
+      country: 'Scotland'
+    },
+    // {
+    //   url: '/soccer/northern-ireland/nifl-championship/',
+    //   caption: 'NIFL Championship',
+    //   country: 'Northern Ireland'
+    // },
+
+  ],
+  handball: [
     {
       url: '/handball/germany/bundesliga/',
       caption: 'Bundesliga',

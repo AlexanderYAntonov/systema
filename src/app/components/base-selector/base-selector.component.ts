@@ -12,7 +12,7 @@ export class BaseSelectorComponent implements OnInit {
   readonly basesList: DropdownOption[] = BasesList;
   readonly sportsList: DropdownOption[] = SportsList;
   selectedBase = 'assets/json/stat.json';
-  selectedSport = Sport.soccer;
+  selectedSport = Sport.soccerMajor;
 
   constructor(private settingsService: SettingsService) { }
 

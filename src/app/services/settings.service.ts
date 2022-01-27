@@ -7,7 +7,7 @@ import { Sport } from '../models/sport';
 })
 export class SettingsService {
   url$: BehaviorSubject<string> = new BehaviorSubject('assets/json/stat.json');
-  sport$: BehaviorSubject<Sport> = new BehaviorSubject(Sport.soccer);
+  sport$: BehaviorSubject<Sport> = new BehaviorSubject(Sport.soccerMajor);
 
   private allUrls:string[] = [
     // 'assets/json/stat.json',
