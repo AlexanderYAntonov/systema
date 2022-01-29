@@ -211,5 +211,10 @@ export const allLeagues: {[key: string]: League[]} = {
       caption: 'HLA',
       country: 'Austria'
     },
+    {
+      url: '/handball/greece/a1/',
+      caption: 'A1',
+      country: 'Greece'
+    },
   ]
 };
