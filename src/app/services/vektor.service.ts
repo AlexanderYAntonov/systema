@@ -13,7 +13,7 @@ import {
   GoalsIntervalPoint,
 } from '../models/vektor';
 import { HttpClient } from '@angular/common/http';
-import { concatMap, map } from 'rxjs/operators';
+import { concatMap, map, share } from 'rxjs/operators';
 import { forkJoin, Observable } from 'rxjs';
 import { SettingsService } from './settings.service';
 
@@ -45,7 +45,8 @@ export class VektorService {
           result$ = forkJoin(urls$).pipe(map((list) => this.joinList(list)));
         }
         return result$.pipe(
-          map((list) => this.convertVektorList(list)));
+          map((list) => this.convertVektorList(list))
+        );
       })
         );
   }
@@ -214,7 +215,8 @@ export class VektorService {
     return this.loadData().pipe(
       map((list: NormalVektor[]) =>
         this.predictResult(normalVektor, list, koef)
-      )
+      ),
+      share()
     );
   }
 
@@ -242,7 +244,6 @@ export class VektorService {
       this.roundDigits(parts[0].part + parts[1].part, 2),
       epsilon,
     );
-    console.log(vektor);
     return prediction;
   }
 
@@ -320,15 +321,14 @@ export class VektorService {
   }
 
   createVektorListFromBlockForm(names: string, allMatches: string, allHomeMatches: string, allAwayMatches: string): Vektor[] {
-    const namesRegExp = /([a-zA-Z\s\.\-\/\\]+\s-\s[a-zA-Z\s\.\-\/\\]+)/g;
+    names = names.replace(/&amp;/g,'&');
+    const namesRegExp = /([a-zA-Z&;'\s\.\-\/\\]+\s-\s[a-zA-Z&;'\s\.\-\/\\]+)/g;
     const namesArr: string[] = this.extractBlockValues(
       namesRegExp,
       names.replace(/\//g, 'A')
     );
 
-    console.table(namesArr);
-
-    const allMatchesRegExp = /\d\.([a-zA-Z\s\\\d\.\-\/]+\d:\d+)/g;
+    const allMatchesRegExp = /\d+\.([a-zA-Z&;'\s\\\d\.\-\/]+\d:\d+)/g;
     const allMatchesArr: string[] = this.extractBlockValues(
       allMatchesRegExp,
       allMatches.replace(/\//g, 'A')
