@@ -23,9 +23,11 @@ import { MatrixComponent } from './components/matrix/matrix.component';
 import { PredictTableComponent } from './components/predict-table/predict-table.component';
 import { ScannerComponent } from './components/scanner/scanner.component';
 import { CacheInterceptor } from './interceptors/cache.interceptor';
+import { FormViewerComponent } from './components/form-viewer/form-viewer.component';
+import { FormCounterPipe } from './components/form-viewer/form-counter.pipe';
 
 @NgModule({
-  declarations: [ AppComponent, ViewerComponent, PredictorComponent, HeaderComponent, BaseBuilderComponent, BaseSelectorComponent, KoefSelectorComponent, MatrixComponent, PredictTableComponent, ScannerComponent ],
+  declarations: [ AppComponent, ViewerComponent, PredictorComponent, HeaderComponent, BaseBuilderComponent, BaseSelectorComponent, KoefSelectorComponent, MatrixComponent, PredictTableComponent, ScannerComponent, FormViewerComponent, FormCounterPipe ],
   imports: [
     BrowserModule,
     AppRoutingModule,

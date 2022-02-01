@@ -21,8 +21,8 @@
         <ng-container *ngIf="pred$ | async as prediction">
           <td  *ngIf="blockVektorList[i]">
             {{ blockVektorList[i].home}}-{{blockVektorList[i].visitor}}</td>
-          <td  *ngIf="blockVektorList[i] && homeForm">{{ homeForm[blockVektorList[i].home] | json}}</td>
-          <td  *ngIf="blockVektorList[i] && awayForm">{{ awayForm[blockVektorList[i].visitor] | json}}</td>
+          <td  *ngIf="blockVektorList[i] && homeForm"><app-form-viewer [formList]="homeForm[blockVektorList[i].home]"></app-form-viewer></td>
+          <td  *ngIf="blockVektorList[i] && awayForm"><app-form-viewer [formList]="awayForm[blockVektorList[i].visitor]"></app-form-viewer></td>
           <td *ngIf="blockVektorList[i]">{{blockVektorList[i].homeTotal}}</td>
           <td *ngIf="blockVektorList[i]">{{blockVektorList[i].homeIn}}</td>
           <td *ngIf="blockVektorList[i]">{{blockVektorList[i].visitorTotal}}</td>

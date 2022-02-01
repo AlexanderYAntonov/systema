@@ -1,6 +1,7 @@
 .prediction {
   padding: 20px;
   border: 1px solid gray;
+  line-height: 2em;
 }
 
 .prediction tr:nth-child(2n + 1) {

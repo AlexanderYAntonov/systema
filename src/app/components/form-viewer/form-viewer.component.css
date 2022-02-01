@@ -1,0 +1,21 @@
+.form-counter {
+  padding: 0.2em;
+}
+
+.form-item {
+  padding: 0.2em;
+  border: 1px solid grey;
+  margin-right: .1em;
+}
+
+.L {
+  background-color: rgba(200,0,0,.3);
+}
+
+.W {
+  background-color: rgba(0,200,0,.3);
+}
+
+.D {
+  background-color: rgba(200,200,75,.5);
+}
