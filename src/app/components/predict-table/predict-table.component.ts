@@ -10,6 +10,9 @@ import { Prediction, Vektor } from 'src/app/models/vektor';
 export class PredictTableComponent implements OnInit {
   @Input() predictions$: Observable<Prediction>[];
   @Input() blockVektorList: Vektor[] = [];
+  @Input() showGoalsPrediction = false;
+  @Input() homeForm: {[key: string]: string[]};
+  @Input() awayForm: {[key: string]: string[]};
 
   constructor() { }
 

@@ -13,6 +13,9 @@ export interface LeagueSchedule {
   overall?: string[];
   home?: string[];
   away?: string[];
+  overallForm?: {[key: string]: string[]};
+  homeForm?: {[key: string]: string[]};
+  awayForm?: {[key: string]: string[]};
   predictions$?: Observable<Prediction>[];
   blockVektorList?: Vektor[];
 }
@@ -102,19 +105,30 @@ export class ScannerService {
           const parser = new DOMParser();
           const doc = parser.parseFromString(data, "text/html");
           const rows = doc.getElementsByTagName('tr');
-          const XMLS = new XMLSerializer();
           const rowData: string[] = [];
-
+          const formKey = `${key}Form`;
+          const formObj: {[key: string]: string[]} = {};
           for (let i = 1; i < rows.length; i++) {
             const cols = rows[i].getElementsByTagName('td');
             let str = '';
+            let name = '';
             Array.from(cols).forEach(element => {
               str = `${str} ${element.textContent}`;
+              if (element.className.includes('col_name')) {
+                name = element.textContent;
+              }
+              if (element.className.includes('col_form')) {
+                const formDiv = element.getElementsByTagName('a');
+                let formList = Array.from(formDiv).map(item => item.className.match(/form-w|form-d|form-l/g));
+                const convertedFormList = formList.filter(item => !!item).map(item => item[0].replace('form-','').toUpperCase()).reverse();
+                Object.assign(formObj, {[name]: convertedFormList});
+              }
             });
             rowData.push(str.trim());
+
           }
 
-          return {...schedule, [key]: rowData};
+          return {...schedule, [key]: rowData, [formKey]: formObj};
         })
       );
   }

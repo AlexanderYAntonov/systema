@@ -9,6 +9,12 @@
       <td class="datetime">{{ row.dateTime }}</td>
     </tr>
   </table>
-  <app-predict-table *ngIf="schedule.blockVektorList" [predictions$]="schedule.predictions$" [blockVektorList]="schedule.blockVektorList"></app-predict-table>
+  <app-predict-table
+    *ngIf="schedule.blockVektorList"
+    [predictions$]="schedule.predictions$"
+    [blockVektorList]="schedule.blockVektorList"
+    [homeForm]="schedule.homeForm"
+    [awayForm]="schedule.awayForm"
+  ></app-predict-table>
 </ng-container>
 
