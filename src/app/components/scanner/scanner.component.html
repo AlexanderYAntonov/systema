@@ -1,20 +1,26 @@
-
 <p><button mat-raised-button color="primary" (click)="scan()">Scan & Predict</button></p>
-<ng-container *ngFor="let schedule of schedules">
-  <h3>{{ schedule.league?.country }} - {{ schedule.league?.caption }}</h3>
-  <table class="schedule">
-    <tr *ngFor="let row of schedule.rows">
-      <td class="teams">{{ row.teams[0] }} - {{ row.teams[1] }}</td>
-      <td *ngFor="let odd of row.odds">{{ odd }}</td>
-      <td class="datetime">{{ row.dateTime }}</td>
-    </tr>
-  </table>
-  <app-predict-table
-    *ngIf="schedule.blockVektorList"
-    [predictions$]="schedule.predictions$"
-    [blockVektorList]="schedule.blockVektorList"
-    [homeForm]="schedule.homeForm"
-    [awayForm]="schedule.awayForm"
-  ></app-predict-table>
-</ng-container>
+<mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+<mat-accordion class="example-headers-align" multi>
+  <mat-expansion-panel *ngFor="let schedule of schedules">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{ schedule.league?.country }} - {{ schedule.league?.caption }}
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <table class="schedule">
+      <tr *ngFor="let row of schedule.rows">
+        <td class="teams">{{ row.teams[0] }} - {{ row.teams[1] }}</td>
+        <td *ngFor="let odd of row.odds">{{ odd }}</td>
+        <td class="datetime">{{ row.dateTime }}</td>
+      </tr>
+    </table>
+    <app-predict-table
+      *ngIf="schedule.blockVektorList"
+      [predictions$]="schedule.predictions$"
+      [blockVektorList]="schedule.blockVektorList"
+      [homeForm]="schedule.homeForm"
+      [awayForm]="schedule.awayForm"
+    ></app-predict-table>
+  </mat-expansion-panel>
+</mat-accordion>
 

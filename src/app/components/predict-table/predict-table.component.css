@@ -4,6 +4,10 @@
   line-height: 2em;
 }
 
+.prediction table {
+  width: 100%;
+}
+
 .prediction tr:nth-child(2n + 1) {
   background-color: lightgray;
 }

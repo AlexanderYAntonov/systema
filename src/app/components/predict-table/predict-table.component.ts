@@ -14,6 +14,9 @@ export class PredictTableComponent implements OnInit {
   @Input() homeForm: {[key: string]: string[]};
   @Input() awayForm: {[key: string]: string[]};
 
+  readonly minPredictionPart = 0.7;
+  readonly minEpsilon = 0.5;
+
   constructor() { }
 
   ngOnInit(): void {

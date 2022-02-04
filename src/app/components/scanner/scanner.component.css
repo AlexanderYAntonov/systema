@@ -1,9 +1,4 @@
-.schedule td {
-  padding: 5px;
-  font-size: .7em;
-}
-
-.schedule .teams {
+::ng-deep .mat-expansion-panel-header {
   font-weight: bold;
 }
 

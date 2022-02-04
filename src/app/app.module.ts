@@ -18,6 +18,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 import { MatrixComponent } from './components/matrix/matrix.component';
 import { PredictTableComponent } from './components/predict-table/predict-table.component';
@@ -41,6 +42,7 @@ import { FormCounterPipe } from './components/form-viewer/form-counter.pipe';
     MatButtonModule,
     MatExpansionModule,
     MatCheckboxModule,
+    MatProgressBarModule,
   ],
   providers: [
     {
