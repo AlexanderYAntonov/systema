@@ -26,9 +26,10 @@ import { ScannerComponent } from './components/scanner/scanner.component';
 import { CacheInterceptor } from './interceptors/cache.interceptor';
 import { FormViewerComponent } from './components/form-viewer/form-viewer.component';
 import { FormCounterPipe } from './components/form-viewer/form-counter.pipe';
+import { HasReliablePredictionPipe } from './pipes/has-reliable-prediction.pipe';
 
 @NgModule({
-  declarations: [ AppComponent, ViewerComponent, PredictorComponent, HeaderComponent, BaseBuilderComponent, BaseSelectorComponent, KoefSelectorComponent, MatrixComponent, PredictTableComponent, ScannerComponent, FormViewerComponent, FormCounterPipe ],
+  declarations: [ AppComponent, ViewerComponent, PredictorComponent, HeaderComponent, BaseBuilderComponent, BaseSelectorComponent, KoefSelectorComponent, MatrixComponent, PredictTableComponent, ScannerComponent, FormViewerComponent, FormCounterPipe, HasReliablePredictionPipe ],
   imports: [
     BrowserModule,
     AppRoutingModule,

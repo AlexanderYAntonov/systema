@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { merge, Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { combineLatest, merge, Observable, of } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { League } from '../models/leagues';
 import { Prediction, Vektor } from '../models/vektor';
 import { VektorService } from './vektor.service';
@@ -17,6 +17,7 @@ export interface LeagueSchedule {
   homeForm?: {[key: string]: string[]};
   awayForm?: {[key: string]: string[]};
   predictions$?: Observable<Prediction>[];
+  predictionsList$?: Observable<Prediction[]>;
   blockVektorList?: Vektor[];
 }
 export interface ScheduleRowData{
@@ -145,6 +146,10 @@ export class ScannerService {
 
     schedule.predictions$ = blockVektorList.map((vektor) =>
       this.vektorService.calcPrediction(vektor)
+    );
+
+    schedule.predictionsList$ = of(blockVektorList).pipe(
+      switchMap((list: Vektor[]) => combineLatest(list.map((vektor: Vektor) => this.vektorService.calcPrediction(vektor))))
     );
     return schedule;
   }

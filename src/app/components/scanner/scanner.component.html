@@ -1,7 +1,7 @@
 <p><button mat-raised-button color="primary" (click)="scan()">Scan & Predict</button></p>
 <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
 <mat-accordion class="example-headers-align" multi>
-  <mat-expansion-panel *ngFor="let schedule of schedules">
+  <mat-expansion-panel *ngFor="let schedule of schedules" [expanded]="(schedule.predictionsList$ | async) | hasReliablePrediction">
     <mat-expansion-panel-header>
       <mat-panel-title>
         {{ schedule.league?.country }} - {{ schedule.league?.caption }}
