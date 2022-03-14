@@ -16,7 +16,7 @@
     </table>
     <app-predict-table
       *ngIf="schedule.blockVektorList"
-      [predictions$]="schedule.predictions$"
+      [predictions]="schedule.predictionsList$ | async"
       [blockVektorList]="schedule.blockVektorList"
       [homeForm]="schedule.homeForm"
       [awayForm]="schedule.awayForm"

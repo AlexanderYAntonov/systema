@@ -16,7 +16,6 @@ export interface LeagueSchedule {
   overallForm?: {[key: string]: string[]};
   homeForm?: {[key: string]: string[]};
   awayForm?: {[key: string]: string[]};
-  predictions$?: Observable<Prediction>[];
   predictionsList$?: Observable<Prediction[]>;
   blockVektorList?: Vektor[];
 }
@@ -143,10 +142,6 @@ export class ScannerService {
     );
 
     schedule.blockVektorList = blockVektorList;
-
-    schedule.predictions$ = blockVektorList.map((vektor) =>
-      this.vektorService.calcPrediction(vektor)
-    );
 
     schedule.predictionsList$ = of(blockVektorList).pipe(
       switchMap((list: Vektor[]) => combineLatest(list.map((vektor: Vektor) => this.vektorService.calcPrediction(vektor))))

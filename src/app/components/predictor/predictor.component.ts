@@ -4,7 +4,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { share } from 'rxjs/operators';
 import {
   Prediction,
@@ -23,8 +23,8 @@ export class PredictorComponent implements OnInit {
   formBlock: FormGroup;
   formMultiLine: FormGroup;
   prediction$: Observable<Prediction>;
-  predictions$: Observable<Prediction>[];
-  predictionsML$: Observable<Prediction>[];
+  predictions$: Observable<Prediction[]>;
+  predictionsML$: Observable<Prediction[]>;
   blockVektorList: Vektor[];
 
   showForm = {
@@ -121,9 +121,9 @@ export class PredictorComponent implements OnInit {
 
   calcMultiLineFormPrediction() {
     const regExp = /((\d+\s\d+\s\d+\s\d+:\d+\s*){4})/g;
-    const arr = this.formMultiLine.value.matches.match(regExp);
+    const arr: string[] = this.formMultiLine.value.matches.match(regExp);
 
-    this.predictionsML$ = arr.map(item => this.predictOneLine(item));
+    this.predictionsML$ = combineLatest(arr.map((item: string) => this.predictOneLine(item)));
     this.showData.multiLineForm = true;
   }
 
@@ -135,9 +135,9 @@ export class PredictorComponent implements OnInit {
       this.formBlock.value.allAwayMatches,
     );
 
-    this.predictions$ = this.blockVektorList.map((vektor) =>
+    this.predictions$ = combineLatest(this.blockVektorList.map((vektor) =>
       this.vektorService.calcPrediction(vektor)
-    );
+    ));
     this.showData.blockForm = true;
   }
 

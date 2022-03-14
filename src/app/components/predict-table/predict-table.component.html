@@ -17,27 +17,25 @@
         <th *ngIf="showGoalsPrediction">Loses prediction</th>
         <th *ngIf="showGoalsPrediction">Balls delta</th>
       </tr>
-      <tr *ngFor="let pred$ of predictions$; let i = index">
-        <ng-container *ngIf="pred$ | async as prediction">
-          <td *ngIf="blockVektorList[i]" [class.bold]="(prediction.part >= minPredictionPart || prediction.partPair === 1) && prediction.epsilon >= 0.5">
-            {{ blockVektorList[i].home}}-{{blockVektorList[i].visitor}}</td>
-          <td *ngIf="blockVektorList[i] && homeForm"><app-form-viewer [formList]="homeForm[blockVektorList[i].home]"></app-form-viewer></td>
-          <td *ngIf="blockVektorList[i] && awayForm"><app-form-viewer [formList]="awayForm[blockVektorList[i].visitor]"></app-form-viewer></td>
-          <td *ngIf="blockVektorList[i]">{{blockVektorList[i].homeTotal}}</td>
-          <td *ngIf="blockVektorList[i]">{{blockVektorList[i].homeIn}}</td>
-          <td *ngIf="blockVektorList[i]">{{blockVektorList[i].visitorTotal}}</td>
-          <td *ngIf="blockVektorList[i]">{{blockVektorList[i].visitorOut}}</td>
-          <td [class.bold]="(prediction.part >= minPredictionPart || prediction.partPair === 1) && prediction.epsilon >= 0.5">{{prediction.result}}</td>
-          <td [class.bold]="(prediction.part >= minPredictionPart || prediction.partPair === 1) && prediction.epsilon >= 0.5">{{prediction.resultPair}}</td>
-          <td [class.bold]="(prediction.part >= minPredictionPart || prediction.partPair === 1) && prediction.epsilon >= 0.5">{{prediction.part}}</td>
-          <td [class.bold]="(prediction.part >= minPredictionPart || prediction.partPair === 1) && prediction.epsilon >= 0.5">{{prediction.partPair}}</td>
-          <td [class.bold]="(prediction.part >= minPredictionPart || prediction.partPair === 1) && prediction.epsilon >= 0.5">{{prediction.epsilon}}</td>
-          <td *ngIf="showGoalsPrediction">{{ prediction.shotsInterval?.from}} - {{ prediction.shotsInterval?.to}}</td>
-          <td *ngIf="showGoalsPrediction">{{ prediction.losesInterval?.from}} - {{ prediction.losesInterval?.to}}</td>
-          <td *ngIf="showGoalsPrediction">{{ prediction.losesInterval?.to - prediction.losesInterval?.from +
-            prediction.shotsInterval?.to
-            - prediction.shotsInterval?.from | number:'1.1-2' }}</td>
-        </ng-container>
+      <tr *ngFor="let prediction of predictions; let i = index">
+        <td *ngIf="blockVektorList[i]" [class.bold]="(prediction.part >= minPredictionPart || prediction.partPair === 1) && prediction.epsilon >= 0.5">
+          {{ blockVektorList[i].home}}-{{blockVektorList[i].visitor}}</td>
+        <td *ngIf="blockVektorList[i] && homeForm"><app-form-viewer [formList]="homeForm[blockVektorList[i].home]"></app-form-viewer></td>
+        <td *ngIf="blockVektorList[i] && awayForm"><app-form-viewer [formList]="awayForm[blockVektorList[i].visitor]"></app-form-viewer></td>
+        <td *ngIf="blockVektorList[i]">{{blockVektorList[i].homeTotal}}</td>
+        <td *ngIf="blockVektorList[i]">{{blockVektorList[i].homeIn}}</td>
+        <td *ngIf="blockVektorList[i]">{{blockVektorList[i].visitorTotal}}</td>
+        <td *ngIf="blockVektorList[i]">{{blockVektorList[i].visitorOut}}</td>
+        <td [class.bold]="(prediction.part >= minPredictionPart || prediction.partPair === 1) && prediction.epsilon >= 0.5">{{prediction.result}}</td>
+        <td [class.bold]="(prediction.part >= minPredictionPart || prediction.partPair === 1) && prediction.epsilon >= 0.5">{{prediction.resultPair}}</td>
+        <td [class.bold]="(prediction.part >= minPredictionPart || prediction.partPair === 1) && prediction.epsilon >= 0.5">{{prediction.part}}</td>
+        <td [class.bold]="(prediction.part >= minPredictionPart || prediction.partPair === 1) && prediction.epsilon >= 0.5">{{prediction.partPair}}</td>
+        <td [class.bold]="(prediction.part >= minPredictionPart || prediction.partPair === 1) && prediction.epsilon >= 0.5">{{prediction.epsilon}}</td>
+        <td *ngIf="showGoalsPrediction">{{ prediction.shotsInterval?.from}} - {{ prediction.shotsInterval?.to}}</td>
+        <td *ngIf="showGoalsPrediction">{{ prediction.losesInterval?.from}} - {{ prediction.losesInterval?.to}}</td>
+        <td *ngIf="showGoalsPrediction">{{ prediction.losesInterval?.to - prediction.losesInterval?.from +
+          prediction.shotsInterval?.to
+          - prediction.shotsInterval?.from | number:'1.1-2' }}</td>
       </tr>
     </table>
   </div>

@@ -28,7 +28,7 @@
       </div>
     </form>
 
-    <app-predict-table *ngIf="formBlock.valid && showData['blockForm']" [predictions$]="predictions$" [blockVektorList]="blockVektorList"></app-predict-table>
+    <app-predict-table *ngIf="formBlock.valid && showData['blockForm']" [predictions]="predictions$ | async" [blockVektorList]="blockVektorList"></app-predict-table>
 
   </mat-expansion-panel>
 
@@ -44,8 +44,8 @@
       <input formControlName="matches">
       <button mat-stroked-button color="primary" type="reset" (click)="resetForm(formUltraShort, 'ultraShortForm')">Reset</button>
       <button mat-raised-button color="primary" type="submit">Predict</button>
-      <app-predict-table *ngIf="formUltraShort?.valid && showData['ultraShortForm']" [predictions$]="[prediction$]"></app-predict-table>
-    </form>  
+      <app-predict-table *ngIf="formUltraShort?.valid && showData['ultraShortForm']" [predictions]="[prediction$ | async]"></app-predict-table>
+    </form>
   </mat-expansion-panel>
 
   <mat-expansion-panel>
@@ -54,15 +54,15 @@
         Multi line form
       </mat-panel-title>
     </mat-expansion-panel-header>
-    
+
     <form [formGroup]="formMultiLine" (ngSubmit)="calcMultiLineFormPrediction()"
       class="predict__form-ultra">
       <label>Matches</label>
       <textarea formControlName="matches"></textarea>
       <button mat-stroked-button color="primary" type="reset" (click)="resetForm(formMultiLine, 'multiLineForm')">Reset</button>
       <button mat-raised-button color="primary" type="submit">Predict</button>
-      
-      <app-predict-table *ngIf="formMultiLine?.valid && showData['multiLineForm']" [predictions$]="predictionsML$"></app-predict-table>
+
+      <app-predict-table *ngIf="formMultiLine?.valid && showData['multiLineForm']" [predictions]="predictionsML$ | async"></app-predict-table>
     </form>
   </mat-expansion-panel>
 
@@ -77,23 +77,23 @@
       <mat-form-field class="form-field">
         <input matInput formControlName="homeTotal" placeholder="Home total">
       </mat-form-field>
-    
+
       <mat-form-field class="form-field">
         <input matInput formControlName="homeIn" placeholder="Home in">
       </mat-form-field>
-    
+
       <mat-form-field class="form-field">
         <input matInput formControlName="visitorTotal" placeholder="Visitor total">
       </mat-form-field>
-    
+
       <mat-form-field class="form-field">
         <input matInput formControlName="visitorOut" placeholder="Visitor out">
       </mat-form-field>
-    
+
       <button mat-stroked-button color="primary" type="reset" (click)="resetForm(formShort, 'shortForm')">Reset</button>
       <button mat-raised-button color="primary" type="submit">Predict</button>
-      <app-predict-table *ngIf="formShort.valid && showData['shortForm']" [predictions$]="[prediction$]"></app-predict-table>
+      <app-predict-table *ngIf="formShort.valid && showData['shortForm']" [predictions]="[prediction$ | async]"></app-predict-table>
     </form>
   </mat-expansion-panel>
-  
+
 </mat-accordion>
