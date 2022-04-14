@@ -6,7 +6,7 @@ import { ScannerComponent } from './components/scanner/scanner.component';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'predict',
+    redirectTo: 'scan',
     pathMatch: 'full',
   },
   {
