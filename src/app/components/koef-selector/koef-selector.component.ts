@@ -14,7 +14,7 @@ export class KoefSelectorComponent implements OnInit {
   constructor(private vektorService: VektorService) { }
 
   ngOnInit() {
-    this.koef = 100;
+    this.koef = 7;
   }
 
   koefChange(event) {
