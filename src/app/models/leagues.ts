@@ -46,11 +46,11 @@ export const allLeagues: {[key: string]: League[]} = {
       caption: 'Ligue 1',
       country: 'France'
     },
-    {
-      url: '/soccer/netherlands/eredivisie/',
-      caption: 'Eredivisie',
-      country: 'Netherlands'
-    },
+    // {
+    //   url: '/soccer/netherlands/eredivisie/',
+    //   caption: 'Eredivisie',
+    //   country: 'Netherlands'
+    // },
     {
       url: '/soccer/portugal/liga-portugal/',
       caption: 'liga-portugal',
@@ -77,11 +77,11 @@ export const allLeagues: {[key: string]: League[]} = {
       caption: 'Allsvenskan',
       country: 'Sweden'
     },
-    // {
-    //   url: '/soccer/serbia/super-liga/',
-    //   caption: 'Super liga',
-    //   country: 'Serbia'
-    // },
+    {
+      url: '/soccer/serbia/super-liga/',
+      caption: 'Super liga',
+      country: 'Serbia'
+    },
     {
       url: '/soccer/australia/a-league/',
       caption: 'A League',
@@ -92,16 +92,16 @@ export const allLeagues: {[key: string]: League[]} = {
       caption: 'Championship',
       country: 'England'
     },
-    // {
-    //   url: '/soccer/greece/super-league/',
-    //   caption: 'Supr league',
-    //   country: 'Greece'
-    // },
     {
-      url: '/soccer/czech-republic/1-liga/',
-      caption: '1 liga',
-      country: 'Czech'
+      url: '/soccer/greece/super-league/',
+      caption: 'Supr league',
+      country: 'Greece'
     },
+    // {
+    //   url: '/soccer/czech-republic/1-liga/',
+    //   caption: '1 liga',
+    //   country: 'Czech'
+    // },
   ],
   soccerMinor: [
     {
@@ -154,26 +154,26 @@ export const allLeagues: {[key: string]: League[]} = {
       caption: 'Eerste divisie',
       country: 'Netherlands'
     },
-    {
-      url: '/soccer/portugal/liga-portugal-2/',
-      caption: 'Liga Portugal 2',
-      country: 'Portugal'
-    },
-    {
-      url: '/soccer/switzerland/challenge-league/',
-      caption: 'Challenge League',
-      country: 'Switzerland'
-    },
-    {
-      url: '/soccer/scotland/league-one/',
-      caption: 'League 1',
-      country: 'Scotland'
-    },
-    {
-      url: '/soccer/scotland/league-two/',
-      caption: 'League 2',
-      country: 'Scotland'
-    },
+    // {
+    //   url: '/soccer/portugal/liga-portugal-2/',
+    //   caption: 'Liga Portugal 2',
+    //   country: 'Portugal'
+    // },
+    // {
+    //   url: '/soccer/switzerland/challenge-league/',
+    //   caption: 'Challenge League',
+    //   country: 'Switzerland'
+    // },
+    // {
+    //   url: '/soccer/scotland/league-one/',
+    //   caption: 'League 1',
+    //   country: 'Scotland'
+    // },
+    // {
+    //   url: '/soccer/scotland/league-two/',
+    //   caption: 'League 2',
+    //   country: 'Scotland'
+    // },
     // {
     //   url: '/soccer/northern-ireland/nifl-championship/',
     //   caption: 'NIFL Championship',
@@ -224,5 +224,28 @@ export const allLeagues: {[key: string]: League[]} = {
     //   caption: 'A1',
     //   country: 'Greece'
     // },
-  ]
+  ],
+  soccerSummer: [
+    {
+      url: '/soccer/sweden/allsvenskan/',
+      caption: 'Allsveskan',
+      country: 'Sweden'
+    },
+    {
+      url: '/soccer/iceland/lengjudeildin/',
+      caption: 'Lengjueildin',
+      country: 'Iceland'
+    },
+    {
+      url: '/soccer/finland/veikkausliiga/',
+      caption: 'Veikausliga',
+      country: 'Finland'
+    },
+    {
+      url: '/soccer/norway/eliteserien/',
+      caption: 'Elitserien',
+      country: 'Norway'
+    },
+    
+  ],
 };
