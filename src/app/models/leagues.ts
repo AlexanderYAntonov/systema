@@ -16,21 +16,21 @@ export const allLeagues: {[key: string]: League[]} = {
       caption: 'La Liga',
       country: 'Spain'
     },
-    // {
-    //   url: '/soccer/wales/cymru-premier/',
-    //   caption: 'Cymru premier',
-    //   country: 'Wales'
-    // },
+    {
+      url: '/soccer/wales/cymru-premier/',
+      caption: 'Cymru premier',
+      country: 'Wales'
+    },
     {
       url: '/soccer/switzerland/super-league/',
       caption: 'Super league',
       country: 'Switzerland'
     },
-    // {
-    //   url: '/soccer/northern-ireland/nifl-premiership/',
-    //   caption: 'nifl premiership',
-    //   country: 'Northern Ireland'
-    // },
+    {
+      url: '/soccer/northern-ireland/nifl-premiership/',
+      caption: 'nifl premiership',
+      country: 'Northern Ireland'
+    },
     {
       url: '/soccer/germany/bundesliga/',
       caption: 'Bundesliga',
@@ -46,31 +46,31 @@ export const allLeagues: {[key: string]: League[]} = {
       caption: 'Ligue 1',
       country: 'France'
     },
-    // {
-    //   url: '/soccer/netherlands/eredivisie/',
-    //   caption: 'Eredivisie',
-    //   country: 'Netherlands'
-    // },
+    {
+      url: '/soccer/netherlands/eredivisie/',
+      caption: 'Eredivisie',
+      country: 'Netherlands'
+    },
     {
       url: '/soccer/portugal/liga-portugal/',
       caption: 'liga-portugal',
       country: 'Portugal'
     },
-    // {
-    //   url: '/soccer/belgium/jupiler-pro-league/',
-    //   caption: 'jupiler-pro',
-    //   country: 'Belgium'
-    // },
+    {
+      url: '/soccer/belgium/jupiler-pro-league/',
+      caption: 'jupiler-pro',
+      country: 'Belgium'
+    },
     {
       url: '/soccer/russia/premier-league/',
       caption: 'Premier league',
       country: 'Russia'
     },
-    // {
-    //   url: '/soccer/scotland/premiership/',
-    //   caption: 'Premiership',
-    //   country: 'Scotland'
-    // },
+    {
+      url: '/soccer/scotland/premiership/',
+      caption: 'Premiership',
+      country: 'Scotland'
+    },
     // until 04 2022
     {
       url: '/soccer/sweden/allsvenskan/',
@@ -97,11 +97,11 @@ export const allLeagues: {[key: string]: League[]} = {
       caption: 'Supr league',
       country: 'Greece'
     },
-    // {
-    //   url: '/soccer/czech-republic/1-liga/',
-    //   caption: '1 liga',
-    //   country: 'Czech'
-    // },
+    {
+      url: '/soccer/czech-republic/1-liga/',
+      caption: '1 liga',
+      country: 'Czech'
+    },
   ],
   soccerMinor: [
     {
