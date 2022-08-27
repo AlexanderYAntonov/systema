@@ -53,30 +53,33 @@ export class ScannerService {
         const parser = new DOMParser();
         const doc = parser.parseFromString(data, "text/html");
         const element = doc.getElementsByClassName('table-main--leaguefixtures')[0];
-        const rows = element.getElementsByTagName('tr');
-        const XMLS = new XMLSerializer();
-
-        const teamsReg = new RegExp('class="in-match">(.+)<\/a>', 'gm');
-        const oddsReg = new RegExp('data-odd="(.+)"><\/a>', 'gm');
-        const timeReg = new RegExp('<td class="h-text-right" colspan="2">(.*)<\/td>','gm');
-
         const rowData: ScheduleRowData[] = [];
-        for (let i = 1; i < rows.length; i++) {
-          const str = XMLS.serializeToString(rows[i]);
-          let teams: string[] = str.match(teamsReg) ? str.match(teamsReg)[0].match(/<span>([^<]+)<\/span>/g) : [];
-          teams = teams.map(item => item.replace(/<[^<]*>/g, ''));
-          const oddsMatch = str.match(oddsReg) ? str.match(oddsReg) : [];
-          const odds: number[] = oddsMatch.map(item => item.match(/([\d\.]+)/) ? parseFloat(item.match(/([\d\.]+)/)[0]) : 0);
-          let dateTime: string = str.match(timeReg) ? str.match(timeReg)[0].replace(/<.+">|<\/td>/g,'') : '';
-          if (dateTime) {
-            rowData.push({
-              teams,
-              odds,
-              dateTime,
-              joinedRow: `${teams.join(' - ')} 0 ${odds.join(' ')} ${dateTime}`
-            });
+        if (element) {
+          const rows = element.getElementsByTagName('tr');
+          const XMLS = new XMLSerializer();
+
+          const teamsReg = new RegExp('class="in-match">(.+)<\/a>', 'gm');
+          const oddsReg = new RegExp('data-odd="(.+)"><\/a>', 'gm');
+          const timeReg = new RegExp('<td class="h-text-right" colspan="2">(.*)<\/td>','gm');
+
+          for (let i = 1; i < rows.length; i++) {
+            const str = XMLS.serializeToString(rows[i]);
+            let teams: string[] = str.match(teamsReg) ? str.match(teamsReg)[0].match(/<span>([^<]+)<\/span>/g) : [];
+            teams = teams.map(item => item.replace(/<[^<]*>/g, ''));
+            const oddsMatch = str.match(oddsReg) ? str.match(oddsReg) : [];
+            const odds: number[] = oddsMatch.map(item => item.match(/([\d\.]+)/) ? parseFloat(item.match(/([\d\.]+)/)[0]) : 0);
+            let dateTime: string = str.match(timeReg) ? str.match(timeReg)[0].replace(/<.+">|<\/td>/g,'') : '';
+            if (dateTime) {
+              rowData.push({
+                teams,
+                odds,
+                dateTime,
+                joinedRow: `${teams.join(' - ')} 0 ${odds.join(' ')} ${dateTime}`
+              });
+            }
           }
         }
+        
 
         const tsReg = new RegExp('overall&ts=([^&]+)&dcheck','gm');
         const ts = tsReg.exec(data) ? tsReg.exec(data)[1] : '';
