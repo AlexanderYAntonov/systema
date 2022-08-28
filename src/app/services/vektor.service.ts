@@ -26,7 +26,7 @@ export class VektorService {
 
   baseVektorList: NormalVektor[];
   predictionVektorList: NormalVektor[];
-  predictKoeff = 7;
+  predictKoeff = predictKoeffInit;
   constructor(
     private http: HttpClient,
     private settingsService: SettingsService
@@ -207,6 +207,16 @@ export class VektorService {
         console.table(predictions);
         return predictions;
       })
+    );
+  }
+
+  calcPredictions(list: Vektor[], koef = this.predictKoeff): Observable<Prediction[]> {
+    const normalList: NormalVektor[] = list.map((vektor: Vektor) => this.normalize(vektor));
+    return this.loadData().pipe(
+      map((list: NormalVektor[]) =>
+        normalList.map((normalVektor: NormalVektor) => this.predictResult(normalVektor, list, koef))
+      ),
+      share()
     );
   }
 

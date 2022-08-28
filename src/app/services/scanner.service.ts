@@ -1,40 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { combineLatest, merge, Observable, of } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { merge, Observable, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { League } from '../models/leagues';
-import { Prediction, Vektor } from '../models/vektor';
+import { LeagueSchedule, ScheduleResponse, ScheduleRowData } from '../models/schedule';
+import { Vektor } from '../models/vektor';
 import { VektorService } from './vektor.service';
 
-export interface LeagueSchedule {
-  league: League;
-  rows: ScheduleRowData[];
-  ts: string;
-  overall?: string[];
-  home?: string[];
-  away?: string[];
-  overallForm?: {[key: string]: string[]};
-  homeForm?: {[key: string]: string[]};
-  awayForm?: {[key: string]: string[]};
-  predictionsList$?: Observable<Prediction[]>;
-  blockVektorList?: Vektor[];
-}
-export interface ScheduleRowData{
-  teams: string[];
-  odds: number[];
-  dateTime: string;
-  joinedRow: string;
-}
-
-export interface ScheduleResponse {
-  rows: ScheduleRowData[];
-  ts: string;
-}
 @Injectable({
   providedIn: 'root'
 })
 export class ScannerService {
-
 
   constructor(
     private http: HttpClient,
@@ -146,8 +122,11 @@ export class ScannerService {
 
     schedule.blockVektorList = blockVektorList;
 
+    // schedule.predictionsList$ = of(blockVektorList).pipe(
+    //   switchMap((list: Vektor[]) => combineLatest(list.map((vektor: Vektor) => this.vektorService.calcPrediction(vektor))))
+    // );
     schedule.predictionsList$ = of(blockVektorList).pipe(
-      switchMap((list: Vektor[]) => combineLatest(list.map((vektor: Vektor) => this.vektorService.calcPrediction(vektor))))
+      switchMap((list: Vektor[]) => this.vektorService.calcPredictions(list))
     );
     return schedule;
   }

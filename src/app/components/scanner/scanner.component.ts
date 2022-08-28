@@ -2,7 +2,8 @@ import { Component, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { concatMap, finalize, map, switchMap, take } from 'rxjs/operators';
 import { allLeagues } from 'src/app/models/leagues';
-import { LeagueSchedule, ScannerService } from 'src/app/services/scanner.service';
+import { LeagueSchedule } from 'src/app/models/schedule';
+import { ScannerService } from 'src/app/services/scanner.service';
 import { SettingsService } from 'src/app/services/settings.service';
 
 @Component({

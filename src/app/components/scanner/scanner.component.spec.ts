@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Observable } from 'rxjs';
-import { LeagueSchedule, ScannerService } from 'src/app/services/scanner.service';
+import { LeagueSchedule } from 'src/app/models/schedule';
+import { ScannerService } from 'src/app/services/scanner.service';
 
 import { ScannerComponent } from './scanner.component';
 
