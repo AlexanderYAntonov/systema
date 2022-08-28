@@ -72,6 +72,7 @@ export enum Sport {
   'soccerMinor' = 'soccerMinor',
   'handball' = 'handball',
   'soccerSummer' = 'soccerSummer',
+  'soccerLatin' = 'soccerLatin',
 }
 
 export const SportsList: DropdownOption[] = [
@@ -90,5 +91,9 @@ export const SportsList: DropdownOption[] = [
   {
     label: 'Soccer summer',
     value: Sport.soccerSummer
+  },
+  {
+    label: 'Soccer latin',
+    value: Sport.soccerLatin
   },
 ];

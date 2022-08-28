@@ -71,7 +71,6 @@ export const allLeagues: {[key: string]: League[]} = {
       caption: 'Premiership',
       country: 'Scotland'
     },
-    // until 04 2022
     {
       url: '/soccer/sweden/allsvenskan/',
       caption: 'Allsvenskan',
@@ -101,6 +100,11 @@ export const allLeagues: {[key: string]: League[]} = {
       url: '/soccer/czech-republic/1-liga/',
       caption: '1 liga',
       country: 'Czech'
+    },
+    {
+      url: '/soccer/turkey/super-lig/',
+      caption: 'Super liga',
+      country: 'Turkey'
     },
   ],
   soccerMinor: [
@@ -247,5 +251,42 @@ export const allLeagues: {[key: string]: League[]} = {
       country: 'Norway'
     },
     
+  ],
+  soccerLatin: [
+    {
+      url: '/soccer/argentina/liga-profesional/',
+      caption: 'Liga Profesional',
+      country: 'Argentina'
+    },
+    {
+      url: '/soccer/brazil/serie-a/',
+      caption: 'Serie A',
+      country: 'Brazil'
+    },
+    {
+      url: '/soccer/chile/primera-division/',
+      caption: 'Primera',
+      country: 'Chile'
+    },
+    {
+      url: '/soccer/china/super-league/',
+      caption: 'Super league',
+      country: 'China'
+    },
+    {
+      url: '/soccer/paraguay/primera-division/',
+      caption: 'Primera',
+      country: 'Paraguay'
+    },
+    {
+      url: '/soccer/peru/liga-1/',
+      caption: 'Liga 1',
+      country: 'Peru'
+    },
+    {
+      url: '/soccer/south-korea/k-league-1/',
+      caption: 'League 1',
+      country: 'Korea'
+    },
   ],
 };
