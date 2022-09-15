@@ -14,10 +14,11 @@ import {
 } from '../models/vektor';
 import { HttpClient } from '@angular/common/http';
 import { concatMap, map, share } from 'rxjs/operators';
-import { forkJoin, Observable } from 'rxjs';
+import { combineLatest, forkJoin, Observable, zip } from 'rxjs';
 import { SettingsService } from './settings.service';
 
 const predictKoeffInit = 7;
+const testGroupUrl = 'assets/json/soccer-euro-2021.json';
 
 @Injectable({
   providedIn: 'root',
@@ -49,6 +50,12 @@ export class VektorService {
         );
       })
         );
+  }
+
+  loadTestGroupData(url = testGroupUrl): Observable<NormalVektor[]> {
+    return this.http.get<Vektor[]>(url).pipe(
+      map((list) => this.convertVektorList(list))
+    );
   }
 
   private joinList(list: Vektor[][]): Vektor[] {
@@ -197,6 +204,28 @@ export class VektorService {
       map((list: NormalVektor[]) => {
         const baseVektorList = list.slice(testGroupSize);
         const predictionVektorList = list.slice(0, testGroupSize);
+        const predictions = predictionVektorList.map(
+          (vektor) =>
+            new PredictResult(
+              this.predictResult(vektor, baseVektorList, koef),
+              vektor.result
+            )
+        );
+        console.table(predictions);
+        return predictions;
+      })
+    );
+  }
+
+  calcTestPredictions21(
+    testGroupSize = 50,
+    koef = this.predictKoeff
+  ): Observable<PredictResult[]> {
+    console.log('calc test');
+    return combineLatest([this.loadData(), this.loadTestGroupData()]).pipe(
+      map(([baseVektorList, predictionVektorList]: [NormalVektor[], NormalVektor[]]) => {
+        predictionVektorList = predictionVektorList.slice(0, testGroupSize);
+        console.log(predictionVektorList.length);
         const predictions = predictionVektorList.map(
           (vektor) =>
             new PredictResult(

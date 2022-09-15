@@ -69,7 +69,8 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
   apply() {
     const { minPart, maxPart, minPartPair, maxPartPair, result, predResult, testGroupSize } = this.form.value;
-    this.fullList$ = this.vektorService.calcTestPredictions(testGroupSize).pipe(shareReplay(1));
+    // this.fullList$ = this.vektorService.calcTestPredictions(testGroupSize).pipe(shareReplay(1));
+    this.fullList$ = this.vektorService.calcTestPredictions21(testGroupSize).pipe(shareReplay(1));
     this.updateView(this.form.value);
   }
 

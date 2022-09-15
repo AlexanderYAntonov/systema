@@ -22,6 +22,7 @@ export class SettingsService {
     'assets/json/portugal.json',
     'assets/json/slovenia.json',
     'assets/json/turkey.json',
+    'assets/json/soccer-euro-2021.json',
     // 'assets/json/eng-league-one.json',
   ];
 

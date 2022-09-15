@@ -10,7 +10,7 @@ export class HasReliablePredictionPipe implements PipeTransform {
     if (!predictions) return false;
 
     const index = predictions.findIndex(item =>
-      item.part >= 0.7 && item.result === Result.Lose && item.epsilon >= 0.5);
+      item.part >= 0.6 && item.result === Result.Lose && item.epsilon >= 0);
     return index >= 0;
   }
 
