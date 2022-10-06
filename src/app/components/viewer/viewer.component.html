@@ -38,7 +38,7 @@
       <button mat-raised-button color="primary" type="submit">Apply filters</button>
     </form>
   </div>
-  <ng-container *ngIf="predictResults$ | async as predictResults">
+  <ng-container *ngIf="predictResults$ | async as predictResults; else loading">
     <h3 class="part">predictionSuccessPart/PartPair: {{predictionSuccessPart}}/{{predictionSuccessPartPair}}</h3>
     <span>Rows count: {{ predictResults?.length }}</span>
     <table>
