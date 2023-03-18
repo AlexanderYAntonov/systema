@@ -414,13 +414,18 @@ export class VektorService {
     vektorList: Vektor[],
     matches: string[]
   ): Vektor[] {
-    vektorList = vektorList.map((vektor) => {
-      const { home, visitor } = vektor;
-      const homeTotal = this.extractMatches(matches, home);
-      const visitorTotal = this.extractMatches(matches, visitor);
-      Object.assign(vektor, { visitorTotal, homeTotal });
-      return vektor;
-    });
+    try {
+      vektorList = vektorList.map((vektor) => {
+        const { home, visitor } = vektor;
+        const homeTotal = this.extractMatches(matches, home);
+        const visitorTotal = this.extractMatches(matches, visitor);
+        Object.assign(vektor, { visitorTotal, homeTotal });
+        return vektor;
+      });
+    } catch(err) {
+      console.error(err);
+      return [];
+    }
     return vektorList;
   }
 
@@ -428,6 +433,7 @@ export class VektorService {
     const regExp = /(\d+\s+\d+\s+\d+\s+\d+\s*:\s*\d+)/g;
     const found = matches.find((item) => item.includes(team));
     if (!found) {
+      console.log(matches);
       console.error('team not found', team);
       alert(`'team not found ${team}`);
       throw new Error('team not found' + team);

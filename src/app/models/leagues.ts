@@ -16,11 +16,11 @@ export const allLeagues: {[key: string]: League[]} = {
       caption: 'La Liga',
       country: 'Spain'
     },
-    {
-      url: '/soccer/wales/cymru-premier/',
-      caption: 'Cymru premier',
-      country: 'Wales'
-    },
+    // {
+    //   url: '/soccer/wales/cymru-premier/',
+    //   caption: 'Cymru premier',
+    //   country: 'Wales'
+    // },
     {
       url: '/soccer/switzerland/super-league/',
       caption: 'Super league',
@@ -91,11 +91,11 @@ export const allLeagues: {[key: string]: League[]} = {
       caption: 'Championship',
       country: 'England'
     },
-    {
-      url: '/soccer/greece/super-league/',
-      caption: 'Supr league',
-      country: 'Greece'
-    },
+    // {
+    //   url: '/soccer/greece/super-league/',
+    //   caption: 'Supr league',
+    //   country: 'Greece'
+    // },
     {
       url: '/soccer/czech-republic/1-liga/',
       caption: '1 liga',
